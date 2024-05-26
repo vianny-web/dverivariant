@@ -7,7 +7,7 @@ import com.vianny.dverivariant.dto.response.message.MainMessage;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.UnauthorizedRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.UnregisteredRequiredException;
-import com.vianny.dverivariant.services.AccountService;
+import com.vianny.dverivariant.services.account.AccountService;
 import com.vianny.dverivariant.utils.JwtCore;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

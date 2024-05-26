@@ -1,4 +1,4 @@
-package com.vianny.dverivariant.services;
+package com.vianny.dverivariant.services.account;
 
 import com.vianny.dverivariant.dto.request.auth.SignInRequest;
 import com.vianny.dverivariant.dto.request.auth.SignUpRequest;

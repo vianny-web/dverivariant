@@ -1,4 +1,4 @@
-package com.vianny.dverivariant.services;
+package com.vianny.dverivariant.services.account;
 
 import com.vianny.dverivariant.models.Accounts;
 import com.vianny.dverivariant.repositories.AccountRepository;
