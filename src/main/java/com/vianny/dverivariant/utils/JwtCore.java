@@ -11,10 +11,10 @@ import java.util.Date;
 
 @Component
 public class JwtCore {
-    @Value("${app.secret}")
+    @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${app.lifetime}")
+    @Value("${jwt.lifetime}")
     private int lifetime;
 
     public String generateToken(Authentication authentication) {
