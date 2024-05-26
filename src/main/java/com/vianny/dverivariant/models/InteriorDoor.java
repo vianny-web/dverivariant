@@ -6,6 +6,8 @@ import jakarta.persistence.Enumerated;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.UUID;
+
 @Document("interior_door")
 public class InteriorDoor {
     @Id
@@ -14,6 +16,7 @@ public class InteriorDoor {
     private String description;
     private Integer price;
     private String urlImage;
+    private String idImage = UUID.randomUUID().toString();
     @Enumerated(value = EnumType.STRING)
     private Material material;
     @Enumerated(value = EnumType.STRING)
@@ -25,11 +28,23 @@ public class InteriorDoor {
     @Enumerated(value = EnumType.STRING)
     private Manufacturer manufacturer;
 
-    public InteriorDoor(String name, String description, Integer price, String urlImage, Material material, Glazing glazing, Modification modification, Construction construction, Manufacturer manufacturer) {
+    public InteriorDoor(String name, String description, Integer price, String urlImage, String idImage, Material material, Glazing glazing, Modification modification, Construction construction, Manufacturer manufacturer) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.urlImage = urlImage;
+        this.idImage = idImage;
+        this.material = material;
+        this.glazing = glazing;
+        this.modification = modification;
+        this.construction = construction;
+        this.manufacturer = manufacturer;
+    }
+
+    public InteriorDoor(String name, String description, Integer price, Material material, Glazing glazing, Modification modification, Construction construction, Manufacturer manufacturer) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
         this.material = material;
         this.glazing = glazing;
         this.modification = modification;
@@ -75,6 +90,10 @@ public class InteriorDoor {
 
     public void setUrlImage(String urlImage) {
         this.urlImage = urlImage;
+    }
+
+    public String getIdImage() {
+        return idImage;
     }
 
     public Material getMaterial() {

@@ -1,4 +1,4 @@
-package com.vianny.dverivariant.services;
+package com.vianny.dverivariant.services.minio;
 
 import com.vianny.dverivariant.config.MinioConfig;
 import io.minio.BucketExistsArgs;

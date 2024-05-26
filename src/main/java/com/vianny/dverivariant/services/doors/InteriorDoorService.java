@@ -13,12 +13,13 @@ public class InteriorDoorService {
         this.interiorDoorRepository = interiorDoorRepository;
     }
 
-    public void addInteriorDoor(InteriorDoor interiorDoor) {
+    public void addInteriorDoor(InteriorDoor interiorDoor, String urlImage) {
         interiorDoorRepository.save(new InteriorDoor(
                 interiorDoor.getName(),
                 interiorDoor.getDescription(),
                 interiorDoor.getPrice(),
-                interiorDoor.getUrlImage(),
+                urlImage,
+                interiorDoor.getIdImage(),
                 interiorDoor.getMaterial(),
                 interiorDoor.getGlazing(),
                 interiorDoor.getModification(),
