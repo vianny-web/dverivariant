@@ -1,9 +1,13 @@
 package com.vianny.dverivariant.services.doors;
 
+import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.InteriorDoor;
 import com.vianny.dverivariant.repositories.InteriorDoorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class InteriorDoorService {
@@ -25,5 +29,13 @@ public class InteriorDoorService {
                 interiorDoor.getModification(),
                 interiorDoor.getConstruction(),
                 interiorDoor.getManufacturer()));
+    }
+
+    public void updateInteriorDoor(InteriorDoor interiorDoorNew) {
+        interiorDoorRepository.save(interiorDoorNew);
+    }
+
+    public Optional<InteriorDoor> findInteriorDoorByID(String id) {
+        return Optional.ofNullable(interiorDoorRepository.findById(id).orElseThrow(() -> new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Товар не найден")));
     }
 }

@@ -26,6 +26,12 @@ public class CustomExceptionHandler {
         return new ResponseDataException(HttpStatus.BAD_REQUEST, exception.getReason());
     }
 
+    @ExceptionHandler(NotFoundRequiredException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseDataException handlerNotFoundErrorException (NotFoundRequiredException exception) {
+        return new ResponseDataException(HttpStatus.NOT_FOUND, exception.getReason());
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {

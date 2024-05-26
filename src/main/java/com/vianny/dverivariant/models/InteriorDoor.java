@@ -28,6 +28,23 @@ public class InteriorDoor {
     @Enumerated(value = EnumType.STRING)
     private Manufacturer manufacturer;
 
+    public InteriorDoor() {
+    }
+
+    public InteriorDoor(String id, String name, String description, Integer price, String urlImage, String idImage, Material material, Glazing glazing, Modification modification, Construction construction, Manufacturer manufacturer) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.urlImage = urlImage;
+        this.idImage = idImage;
+        this.material = material;
+        this.glazing = glazing;
+        this.modification = modification;
+        this.construction = construction;
+        this.manufacturer = manufacturer;
+    }
+
     public InteriorDoor(String name, String description, Integer price, String urlImage, String idImage, Material material, Glazing glazing, Modification modification, Construction construction, Manufacturer manufacturer) {
         this.name = name;
         this.description = description;

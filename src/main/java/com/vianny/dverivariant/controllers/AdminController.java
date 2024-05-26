@@ -3,6 +3,7 @@ package com.vianny.dverivariant.controllers;
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
 import com.vianny.dverivariant.enums.doors.TypeProducts;
 import com.vianny.dverivariant.enums.doors.interior.*;
+import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.models.InteriorDoor;
 import com.vianny.dverivariant.services.doors.InteriorDoorService;
@@ -13,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/adm")
@@ -47,5 +50,28 @@ public class AdminController {
 
         ResponseMainMessage responseMainMessage = new ResponseMainMessage(HttpStatus.CREATED, "Товар был успешно добавлен");
         return new ResponseEntity<>(responseMainMessage, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/interior-door")
+    @Transactional
+    public ResponseEntity<ResponseMainMessage> updateInteriorDoor(@RequestParam MultipartFile imageFile, String id, String name, String description,
+                                                                  Integer price, Material material, Glazing glazing, Modification modification,
+                                                                  Construction construction, Manufacturer manufacturer) {
+        try {
+            Optional<InteriorDoor> interiorDoorById = interiorDoorService.findInteriorDoorByID(id);
+            InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), name, description, price, interiorDoorById.get().getUrlImage(), interiorDoorById.get().getIdImage(), material, glazing, modification, construction, manufacturer);
+
+            fileTransferService.uploadImage(imageFile, interiorDoorById.get().getUrlImage());
+            interiorDoorService.updateInteriorDoor(interiorDoorNew);
+        }
+        catch (NotFoundRequiredException e) {
+            throw e;
+        }
+        catch (Exception e) {
+            throw new ServerErrorRequiredException(e.getMessage());
+        }
+
+        ResponseMainMessage responseMainMessage = new ResponseMainMessage(HttpStatus.OK, "Товар успешно обновлен");
+        return new ResponseEntity<>(responseMainMessage, HttpStatus.OK);
     }
 }
