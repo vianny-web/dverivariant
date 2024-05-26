@@ -1,6 +1,7 @@
 package com.vianny.dverivariant.controllers;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
+import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.models.InteriorDoor;
 import com.vianny.dverivariant.services.doors.InteriorDoorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class AdminController {
             interiorDoorService.addInteriorDoor(interiorDoor);
         }
         catch (Exception e) {
-            // TODO
+            throw new ServerErrorRequiredException(e.getMessage());
         }
 
         ResponseMainMessage responseMainMessage = new ResponseMainMessage(HttpStatus.CREATED, "Товар успешно добавлен в каталог");
