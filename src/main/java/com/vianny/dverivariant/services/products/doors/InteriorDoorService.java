@@ -2,7 +2,7 @@ package com.vianny.dverivariant.services.products.doors;
 
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.InteriorDoor;
-import com.vianny.dverivariant.repositories.ProductsRepository;
+import com.vianny.dverivariant.repositories.products.ProductsRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

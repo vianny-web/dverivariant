@@ -1,4 +1,4 @@
-package com.vianny.dverivariant.repositories;
+package com.vianny.dverivariant.repositories.products;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.NoRepositoryBean;
