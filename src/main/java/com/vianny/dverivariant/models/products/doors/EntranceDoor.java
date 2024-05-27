@@ -1,7 +1,7 @@
 package com.vianny.dverivariant.models.products.doors;
 
 import com.vianny.dverivariant.enums.doors.entrance.AdditionalProperties;
-import com.vianny.dverivariant.enums.doors.entrance.Glazing;
+import com.vianny.dverivariant.enums.doors.entrance.GlazingEntrance;
 import com.vianny.dverivariant.enums.doors.entrance.InstallationPlace;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -22,14 +22,14 @@ public class EntranceDoor {
     @Enumerated(value = EnumType.STRING)
     private InstallationPlace installationPlace;
     @Enumerated(value = EnumType.STRING)
-    private Glazing glazing;
+    private GlazingEntrance glazingEntrance;
     @Enumerated(value = EnumType.STRING)
     private AdditionalProperties additionalProperties;
 
     public EntranceDoor() {
     }
 
-    public EntranceDoor(String id, String name, String description, Integer price, String urlImage, String idImage, InstallationPlace installationPlace, Glazing glazing, AdditionalProperties additionalProperties) {
+    public EntranceDoor(String id, String name, String description, Integer price, String urlImage, String idImage, InstallationPlace installationPlace, GlazingEntrance glazingEntrance, AdditionalProperties additionalProperties) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -37,27 +37,27 @@ public class EntranceDoor {
         this.urlImage = urlImage;
         this.idImage = idImage;
         this.installationPlace = installationPlace;
-        this.glazing = glazing;
+        this.glazingEntrance = glazingEntrance;
         this.additionalProperties = additionalProperties;
     }
 
-    public EntranceDoor(String name, String description, Integer price, String urlImage, String idImage, InstallationPlace installationPlace, Glazing glazing, AdditionalProperties additionalProperties) {
+    public EntranceDoor(String name, String description, Integer price, String urlImage, String idImage, InstallationPlace installationPlace, GlazingEntrance glazingEntrance, AdditionalProperties additionalProperties) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.urlImage = urlImage;
         this.idImage = idImage;
         this.installationPlace = installationPlace;
-        this.glazing = glazing;
+        this.glazingEntrance = glazingEntrance;
         this.additionalProperties = additionalProperties;
     }
 
-    public EntranceDoor(String name, String description, Integer price, InstallationPlace installationPlace, Glazing glazing, AdditionalProperties additionalProperties) {
+    public EntranceDoor(String name, String description, Integer price, InstallationPlace installationPlace, GlazingEntrance glazingEntrance, AdditionalProperties additionalProperties) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.installationPlace = installationPlace;
-        this.glazing = glazing;
+        this.glazingEntrance = glazingEntrance;
         this.additionalProperties = additionalProperties;
     }
 
@@ -117,12 +117,12 @@ public class EntranceDoor {
         this.installationPlace = installationPlace;
     }
 
-    public Glazing getGlazing() {
-        return glazing;
+    public GlazingEntrance getGlazing() {
+        return glazingEntrance;
     }
 
-    public void setGlazing(Glazing glazing) {
-        this.glazing = glazing;
+    public void setGlazing(GlazingEntrance glazingEntrance) {
+        this.glazingEntrance = glazingEntrance;
     }
 
     public AdditionalProperties getAdditionalProperties() {

@@ -1,6 +1,6 @@
 package com.vianny.dverivariant.enums.doors.interior;
 
-public enum Manufacturer {
+public enum ManufacturerInterior {
     OPTIMA_PORTE("Optima Porte"),
     UBERTURE("Uberture"),
     OKA("Ока"),
@@ -18,7 +18,7 @@ public enum Manufacturer {
 
     private final String description;
 
-    Manufacturer(String description) {
+    ManufacturerInterior(String description) {
         this.description = description;
     }
 

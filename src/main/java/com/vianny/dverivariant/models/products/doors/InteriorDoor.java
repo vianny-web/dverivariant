@@ -20,18 +20,18 @@ public class InteriorDoor {
     @Enumerated(value = EnumType.STRING)
     private Material material;
     @Enumerated(value = EnumType.STRING)
-    private Glazing glazing;
+    private GlazingInterior glazingInterior;
     @Enumerated(value = EnumType.STRING)
     private Modification modification;
     @Enumerated(value = EnumType.STRING)
     private Construction construction;
     @Enumerated(value = EnumType.STRING)
-    private Manufacturer manufacturer;
+    private ManufacturerInterior manufacturerInterior;
 
     public InteriorDoor() {
     }
 
-    public InteriorDoor(String id, String name, String description, Integer price, String urlImage, String idImage, Material material, Glazing glazing, Modification modification, Construction construction, Manufacturer manufacturer) {
+    public InteriorDoor(String id, String name, String description, Integer price, String urlImage, String idImage, Material material, GlazingInterior glazingInterior, Modification modification, Construction construction, ManufacturerInterior manufacturerInterior) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -39,34 +39,34 @@ public class InteriorDoor {
         this.urlImage = urlImage;
         this.idImage = idImage;
         this.material = material;
-        this.glazing = glazing;
+        this.glazingInterior = glazingInterior;
         this.modification = modification;
         this.construction = construction;
-        this.manufacturer = manufacturer;
+        this.manufacturerInterior = manufacturerInterior;
     }
 
-    public InteriorDoor(String name, String description, Integer price, String urlImage, String idImage, Material material, Glazing glazing, Modification modification, Construction construction, Manufacturer manufacturer) {
+    public InteriorDoor(String name, String description, Integer price, String urlImage, String idImage, Material material, GlazingInterior glazingInterior, Modification modification, Construction construction, ManufacturerInterior manufacturerInterior) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.urlImage = urlImage;
         this.idImage = idImage;
         this.material = material;
-        this.glazing = glazing;
+        this.glazingInterior = glazingInterior;
         this.modification = modification;
         this.construction = construction;
-        this.manufacturer = manufacturer;
+        this.manufacturerInterior = manufacturerInterior;
     }
 
-    public InteriorDoor(String name, String description, Integer price, Material material, Glazing glazing, Modification modification, Construction construction, Manufacturer manufacturer) {
+    public InteriorDoor(String name, String description, Integer price, Material material, GlazingInterior glazingInterior, Modification modification, Construction construction, ManufacturerInterior manufacturerInterior) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.material = material;
-        this.glazing = glazing;
+        this.glazingInterior = glazingInterior;
         this.modification = modification;
         this.construction = construction;
-        this.manufacturer = manufacturer;
+        this.manufacturerInterior = manufacturerInterior;
     }
 
     public String getId() {
@@ -121,12 +121,12 @@ public class InteriorDoor {
         this.material = material;
     }
 
-    public Glazing getGlazing() {
-        return glazing;
+    public GlazingInterior getGlazing() {
+        return glazingInterior;
     }
 
-    public void setGlazing(Glazing glazing) {
-        this.glazing = glazing;
+    public void setGlazing(GlazingInterior glazingInterior) {
+        this.glazingInterior = glazingInterior;
     }
 
     public Modification getModification() {
@@ -145,11 +145,11 @@ public class InteriorDoor {
         this.construction = construction;
     }
 
-    public Manufacturer getManufacturer() {
-        return manufacturer;
+    public ManufacturerInterior getManufacturer() {
+        return manufacturerInterior;
     }
 
-    public void setManufacturer(Manufacturer manufacturer) {
-        this.manufacturer = manufacturer;
+    public void setManufacturer(ManufacturerInterior manufacturerInterior) {
+        this.manufacturerInterior = manufacturerInterior;
     }
 }

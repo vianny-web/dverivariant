@@ -1,13 +1,13 @@
-package com.vianny.dverivariant.enums.floors.quartzvinyl;
+package com.vianny.dverivariant.enums.floors.laminate;
 
-public enum Bevel {
+public enum BevelLaminate {
     NO_BEVEL("Без фаски"),
-    MICRO_BEVEL("Микро"),
-    V4_BEVEL("V4");
+    BEVEL_4V("4V"),
+    PAINTED_V4_BEVEL("V4 окрашенная");
 
     private final String description;
 
-    Bevel(String description) {
+    BevelLaminate(String description) {
         this.description = description;
     }
 

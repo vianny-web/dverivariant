@@ -1,9 +1,9 @@
 package com.vianny.dverivariant.models.products.floors;
 
 import com.vianny.dverivariant.enums.floors.quartzvinyl.Base;
-import com.vianny.dverivariant.enums.floors.quartzvinyl.Bevel;
+import com.vianny.dverivariant.enums.floors.quartzvinyl.BevelQuartzvinyl;
 import com.vianny.dverivariant.enums.floors.quartzvinyl.InstallationType;
-import com.vianny.dverivariant.enums.floors.quartzvinyl.Manufacturer;
+import com.vianny.dverivariant.enums.floors.quartzvinyl.ManufacturerQuartzvinyl;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import org.springframework.data.annotation.Id;
@@ -25,14 +25,14 @@ public class Quartzvinyl {
     @Enumerated(value = EnumType.STRING)
     private InstallationType installationType;
     @Enumerated(value = EnumType.STRING)
-    private Bevel bevel;
+    private BevelQuartzvinyl bevelQuartzvinyl;
     @Enumerated(value = EnumType.STRING)
-    private Manufacturer manufacturer;
+    private ManufacturerQuartzvinyl manufacturerQuartzvinyl;
 
     public Quartzvinyl() {
     }
 
-    public Quartzvinyl(String id, String name, String description, Integer price, String urlImage, String idImage, Base base, InstallationType installationType, Bevel bevel, Manufacturer manufacturer) {
+    public Quartzvinyl(String id, String name, String description, Integer price, String urlImage, String idImage, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl, ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -41,11 +41,11 @@ public class Quartzvinyl {
         this.idImage = idImage;
         this.base = base;
         this.installationType = installationType;
-        this.bevel = bevel;
-        this.manufacturer = manufacturer;
+        this.bevelQuartzvinyl = bevelQuartzvinyl;
+        this.manufacturerQuartzvinyl = manufacturerQuartzvinyl;
     }
 
-    public Quartzvinyl(String name, String description, Integer price, String urlImage, String idImage, Base base, InstallationType installationType, Bevel bevel, Manufacturer manufacturer) {
+    public Quartzvinyl(String name, String description, Integer price, String urlImage, String idImage, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl, ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -53,18 +53,18 @@ public class Quartzvinyl {
         this.idImage = idImage;
         this.base = base;
         this.installationType = installationType;
-        this.bevel = bevel;
-        this.manufacturer = manufacturer;
+        this.bevelQuartzvinyl = bevelQuartzvinyl;
+        this.manufacturerQuartzvinyl = manufacturerQuartzvinyl;
     }
 
-    public Quartzvinyl(String name, String description, Integer price, Base base, InstallationType installationType, Bevel bevel, Manufacturer manufacturer) {
+    public Quartzvinyl(String name, String description, Integer price, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl, ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.base = base;
         this.installationType = installationType;
-        this.bevel = bevel;
-        this.manufacturer = manufacturer;
+        this.bevelQuartzvinyl = bevelQuartzvinyl;
+        this.manufacturerQuartzvinyl = manufacturerQuartzvinyl;
     }
 
     public String getId() {
@@ -131,19 +131,19 @@ public class Quartzvinyl {
         this.installationType = installationType;
     }
 
-    public Bevel getBevel() {
-        return bevel;
+    public BevelQuartzvinyl getBevel() {
+        return bevelQuartzvinyl;
     }
 
-    public void setBevel(Bevel bevel) {
-        this.bevel = bevel;
+    public void setBevel(BevelQuartzvinyl bevelQuartzvinyl) {
+        this.bevelQuartzvinyl = bevelQuartzvinyl;
     }
 
-    public Manufacturer getManufacturer() {
-        return manufacturer;
+    public ManufacturerQuartzvinyl getManufacturer() {
+        return manufacturerQuartzvinyl;
     }
 
-    public void setManufacturer(Manufacturer manufacturer) {
-        this.manufacturer = manufacturer;
+    public void setManufacturer(ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
+        this.manufacturerQuartzvinyl = manufacturerQuartzvinyl;
     }
 }

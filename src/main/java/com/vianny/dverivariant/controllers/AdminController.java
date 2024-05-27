@@ -41,10 +41,10 @@ public class AdminController {
     @PostMapping("/interior-door")
     @Transactional
     public ResponseEntity<ResponseMainMessage> createInteriorDoor(@RequestParam MultipartFile imageFile, String name, String description,
-                                                                  Integer price, Material material, Glazing glazing, Modification modification,
-                                                                  Construction construction, Manufacturer manufacturer) {
+                                                                  Integer price, Material material, GlazingInterior glazingInterior, Modification modification,
+                                                                  Construction construction, ManufacturerInterior manufacturerInterior) {
 
-        InteriorDoor interiorDoor = new InteriorDoor(name, description, price, material, glazing, modification, construction, manufacturer);
+        InteriorDoor interiorDoor = new InteriorDoor(name, description, price, material, glazingInterior, modification, construction, manufacturerInterior);
         try {
             String urlImage = TypeProducts.INTERIOR_DOOR + "/" + interiorDoor.getIdImage();
 
@@ -62,11 +62,11 @@ public class AdminController {
     @PutMapping("/interior-door")
     @Transactional
     public ResponseEntity<ResponseMainMessage> updateInteriorDoor(@RequestParam MultipartFile imageFile, String id, String name, String description,
-                                                                  Integer price, Material material, Glazing glazing, Modification modification,
-                                                                  Construction construction, Manufacturer manufacturer) {
+                                                                  Integer price, Material material, GlazingInterior glazingInterior, Modification modification,
+                                                                  Construction construction, ManufacturerInterior manufacturerInterior) {
         try {
             Optional<InteriorDoor> interiorDoorById = interiorDoorService.findInteriorDoorByID(id);
-            InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), name, description, price, interiorDoorById.get().getUrlImage(), interiorDoorById.get().getIdImage(), material, glazing, modification, construction, manufacturer);
+            InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), name, description, price, interiorDoorById.get().getUrlImage(), interiorDoorById.get().getIdImage(), material, glazingInterior, modification, construction, manufacturerInterior);
 
             fileTransferService.uploadImage(imageFile, interiorDoorById.get().getUrlImage());
             interiorDoorService.updateInteriorDoor(interiorDoorNew);

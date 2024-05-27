@@ -1,6 +1,6 @@
 package com.vianny.dverivariant.enums.doors.entrance;
 
-public enum Glazing {
+public enum GlazingEntrance {
     WITHOUT_GLASS("Без стекла (глухое)"),
     WITH_MIRROR("С зеркалом"),
     WITH_GLASS("Со стеклом"),
@@ -8,7 +8,7 @@ public enum Glazing {
 
     private final String description;
 
-    Glazing(String description) {
+    GlazingEntrance(String description) {
         this.description = description;
     }
 

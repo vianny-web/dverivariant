@@ -1,6 +1,6 @@
 package com.vianny.dverivariant.models.products.floors;
 
-import com.vianny.dverivariant.enums.floors.laminate.Bevel;
+import com.vianny.dverivariant.enums.floors.laminate.BevelLaminate;
 import com.vianny.dverivariant.enums.floors.laminate.ClassType;
 import com.vianny.dverivariant.enums.floors.laminate.CountryOfOrigin;
 import com.vianny.dverivariant.enums.floors.laminate.Thickness;
@@ -28,14 +28,14 @@ public class Laminate {
     @Enumerated(value = EnumType.STRING)
     private WaterResistance waterResistance;
     @Enumerated(value = EnumType.STRING)
-    private Bevel bevel;
+    private BevelLaminate bevelLaminate;
     @Enumerated(value = EnumType.STRING)
     private CountryOfOrigin countryOfOrigin;
 
     public Laminate() {
     }
 
-    public Laminate(String id, String name, String description, Integer price, String urlImage, String idImage, ClassType classType, Thickness thickness, WaterResistance waterResistance, Bevel bevel, CountryOfOrigin countryOfOrigin) {
+    public Laminate(String id, String name, String description, Integer price, String urlImage, String idImage, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate, CountryOfOrigin countryOfOrigin) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -45,11 +45,11 @@ public class Laminate {
         this.classType = classType;
         this.thickness = thickness;
         this.waterResistance = waterResistance;
-        this.bevel = bevel;
+        this.bevelLaminate = bevelLaminate;
         this.countryOfOrigin = countryOfOrigin;
     }
 
-    public Laminate(String name, String description, Integer price, String urlImage, String idImage, ClassType classType, Thickness thickness, WaterResistance waterResistance, Bevel bevel, CountryOfOrigin countryOfOrigin) {
+    public Laminate(String name, String description, Integer price, String urlImage, String idImage, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate, CountryOfOrigin countryOfOrigin) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -58,18 +58,18 @@ public class Laminate {
         this.classType = classType;
         this.thickness = thickness;
         this.waterResistance = waterResistance;
-        this.bevel = bevel;
+        this.bevelLaminate = bevelLaminate;
         this.countryOfOrigin = countryOfOrigin;
     }
 
-    public Laminate(String name, String description, Integer price, ClassType classType, Thickness thickness, WaterResistance waterResistance, Bevel bevel, CountryOfOrigin countryOfOrigin) {
+    public Laminate(String name, String description, Integer price, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate, CountryOfOrigin countryOfOrigin) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.classType = classType;
         this.thickness = thickness;
         this.waterResistance = waterResistance;
-        this.bevel = bevel;
+        this.bevelLaminate = bevelLaminate;
         this.countryOfOrigin = countryOfOrigin;
     }
 
@@ -145,12 +145,12 @@ public class Laminate {
         this.waterResistance = waterResistance;
     }
 
-    public Bevel getBevel() {
-        return bevel;
+    public BevelLaminate getBevel() {
+        return bevelLaminate;
     }
 
-    public void setBevel(Bevel bevel) {
-        this.bevel = bevel;
+    public void setBevel(BevelLaminate bevelLaminate) {
+        this.bevelLaminate = bevelLaminate;
     }
 
     public CountryOfOrigin getCountryOfOrigin() {

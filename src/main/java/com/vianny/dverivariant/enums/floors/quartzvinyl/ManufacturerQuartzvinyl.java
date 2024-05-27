@@ -1,6 +1,6 @@
 package com.vianny.dverivariant.enums.floors.quartzvinyl;
 
-public enum Manufacturer {
+public enum ManufacturerQuartzvinyl {
     TARKETT("Tarkett"),
     ART("Art"),
     KRONOSPAN("Kronospan"),
@@ -12,7 +12,7 @@ public enum Manufacturer {
 
     private final String description;
 
-    Manufacturer(String description) {
+    ManufacturerQuartzvinyl(String description) {
         this.description = description;
     }
 
