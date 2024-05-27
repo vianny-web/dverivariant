@@ -48,7 +48,7 @@ public class AdminController {
         try {
             String urlImage = TypeProducts.INTERIOR_DOOR + "/" + interiorDoor.getIdImage();
 
-            interiorDoorService.addInteriorDoor(interiorDoor, urlImage);
+            interiorDoorService.addProduct(interiorDoor, urlImage);
             fileTransferService.uploadImage(imageFile, urlImage);
         }
         catch (Exception e) {
@@ -65,11 +65,11 @@ public class AdminController {
                                                                   Integer price, Material material, GlazingInterior glazingInterior, Modification modification,
                                                                   Construction construction, ManufacturerInterior manufacturerInterior) {
         try {
-            Optional<InteriorDoor> interiorDoorById = interiorDoorService.findInteriorDoorByID(id);
+            Optional<InteriorDoor> interiorDoorById = interiorDoorService.findProductByID(id);
             InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), name, description, price, interiorDoorById.get().getUrlImage(), interiorDoorById.get().getIdImage(), material, glazingInterior, modification, construction, manufacturerInterior);
 
             fileTransferService.uploadImage(imageFile, interiorDoorById.get().getUrlImage());
-            interiorDoorService.updateInteriorDoor(interiorDoorNew);
+            interiorDoorService.updateProduct(interiorDoorNew);
         }
         catch (NotFoundRequiredException e) {
             throw e;
@@ -86,10 +86,10 @@ public class AdminController {
     @Transactional
     public ResponseEntity<ResponseMainMessage> deleteInteriorDoor(@RequestParam String id) {
         try {
-            Optional<InteriorDoor> interiorDoorById = interiorDoorService.findInteriorDoorByID(id);
+            Optional<InteriorDoor> interiorDoorById = interiorDoorService.findProductByID(id);
 
             minioService.removeObject(interiorDoorById.get().getUrlImage());
-            interiorDoorService.deleteInteriorDoor(interiorDoorById.get().getId());
+            interiorDoorService.deleteProduct(interiorDoorById.get().getId());
         }
         catch (NotFoundRequiredException e) {
             throw e;

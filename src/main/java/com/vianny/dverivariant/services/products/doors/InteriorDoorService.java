@@ -2,7 +2,8 @@ package com.vianny.dverivariant.services.products.doors;
 
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.InteriorDoor;
-import com.vianny.dverivariant.repositories.InteriorDoorRepository;
+import com.vianny.dverivariant.repositories.ProductsRepository;
+import com.vianny.dverivariant.services.products.AdminCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -10,14 +11,15 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class InteriorDoorService {
-    private InteriorDoorRepository interiorDoorRepository;
+public class InteriorDoorService implements AdminCapabilities<InteriorDoor> {
+    private ProductsRepository<InteriorDoor> interiorDoorRepository;
     @Autowired
-    public void setInteriorDoorRepository(InteriorDoorRepository interiorDoorRepository) {
+    public void setInteriorDoorRepository(ProductsRepository<InteriorDoor> interiorDoorRepository) {
         this.interiorDoorRepository = interiorDoorRepository;
     }
 
-    public void addInteriorDoor(InteriorDoor interiorDoor, String urlImage) {
+    @Override
+    public void addProduct(InteriorDoor interiorDoor, String urlImage) {
         interiorDoorRepository.save(new InteriorDoor(
                 interiorDoor.getName(),
                 interiorDoor.getDescription(),
@@ -31,15 +33,18 @@ public class InteriorDoorService {
                 interiorDoor.getManufacturer()));
     }
 
-    public void updateInteriorDoor(InteriorDoor interiorDoorNew) {
+    @Override
+    public void updateProduct(InteriorDoor interiorDoorNew) {
         interiorDoorRepository.save(interiorDoorNew);
     }
 
-    public void deleteInteriorDoor(String id) {
+    @Override
+    public void deleteProduct(String id) {
         interiorDoorRepository.deleteById(id);
     }
 
-    public Optional<InteriorDoor> findInteriorDoorByID(String id) {
+    @Override
+    public Optional<InteriorDoor> findProductByID(String id) {
         return Optional.ofNullable(interiorDoorRepository.findById(id).orElseThrow(() -> new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Товар не найден")));
     }
 }
