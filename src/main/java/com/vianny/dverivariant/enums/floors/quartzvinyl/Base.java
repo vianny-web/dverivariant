@@ -1,4 +1,4 @@
-package com.vianny.dverivariant.enums.quartzvinyl;
+package com.vianny.dverivariant.enums.floors.quartzvinyl;
 
 public enum Base {
     SPC("SPC"),

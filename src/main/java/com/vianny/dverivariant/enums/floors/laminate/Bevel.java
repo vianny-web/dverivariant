@@ -1,4 +1,4 @@
-package com.vianny.dverivariant.enums.common;
+package com.vianny.dverivariant.enums.floors.laminate;
 
 public enum Bevel {
     NO_BEVEL("Без фаски"),

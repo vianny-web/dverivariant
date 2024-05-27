@@ -1,6 +1,9 @@
-package com.vianny.dverivariant.models;
+package com.vianny.dverivariant.models.products.floors;
 
-import com.vianny.dverivariant.enums.doors.interior.*;
+import com.vianny.dverivariant.enums.floors.quartzvinyl.Base;
+import com.vianny.dverivariant.enums.floors.quartzvinyl.Bevel;
+import com.vianny.dverivariant.enums.floors.quartzvinyl.InstallationType;
+import com.vianny.dverivariant.enums.floors.quartzvinyl.Manufacturer;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import org.springframework.data.annotation.Id;
@@ -8,8 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.UUID;
 
-@Document("interior_door")
-public class InteriorDoor {
+@Document("floors")
+public class Quartzvinyl {
     @Id
     private String id;
     private String name;
@@ -18,54 +21,49 @@ public class InteriorDoor {
     private String urlImage;
     private String idImage = UUID.randomUUID().toString();
     @Enumerated(value = EnumType.STRING)
-    private Material material;
+    private Base base;
     @Enumerated(value = EnumType.STRING)
-    private Glazing glazing;
+    private InstallationType installationType;
     @Enumerated(value = EnumType.STRING)
-    private Modification modification;
-    @Enumerated(value = EnumType.STRING)
-    private Construction construction;
+    private Bevel bevel;
     @Enumerated(value = EnumType.STRING)
     private Manufacturer manufacturer;
 
-    public InteriorDoor() {
+    public Quartzvinyl() {
     }
 
-    public InteriorDoor(String id, String name, String description, Integer price, String urlImage, String idImage, Material material, Glazing glazing, Modification modification, Construction construction, Manufacturer manufacturer) {
+    public Quartzvinyl(String id, String name, String description, Integer price, String urlImage, String idImage, Base base, InstallationType installationType, Bevel bevel, Manufacturer manufacturer) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.urlImage = urlImage;
         this.idImage = idImage;
-        this.material = material;
-        this.glazing = glazing;
-        this.modification = modification;
-        this.construction = construction;
+        this.base = base;
+        this.installationType = installationType;
+        this.bevel = bevel;
         this.manufacturer = manufacturer;
     }
 
-    public InteriorDoor(String name, String description, Integer price, String urlImage, String idImage, Material material, Glazing glazing, Modification modification, Construction construction, Manufacturer manufacturer) {
+    public Quartzvinyl(String name, String description, Integer price, String urlImage, String idImage, Base base, InstallationType installationType, Bevel bevel, Manufacturer manufacturer) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.urlImage = urlImage;
         this.idImage = idImage;
-        this.material = material;
-        this.glazing = glazing;
-        this.modification = modification;
-        this.construction = construction;
+        this.base = base;
+        this.installationType = installationType;
+        this.bevel = bevel;
         this.manufacturer = manufacturer;
     }
 
-    public InteriorDoor(String name, String description, Integer price, Material material, Glazing glazing, Modification modification, Construction construction, Manufacturer manufacturer) {
+    public Quartzvinyl(String name, String description, Integer price, Base base, InstallationType installationType, Bevel bevel, Manufacturer manufacturer) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.material = material;
-        this.glazing = glazing;
-        this.modification = modification;
-        this.construction = construction;
+        this.base = base;
+        this.installationType = installationType;
+        this.bevel = bevel;
         this.manufacturer = manufacturer;
     }
 
@@ -113,36 +111,32 @@ public class InteriorDoor {
         return idImage;
     }
 
-    public Material getMaterial() {
-        return material;
+    public void setIdImage(String idImage) {
+        this.idImage = idImage;
     }
 
-    public void setMaterial(Material material) {
-        this.material = material;
+    public Base getBase() {
+        return base;
     }
 
-    public Glazing getGlazing() {
-        return glazing;
+    public void setBase(Base base) {
+        this.base = base;
     }
 
-    public void setGlazing(Glazing glazing) {
-        this.glazing = glazing;
+    public InstallationType getInstallationType() {
+        return installationType;
     }
 
-    public Modification getModification() {
-        return modification;
+    public void setInstallationType(InstallationType installationType) {
+        this.installationType = installationType;
     }
 
-    public void setModification(Modification modification) {
-        this.modification = modification;
+    public Bevel getBevel() {
+        return bevel;
     }
 
-    public Construction getConstruction() {
-        return construction;
-    }
-
-    public void setConstruction(Construction construction) {
-        this.construction = construction;
+    public void setBevel(Bevel bevel) {
+        this.bevel = bevel;
     }
 
     public Manufacturer getManufacturer() {

@@ -1,6 +1,6 @@
 package com.vianny.dverivariant.enums.others;
 
-public enum Hardware {
+public enum HardwareType {
     HANDLES("Ручки"),
     HINGES("Петли"),
     MORTISE_LOCKS("Врезные замки"),
@@ -11,7 +11,7 @@ public enum Hardware {
 
     private final String description;
 
-    Hardware(String description) {
+    HardwareType(String description) {
         this.description = description;
     }
 

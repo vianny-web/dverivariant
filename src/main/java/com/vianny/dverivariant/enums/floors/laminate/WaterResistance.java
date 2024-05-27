@@ -1,4 +1,4 @@
-package com.vianny.dverivariant.enums.laminate;
+package com.vianny.dverivariant.enums.floors.laminate;
 
 public enum WaterResistance {
     YES("Да"),
