@@ -1,7 +1,7 @@
 package com.vianny.dverivariant.controllers;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
-import com.vianny.dverivariant.enums.doors.TypeProducts;
+import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.doors.interior.*;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;

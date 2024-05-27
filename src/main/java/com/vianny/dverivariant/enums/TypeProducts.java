@@ -1,4 +1,4 @@
-package com.vianny.dverivariant.enums.doors;
+package com.vianny.dverivariant.enums;
 
 public enum TypeProducts {
     INTERIOR_DOOR,
