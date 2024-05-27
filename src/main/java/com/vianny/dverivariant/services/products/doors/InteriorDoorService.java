@@ -1,4 +1,4 @@
-package com.vianny.dverivariant.services.doors;
+package com.vianny.dverivariant.services.products.doors;
 
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.InteriorDoor;

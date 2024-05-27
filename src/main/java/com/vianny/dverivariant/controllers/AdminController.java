@@ -6,7 +6,7 @@ import com.vianny.dverivariant.enums.doors.interior.*;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.models.products.doors.InteriorDoor;
-import com.vianny.dverivariant.services.doors.InteriorDoorService;
+import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
 import com.vianny.dverivariant.services.minio.FileTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import org.springframework.beans.factory.annotation.Autowired;
