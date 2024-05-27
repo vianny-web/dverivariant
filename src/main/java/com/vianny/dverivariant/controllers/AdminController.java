@@ -8,6 +8,7 @@ import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredE
 import com.vianny.dverivariant.models.InteriorDoor;
 import com.vianny.dverivariant.services.doors.InteriorDoorService;
 import com.vianny.dverivariant.services.minio.FileTransferService;
+import com.vianny.dverivariant.services.minio.MinioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,8 @@ import java.util.Optional;
 public class AdminController {
     private InteriorDoorService interiorDoorService;
     private FileTransferService fileTransferService;
+    private MinioService minioService;
+
     @Autowired
     public void setInteriorDoorService(InteriorDoorService interiorDoorService) {
         this.interiorDoorService = interiorDoorService;
@@ -29,6 +32,10 @@ public class AdminController {
     @Autowired
     public void setFileTransferService(FileTransferService fileTransferService) {
         this.fileTransferService = fileTransferService;
+    }
+    @Autowired
+    public void setMinioService(MinioService minioService) {
+        this.minioService = minioService;
     }
 
     @PostMapping("/interior-door")
@@ -72,6 +79,26 @@ public class AdminController {
         }
 
         ResponseMainMessage responseMainMessage = new ResponseMainMessage(HttpStatus.OK, "Товар успешно обновлен");
+        return new ResponseEntity<>(responseMainMessage, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/interior-door")
+    @Transactional
+    public ResponseEntity<ResponseMainMessage> deleteInteriorDoor(@RequestParam String id) {
+        try {
+            Optional<InteriorDoor> interiorDoorById = interiorDoorService.findInteriorDoorByID(id);
+
+            minioService.removeObject(interiorDoorById.get().getUrlImage());
+            interiorDoorService.deleteInteriorDoor(interiorDoorById.get().getId());
+        }
+        catch (NotFoundRequiredException e) {
+            throw e;
+        }
+        catch (Exception e) {
+            throw new ServerErrorRequiredException(e.getMessage());
+        }
+
+        ResponseMainMessage responseMainMessage = new ResponseMainMessage(HttpStatus.OK, "Товар успешно удален");
         return new ResponseEntity<>(responseMainMessage, HttpStatus.OK);
     }
 }

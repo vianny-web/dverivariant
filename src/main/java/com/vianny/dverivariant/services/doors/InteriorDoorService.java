@@ -35,6 +35,10 @@ public class InteriorDoorService {
         interiorDoorRepository.save(interiorDoorNew);
     }
 
+    public void deleteInteriorDoor(String id) {
+        interiorDoorRepository.deleteById(id);
+    }
+
     public Optional<InteriorDoor> findInteriorDoorByID(String id) {
         return Optional.ofNullable(interiorDoorRepository.findById(id).orElseThrow(() -> new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Товар не найден")));
     }

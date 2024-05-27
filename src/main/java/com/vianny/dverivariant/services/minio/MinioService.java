@@ -3,6 +3,7 @@ package com.vianny.dverivariant.services.minio;
 import com.vianny.dverivariant.config.MinioConfig;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
+import io.minio.RemoveObjectArgs;
 import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,14 @@ public class MinioService {
                             .build()
             );
         }
+    }
+
+    public void removeObject(String urlImage) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        RemoveObjectArgs removeObjectArgs = RemoveObjectArgs.builder()
+                .bucket("dveri-images")
+                .object(urlImage)
+                .build();
+
+        minioConfig.minioClient().removeObject(removeObjectArgs);
     }
 }
