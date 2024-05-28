@@ -2,13 +2,13 @@ package com.vianny.dverivariant.controllers.admin;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
 import com.vianny.dverivariant.enums.TypeProducts;
-import com.vianny.dverivariant.enums.doors.interior.*;
+import com.vianny.dverivariant.enums.others.HardwareType;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
-import com.vianny.dverivariant.models.products.doors.InteriorDoor;
-import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
+import com.vianny.dverivariant.models.products.others.Hardware;
 import com.vianny.dverivariant.services.minio.FileTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
+import com.vianny.dverivariant.services.products.others.HardwareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +20,14 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/adm")
-public class AdminInteriorDoorController {
-    private InteriorDoorService interiorDoorService;
+public class AdminHardwareController {
+    private HardwareService hardwareService;
     private FileTransferService fileTransferService;
     private MinioService minioService;
 
     @Autowired
-    public void setInteriorDoorService(InteriorDoorService interiorDoorService) {
-        this.interiorDoorService = interiorDoorService;
+    public void setHardwareService(HardwareService hardwareService) {
+        this.hardwareService = hardwareService;
     }
     @Autowired
     public void setFileTransferService(FileTransferService fileTransferService) {
@@ -38,16 +38,15 @@ public class AdminInteriorDoorController {
         this.minioService = minioService;
     }
 
-    @PostMapping("/interior-door")
+    @PostMapping("/hardware")
     @Transactional
-    public ResponseEntity<ResponseMainMessage> createInteriorDoor(@RequestParam MultipartFile imageFile, String name, String description,
-                                                                  Integer price, Material material, GlazingInterior glazingInterior, Modification modification,
-                                                                  Construction construction, ManufacturerInterior manufacturerInterior) {
+    public ResponseEntity<ResponseMainMessage> createHardware(@RequestParam MultipartFile imageFile, String name, String description,
+                                                              Integer price, HardwareType hardwareType) {
         try {
-            InteriorDoor interiorDoor = new InteriorDoor(name, description, price, material, glazingInterior, modification, construction, manufacturerInterior);
-            String urlImage = TypeProducts.INTERIOR_DOOR + "/" + interiorDoor.getIdImage();
+            Hardware hardware = new Hardware(name, description, price, hardwareType);
+            String urlImage = TypeProducts.HARDWARE + "/" + hardware.getIdImage();
 
-            interiorDoorService.addProduct(interiorDoor, urlImage);
+            hardwareService.addProduct(hardware, urlImage);
             fileTransferService.uploadImage(imageFile, urlImage);
         }
         catch (Exception e) {
@@ -58,17 +57,17 @@ public class AdminInteriorDoorController {
         return new ResponseEntity<>(responseMainMessage, HttpStatus.CREATED);
     }
 
-    @PutMapping("/interior-door")
+    @PutMapping("/hardware")
     @Transactional
-    public ResponseEntity<ResponseMainMessage> updateInteriorDoor(@RequestParam MultipartFile imageFile, String id, String name, String description,
-                                                                  Integer price, Material material, GlazingInterior glazingInterior, Modification modification,
-                                                                  Construction construction, ManufacturerInterior manufacturerInterior) {
+    public ResponseEntity<ResponseMainMessage> updateHardware(@RequestParam MultipartFile imageFile, String id, String name, String description,
+                                                                  Integer price, HardwareType hardwareType) {
         try {
-            Optional<InteriorDoor> interiorDoorById = interiorDoorService.findProductByID(id);
-            InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), name, description, price, interiorDoorById.get().getUrlImage(), interiorDoorById.get().getIdImage(), material, glazingInterior, modification, construction, manufacturerInterior);
+            Optional<Hardware> hardwareById = hardwareService.findProductByID(id);
+            Hardware hardwareNew = new Hardware(hardwareById.get().getId(), name, description, price, hardwareById.get().getUrlImage(),
+                    hardwareById.get().getIdImage(), hardwareType);
 
-            fileTransferService.uploadImage(imageFile, interiorDoorById.get().getUrlImage());
-            interiorDoorService.updateProduct(interiorDoorNew);
+            fileTransferService.uploadImage(imageFile, hardwareById.get().getUrlImage());
+            hardwareService.updateProduct(hardwareNew);
         }
         catch (NotFoundRequiredException e) {
             throw e;
@@ -81,14 +80,14 @@ public class AdminInteriorDoorController {
         return new ResponseEntity<>(responseMainMessage, HttpStatus.OK);
     }
 
-    @DeleteMapping("/interior-door")
+    @DeleteMapping("/hardware")
     @Transactional
-    public ResponseEntity<ResponseMainMessage> deleteInteriorDoor(@RequestParam String id) {
+    public ResponseEntity<ResponseMainMessage> deleteHardware(@RequestParam String id) {
         try {
-            Optional<InteriorDoor> interiorDoorById = interiorDoorService.findProductByID(id);
+            Optional<Hardware> hardwareById = hardwareService.findProductByID(id);
 
-            minioService.removeObject(interiorDoorById.get().getUrlImage());
-            interiorDoorService.deleteProduct(interiorDoorById.get().getId());
+            minioService.removeObject(hardwareById.get().getUrlImage());
+            hardwareService.deleteProduct(hardwareById.get().getId());
         }
         catch (NotFoundRequiredException e) {
             throw e;

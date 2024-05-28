@@ -2,13 +2,13 @@ package com.vianny.dverivariant.controllers.admin;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
 import com.vianny.dverivariant.enums.TypeProducts;
-import com.vianny.dverivariant.enums.doors.interior.*;
+import com.vianny.dverivariant.enums.floors.laminate.*;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
-import com.vianny.dverivariant.models.products.doors.InteriorDoor;
-import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
+import com.vianny.dverivariant.models.products.floors.Laminate;
 import com.vianny.dverivariant.services.minio.FileTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
+import com.vianny.dverivariant.services.products.floors.LaminateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +20,14 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/adm")
-public class AdminInteriorDoorController {
-    private InteriorDoorService interiorDoorService;
+public class AdminLaminateController {
+    private LaminateService laminateService;
     private FileTransferService fileTransferService;
     private MinioService minioService;
 
     @Autowired
-    public void setInteriorDoorService(InteriorDoorService interiorDoorService) {
-        this.interiorDoorService = interiorDoorService;
+    public void setLaminateService(LaminateService laminateService) {
+        this.laminateService = laminateService;
     }
     @Autowired
     public void setFileTransferService(FileTransferService fileTransferService) {
@@ -38,16 +38,16 @@ public class AdminInteriorDoorController {
         this.minioService = minioService;
     }
 
-    @PostMapping("/interior-door")
+    @PostMapping("/laminate")
     @Transactional
-    public ResponseEntity<ResponseMainMessage> createInteriorDoor(@RequestParam MultipartFile imageFile, String name, String description,
-                                                                  Integer price, Material material, GlazingInterior glazingInterior, Modification modification,
-                                                                  Construction construction, ManufacturerInterior manufacturerInterior) {
+    public ResponseEntity<ResponseMainMessage> createLaminate(@RequestParam MultipartFile imageFile, String name, String description,
+                                                                  Integer price, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate,
+                                                              CountryOfOrigin countryOfOrigin) {
         try {
-            InteriorDoor interiorDoor = new InteriorDoor(name, description, price, material, glazingInterior, modification, construction, manufacturerInterior);
-            String urlImage = TypeProducts.INTERIOR_DOOR + "/" + interiorDoor.getIdImage();
+            Laminate laminate = new Laminate(name, description, price, classType, thickness, waterResistance, bevelLaminate, countryOfOrigin);
+            String urlImage = TypeProducts.LAMINATE + "/" + laminate.getIdImage();
 
-            interiorDoorService.addProduct(interiorDoor, urlImage);
+            laminateService.addProduct(laminate, urlImage);
             fileTransferService.uploadImage(imageFile, urlImage);
         }
         catch (Exception e) {
@@ -58,17 +58,18 @@ public class AdminInteriorDoorController {
         return new ResponseEntity<>(responseMainMessage, HttpStatus.CREATED);
     }
 
-    @PutMapping("/interior-door")
+    @PutMapping("/laminate")
     @Transactional
-    public ResponseEntity<ResponseMainMessage> updateInteriorDoor(@RequestParam MultipartFile imageFile, String id, String name, String description,
-                                                                  Integer price, Material material, GlazingInterior glazingInterior, Modification modification,
-                                                                  Construction construction, ManufacturerInterior manufacturerInterior) {
+    public ResponseEntity<ResponseMainMessage> updateLaminate(@RequestParam MultipartFile imageFile, String id, String name, String description,
+                                                              Integer price, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate,
+                                                              CountryOfOrigin countryOfOrigin) {
         try {
-            Optional<InteriorDoor> interiorDoorById = interiorDoorService.findProductByID(id);
-            InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), name, description, price, interiorDoorById.get().getUrlImage(), interiorDoorById.get().getIdImage(), material, glazingInterior, modification, construction, manufacturerInterior);
+            Optional<Laminate> laminateById = laminateService.findProductByID(id);
+            Laminate laminateNew = new Laminate(laminateById.get().getId(), name, description, price, laminateById.get().getUrlImage(),
+                    laminateById.get().getIdImage(), classType, thickness, waterResistance, bevelLaminate, countryOfOrigin);
 
-            fileTransferService.uploadImage(imageFile, interiorDoorById.get().getUrlImage());
-            interiorDoorService.updateProduct(interiorDoorNew);
+            fileTransferService.uploadImage(imageFile, laminateById.get().getUrlImage());
+            laminateService.updateProduct(laminateNew);
         }
         catch (NotFoundRequiredException e) {
             throw e;
@@ -81,14 +82,14 @@ public class AdminInteriorDoorController {
         return new ResponseEntity<>(responseMainMessage, HttpStatus.OK);
     }
 
-    @DeleteMapping("/interior-door")
+    @DeleteMapping("/laminate")
     @Transactional
-    public ResponseEntity<ResponseMainMessage> deleteInteriorDoor(@RequestParam String id) {
+    public ResponseEntity<ResponseMainMessage> deleteLaminate(@RequestParam String id) {
         try {
-            Optional<InteriorDoor> interiorDoorById = interiorDoorService.findProductByID(id);
+            Optional<Laminate> laminateById = laminateService.findProductByID(id);
 
-            minioService.removeObject(interiorDoorById.get().getUrlImage());
-            interiorDoorService.deleteProduct(interiorDoorById.get().getId());
+            minioService.removeObject(laminateById.get().getUrlImage());
+            laminateService.deleteProduct(laminateById.get().getId());
         }
         catch (NotFoundRequiredException e) {
             throw e;
