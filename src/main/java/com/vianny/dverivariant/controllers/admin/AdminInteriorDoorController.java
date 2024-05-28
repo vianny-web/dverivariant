@@ -1,4 +1,4 @@
-package com.vianny.dverivariant.controllers;
+package com.vianny.dverivariant.controllers.admin;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
 import com.vianny.dverivariant.enums.TypeProducts;
@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/adm")
-public class AdminController {
+public class AdminInteriorDoorController {
     private InteriorDoorService interiorDoorService;
     private FileTransferService fileTransferService;
     private MinioService minioService;
