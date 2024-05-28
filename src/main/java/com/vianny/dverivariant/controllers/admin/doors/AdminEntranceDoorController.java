@@ -1,4 +1,4 @@
-package com.vianny.dverivariant.controllers.admin;
+package com.vianny.dverivariant.controllers.admin.doors;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
 import com.vianny.dverivariant.enums.TypeProducts;
