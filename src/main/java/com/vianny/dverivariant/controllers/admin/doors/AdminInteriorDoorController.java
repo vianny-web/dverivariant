@@ -41,10 +41,10 @@ public class AdminInteriorDoorController {
     @PostMapping("/interior-door")
     @Transactional
     public ResponseEntity<ResponseMainMessage> createInteriorDoor(@RequestParam MultipartFile imageFile, String name, String description,
-                                                                  Integer price, Material material, GlazingInterior glazingInterior, Modification modification,
-                                                                  Construction construction, ManufacturerInterior manufacturerInterior) {
+                                                                  Integer price, Material material, GlazingInterior glazing, Modification modification,
+                                                                  Construction construction, ManufacturerInterior manufacturer) {
         try {
-            InteriorDoor interiorDoor = new InteriorDoor(name, description, price, material, glazingInterior, modification, construction, manufacturerInterior);
+            InteriorDoor interiorDoor = new InteriorDoor(name, description, price, material, glazing, modification, construction, manufacturer);
             String urlImage = TypeProducts.INTERIOR_DOOR + "/" + interiorDoor.getIdImage();
 
             interiorDoorService.addProduct(interiorDoor, urlImage);

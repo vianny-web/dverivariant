@@ -43,10 +43,10 @@ public class AdminEntranceDoorController {
     @PostMapping("/entrance-door")
     @Transactional
     public ResponseEntity<ResponseMainMessage> createEntranceDoor(@RequestParam MultipartFile imageFile, String name, String description,
-                                                                  Integer price, InstallationPlace installationPlace, GlazingEntrance glazingEntrance,
+                                                                  Integer price, InstallationPlace installationPlace, GlazingEntrance glazing,
                                                                   AdditionalProperties additionalProperties) {
         try {
-            EntranceDoor entranceDoor = new EntranceDoor(name, description, price, installationPlace, glazingEntrance, additionalProperties);
+            EntranceDoor entranceDoor = new EntranceDoor(name, description, price, installationPlace, glazing, additionalProperties);
             String urlImage = TypeProducts.ENTRANCE_DOOR + "/" + entranceDoor.getIdImage();
 
             entranceDoorService.addProduct(entranceDoor, urlImage);

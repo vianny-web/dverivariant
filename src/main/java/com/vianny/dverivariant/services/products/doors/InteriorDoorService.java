@@ -1,20 +1,22 @@
 package com.vianny.dverivariant.services.products.doors;
 
+import com.vianny.dverivariant.dto.response.product.ProductDTO;
+import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.InteriorDoor;
-import com.vianny.dverivariant.repositories.products.ProductsRepository;
+import com.vianny.dverivariant.repositories.products.doors.InteriorDoorRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class InteriorDoorService implements AdminCapabilities<InteriorDoor> {
-    private ProductsRepository<InteriorDoor> interiorDoorRepository;
+    private InteriorDoorRepository<InteriorDoor> interiorDoorRepository;
     @Autowired
-    public void setInteriorDoorRepository(ProductsRepository<InteriorDoor> interiorDoorRepository) {
+    public void setInteriorDoorRepository(InteriorDoorRepository<InteriorDoor> interiorDoorRepository) {
         this.interiorDoorRepository = interiorDoorRepository;
     }
 
@@ -46,5 +48,27 @@ public class InteriorDoorService implements AdminCapabilities<InteriorDoor> {
     @Override
     public Optional<InteriorDoor> findProductByID(String id) {
         return Optional.ofNullable(interiorDoorRepository.findById(id).orElseThrow(() -> new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Товар не найден")));
+    }
+
+    public List<ProductDTO> findAll(TypeProducts type) {
+        List<InteriorDoor> interiorDoorList = interiorDoorRepository.findByType(type);
+        List<ProductDTO> productDTOList = new ArrayList<>();
+
+        for (InteriorDoor interiorDoor : interiorDoorList) {
+            HashMap<String, String> details = new HashMap<>();
+            details.put("construction", interiorDoor.getConstruction().getDescription());
+            details.put("glazing", interiorDoor.getGlazing().toString());
+            details.put("manufacturer", interiorDoor.getManufacturer().getDescription());
+            details.put("material", interiorDoor.getMaterial().getDescription());
+            details.put("modification", interiorDoor.getModification().getDescription());
+
+            ProductDTO productDTO = new ProductDTO(interiorDoor.getId(), interiorDoor.getName(),
+                    interiorDoor.getDescription(), interiorDoor.getPrice(), interiorDoor.getUrlImage(),
+                    interiorDoor.getIdImage(), type, details);
+
+            productDTOList.add(productDTO);
+        }
+
+        return productDTOList;
     }
 }

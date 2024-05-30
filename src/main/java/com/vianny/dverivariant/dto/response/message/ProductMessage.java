@@ -1,4 +1,4 @@
-package com.vianny.dverivariant.dto.response.product;
+package com.vianny.dverivariant.dto.response.message;
 
 import org.springframework.http.HttpStatus;
 
