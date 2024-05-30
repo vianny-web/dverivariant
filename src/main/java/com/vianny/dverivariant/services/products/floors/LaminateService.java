@@ -1,9 +1,8 @@
 package com.vianny.dverivariant.services.products.floors;
 
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
-import com.vianny.dverivariant.models.products.doors.EntranceDoor;
 import com.vianny.dverivariant.models.products.floors.Laminate;
-import com.vianny.dverivariant.repositories.products.ProductsRepository;
+import com.vianny.dverivariant.repositories.products.floors.LaminateRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,9 +12,9 @@ import java.util.Optional;
 
 @Service
 public class LaminateService implements AdminCapabilities<Laminate> {
-    private ProductsRepository<Laminate> laminateRepository;
+    private LaminateRepository laminateRepository;
     @Autowired
-    public void setLaminateRepository(ProductsRepository<Laminate> laminateRepository) {
+    public void setLaminateRepository(LaminateRepository laminateRepository) {
         this.laminateRepository = laminateRepository;
     }
 

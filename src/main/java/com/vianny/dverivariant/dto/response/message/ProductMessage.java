@@ -5,18 +5,18 @@ import org.springframework.http.HttpStatus;
 
 public class ProductMessage<T> {
     private HttpStatus httpStatus;
-    private T product;
+    private T products;
 
-    public ProductMessage(HttpStatus httpStatus, T product) {
+    public ProductMessage(HttpStatus httpStatus, T products) {
         this.httpStatus = httpStatus;
-        this.product = product;
+        this.products = products;
     }
 
     public HttpStatus getHttpStatus() {
         return httpStatus;
     }
 
-    public T getProduct() {
-        return product;
+    public T getProducts() {
+        return products;
     }
 }

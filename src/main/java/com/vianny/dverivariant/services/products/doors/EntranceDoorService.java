@@ -2,8 +2,7 @@ package com.vianny.dverivariant.services.products.doors;
 
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.EntranceDoor;
-import com.vianny.dverivariant.models.products.doors.InteriorDoor;
-import com.vianny.dverivariant.repositories.products.ProductsRepository;
+import com.vianny.dverivariant.repositories.products.doors.EntranceDoorRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,9 +12,9 @@ import java.util.Optional;
 
 @Service
 public class EntranceDoorService implements AdminCapabilities<EntranceDoor> {
-    private ProductsRepository<EntranceDoor> entranceDoorRepository;
+    private EntranceDoorRepository entranceDoorRepository;
     @Autowired
-    public void setEntranceDoorRepository(ProductsRepository<EntranceDoor> entranceDoorRepository) {
+    public void setEntranceDoorRepository(EntranceDoorRepository entranceDoorRepository) {
         this.entranceDoorRepository = entranceDoorRepository;
     }
 

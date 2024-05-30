@@ -2,7 +2,7 @@ package com.vianny.dverivariant.services.products.others;
 
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.others.Hardware;
-import com.vianny.dverivariant.repositories.products.ProductsRepository;
+import com.vianny.dverivariant.repositories.products.others.HardwareRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,9 +12,9 @@ import java.util.Optional;
 
 @Service
 public class HardwareService implements AdminCapabilities<Hardware> {
-    private ProductsRepository<Hardware> hardwareRepository;
+    private HardwareRepository hardwareRepository;
     @Autowired
-    public void setHardwareRepository(ProductsRepository<Hardware> hardwareRepository) {
+    public void setHardwareRepository(HardwareRepository hardwareRepository) {
         this.hardwareRepository = hardwareRepository;
     }
 
