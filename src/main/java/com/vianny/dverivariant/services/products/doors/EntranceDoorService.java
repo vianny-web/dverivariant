@@ -24,8 +24,6 @@ public class EntranceDoorService implements AdminCapabilities<EntranceDoor> {
                 entranceDoor.getName(),
                 entranceDoor.getDescription(),
                 entranceDoor.getPrice(),
-                urlImage,
-                entranceDoor.getIdImage(),
                 entranceDoor.getInstallationPlace(),
                 entranceDoor.getGlazing(),
                 entranceDoor.getAdditionalProperties()));

@@ -47,10 +47,9 @@ public class AdminEntranceDoorController {
                                                                   AdditionalProperties additionalProperties) {
         try {
             EntranceDoor entranceDoor = new EntranceDoor(name, description, price, installationPlace, glazing, additionalProperties);
-            String urlImage = TypeProducts.ENTRANCE_DOOR + "/" + entranceDoor.getIdImage();
 
-            entranceDoorService.addProduct(entranceDoor, urlImage);
-            fileTransferService.uploadImage(imageFile, urlImage);
+            entranceDoorService.addProduct(entranceDoor, "");
+            fileTransferService.uploadImage(imageFile, entranceDoor.getPathImage());
         }
         catch (Exception e) {
             throw new ServerErrorRequiredException(e.getMessage());
@@ -67,10 +66,10 @@ public class AdminEntranceDoorController {
                                                                   AdditionalProperties additionalProperties) {
         try {
             Optional<EntranceDoor> entranceDoorById = entranceDoorService.findProductByID(id);
-            EntranceDoor entranceDoorNew = new EntranceDoor(entranceDoorById.get().getId(), name, description, price, entranceDoorById.get().getUrlImage(),
-                    entranceDoorById.get().getIdImage(), installationPlace, glazingEntrance, additionalProperties);
+            EntranceDoor entranceDoorNew = new EntranceDoor(entranceDoorById.get().getId(), name, description, price,
+                    installationPlace, glazingEntrance, additionalProperties);
 
-            fileTransferService.uploadImage(imageFile, entranceDoorById.get().getUrlImage());
+            fileTransferService.uploadImage(imageFile, entranceDoorById.get().getPathImage());
             entranceDoorService.updateProduct(entranceDoorNew);
         }
         catch (NotFoundRequiredException e) {
@@ -90,7 +89,7 @@ public class AdminEntranceDoorController {
         try {
             Optional<EntranceDoor> entranceDoorById = entranceDoorService.findProductByID(id);
 
-            minioService.removeObject(entranceDoorById.get().getUrlImage());
+            minioService.removeObject(entranceDoorById.get().getPathImage());
             entranceDoorService.deleteProduct(entranceDoorById.get().getId());
         }
         catch (NotFoundRequiredException e) {

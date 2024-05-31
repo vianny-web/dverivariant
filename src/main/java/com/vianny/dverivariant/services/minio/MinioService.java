@@ -34,10 +34,10 @@ public class MinioService {
         }
     }
 
-    public void removeObject(String urlImage) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public void removeObject(String pathImage) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         RemoveObjectArgs removeObjectArgs = RemoveObjectArgs.builder()
                 .bucket("dveri-images")
-                .object(urlImage)
+                .object(pathImage)
                 .build();
 
         minioConfig.minioClient().removeObject(removeObjectArgs);
