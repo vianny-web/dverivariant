@@ -1,5 +1,6 @@
 package com.vianny.dverivariant.models.products.floors;
 
+import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.floors.quartzvinyl.Base;
 import com.vianny.dverivariant.enums.floors.quartzvinyl.BevelQuartzvinyl;
 import com.vianny.dverivariant.enums.floors.quartzvinyl.InstallationType;
@@ -18,8 +19,10 @@ public class Quartzvinyl {
     private String name;
     private String description;
     private Integer price;
-    private String urlImage;
-    private String idImage = UUID.randomUUID().toString();
+    @Enumerated(value = EnumType.STRING)
+    private String pathImage = TypeProducts.QUARTZVINYL + "/" + UUID.randomUUID();
+    @Enumerated(value = EnumType.STRING)
+    private TypeProducts type = TypeProducts.QUARTZVINYL;
     @Enumerated(value = EnumType.STRING)
     private Base base;
     @Enumerated(value = EnumType.STRING)
@@ -32,25 +35,11 @@ public class Quartzvinyl {
     public Quartzvinyl() {
     }
 
-    public Quartzvinyl(String id, String name, String description, Integer price, String urlImage, String idImage, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl, ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
+    public Quartzvinyl(String id, String name, String description, Integer price, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl, ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.urlImage = urlImage;
-        this.idImage = idImage;
-        this.base = base;
-        this.installationType = installationType;
-        this.bevelQuartzvinyl = bevelQuartzvinyl;
-        this.manufacturerQuartzvinyl = manufacturerQuartzvinyl;
-    }
-
-    public Quartzvinyl(String name, String description, Integer price, String urlImage, String idImage, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl, ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.urlImage = urlImage;
-        this.idImage = idImage;
         this.base = base;
         this.installationType = installationType;
         this.bevelQuartzvinyl = bevelQuartzvinyl;
@@ -99,20 +88,12 @@ public class Quartzvinyl {
         this.price = price;
     }
 
-    public String getUrlImage() {
-        return urlImage;
+    public String getPathImage() {
+        return pathImage;
     }
 
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
-    }
-
-    public String getIdImage() {
-        return idImage;
-    }
-
-    public void setIdImage(String idImage) {
-        this.idImage = idImage;
+    public TypeProducts getType() {
+        return type;
     }
 
     public Base getBase() {

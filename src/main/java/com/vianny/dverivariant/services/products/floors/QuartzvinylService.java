@@ -24,8 +24,6 @@ public class QuartzvinylService implements AdminCapabilities<Quartzvinyl> {
                 quartzvinyl.getName(),
                 quartzvinyl.getDescription(),
                 quartzvinyl.getPrice(),
-                urlImage,
-                quartzvinyl.getIdImage(),
                 quartzvinyl.getBase(),
                 quartzvinyl.getInstallationType(),
                 quartzvinyl.getBevel(),

@@ -48,10 +48,9 @@ public class AdminQuartzvinylController {
                                                                  ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
         try {
             Quartzvinyl quartzvinyl = new Quartzvinyl(name, description, price, base, installationType, bevelQuartzvinyl, manufacturerQuartzvinyl);
-            String urlImage = TypeProducts.QUARTZVINYL + "/" + quartzvinyl.getIdImage();
 
-            quartzvinylService.addProduct(quartzvinyl, urlImage);
-            fileTransferService.uploadImage(imageFile, urlImage);
+            quartzvinylService.addProduct(quartzvinyl, "");
+            fileTransferService.uploadImage(imageFile, quartzvinyl.getPathImage());
         }
         catch (Exception e) {
             throw new ServerErrorRequiredException(e.getMessage());
@@ -68,10 +67,10 @@ public class AdminQuartzvinylController {
                                                                  ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
         try {
             Optional<Quartzvinyl> quartzvinylById = quartzvinylService.findProductByID(id);
-            Quartzvinyl quartzvinylNew = new Quartzvinyl(quartzvinylById.get().getId(), name, description, price, quartzvinylById.get().getUrlImage(),
-                    quartzvinylById.get().getIdImage(), base, installationType, bevelQuartzvinyl, manufacturerQuartzvinyl);
+            Quartzvinyl quartzvinylNew = new Quartzvinyl(quartzvinylById.get().getId(), name, description, price,
+                    base, installationType, bevelQuartzvinyl, manufacturerQuartzvinyl);
 
-            fileTransferService.uploadImage(imageFile, quartzvinylById.get().getUrlImage());
+            fileTransferService.uploadImage(imageFile, quartzvinylById.get().getPathImage());
             quartzvinylService.updateProduct(quartzvinylNew);
         }
         catch (NotFoundRequiredException e) {
@@ -91,7 +90,7 @@ public class AdminQuartzvinylController {
         try {
             Optional<Quartzvinyl> quartzvinylById = quartzvinylService.findProductByID(id);
 
-            minioService.removeObject(quartzvinylById.get().getUrlImage());
+            minioService.removeObject(quartzvinylById.get().getPathImage());
             quartzvinylService.deleteProduct(quartzvinylById.get().getId());
         }
         catch (NotFoundRequiredException e) {
