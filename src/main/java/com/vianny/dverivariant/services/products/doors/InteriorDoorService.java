@@ -1,6 +1,6 @@
 package com.vianny.dverivariant.services.products.doors;
 
-import com.vianny.dverivariant.dto.response.product.ProductDTO;
+import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.InteriorDoor;
@@ -50,9 +50,9 @@ public class InteriorDoorService implements AdminCapabilities<InteriorDoor> {
         return Optional.ofNullable(interiorDoorRepository.findById(id).orElseThrow(() -> new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Товар не найден")));
     }
 
-    public List<ProductDTO> findAll(TypeProducts type) {
+    public List<ProductDetailsDTO> findAll(TypeProducts type) {
         List<InteriorDoor> interiorDoorList = interiorDoorRepository.findByType(type);
-        List<ProductDTO> productDTOList = new ArrayList<>();
+        List<ProductDetailsDTO> productDetailsDTOList = new ArrayList<>();
 
         for (InteriorDoor interiorDoor : interiorDoorList) {
             HashMap<String, String> details = new HashMap<>();
@@ -62,13 +62,13 @@ public class InteriorDoorService implements AdminCapabilities<InteriorDoor> {
             details.put("material", interiorDoor.getMaterial().getDescription());
             details.put("modification", interiorDoor.getModification().getDescription());
 
-            ProductDTO productDTO = new ProductDTO(interiorDoor.getId(), interiorDoor.getName(),
+            ProductDetailsDTO productDetailsDTO = new ProductDetailsDTO(interiorDoor.getId(), interiorDoor.getName(),
                     interiorDoor.getDescription(), interiorDoor.getPrice(), interiorDoor.getUrlImage(),
                     interiorDoor.getIdImage(), type, details);
 
-            productDTOList.add(productDTO);
+            productDetailsDTOList.add(productDetailsDTO);
         }
 
-        return productDTOList;
+        return productDetailsDTOList;
     }
 }

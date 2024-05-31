@@ -7,7 +7,7 @@ import jakarta.persistence.Enumerated;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class ProductDTO {
+public class ProductDetailsDTO {
     private String id;
     private String name;
     private String description;
@@ -18,10 +18,10 @@ public class ProductDTO {
     private TypeProducts typeProduct;
     private HashMap<String, String> details;
 
-    public ProductDTO() {
+    public ProductDetailsDTO() {
     }
 
-    public ProductDTO(String id, String name, String description, Integer price, String urlImage, String idImage, TypeProducts typeProduct, HashMap<String, String> details) {
+    public ProductDetailsDTO(String id, String name, String description, Integer price, String urlImage, String idImage, TypeProducts typeProduct, HashMap<String, String> details) {
         this.id = id;
         this.name = name;
         this.description = description;
