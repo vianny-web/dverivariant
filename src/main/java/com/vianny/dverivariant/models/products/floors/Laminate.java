@@ -21,9 +21,9 @@ public class Laminate {
     private String description;
     private Integer price;
     @Enumerated(value = EnumType.STRING)
-    private String pathImage = TypeProducts.INTERIOR_DOOR + "/" + UUID.randomUUID();
+    private String pathImage = TypeProducts.LAMINATE + "/" + UUID.randomUUID();
     @Enumerated(value = EnumType.STRING)
-    private TypeProducts type = TypeProducts.INTERIOR_DOOR;
+    private TypeProducts type = TypeProducts.LAMINATE;
     @Enumerated(value = EnumType.STRING)
     private ClassType classType;
     @Enumerated(value = EnumType.STRING)

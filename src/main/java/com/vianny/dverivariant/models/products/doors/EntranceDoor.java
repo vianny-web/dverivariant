@@ -19,9 +19,9 @@ public class EntranceDoor {
     private String description;
     private Integer price;
     @Enumerated(value = EnumType.STRING)
-    private String pathImage = TypeProducts.INTERIOR_DOOR + "/" + UUID.randomUUID();
+    private String pathImage = TypeProducts.ENTRANCE_DOOR + "/" + UUID.randomUUID();
     @Enumerated(value = EnumType.STRING)
-    private TypeProducts type = TypeProducts.INTERIOR_DOOR;
+    private TypeProducts type = TypeProducts.ENTRANCE_DOOR;
     @Enumerated(value = EnumType.STRING)
     private InstallationPlace installationPlace;
     @Enumerated(value = EnumType.STRING)
