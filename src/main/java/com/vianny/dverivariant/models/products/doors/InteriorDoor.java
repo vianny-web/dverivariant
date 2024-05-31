@@ -16,8 +16,8 @@ public class InteriorDoor {
     private String name;
     private String description;
     private Integer price;
-    private String urlImage;
-    private String idImage = UUID.randomUUID().toString();
+    @Enumerated(value = EnumType.STRING)
+    private String pathImage = TypeProducts.INTERIOR_DOOR + "/" + UUID.randomUUID();
     @Enumerated(value = EnumType.STRING)
     private TypeProducts type = TypeProducts.INTERIOR_DOOR;
     @Enumerated(value = EnumType.STRING)
@@ -34,26 +34,11 @@ public class InteriorDoor {
     public InteriorDoor() {
     }
 
-    public InteriorDoor(String id, String name, String description, Integer price, String urlImage, String idImage, Material material, GlazingInterior glazing, Modification modification, Construction construction, ManufacturerInterior manufacturer) {
+    public InteriorDoor(String id, String name, String description, Integer price, Material material, GlazingInterior glazing, Modification modification, Construction construction, ManufacturerInterior manufacturer) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.urlImage = urlImage;
-        this.idImage = idImage;
-        this.material = material;
-        this.glazing = glazing;
-        this.modification = modification;
-        this.construction = construction;
-        this.manufacturer = manufacturer;
-    }
-
-    public InteriorDoor(String name, String description, Integer price, String urlImage, String idImage, Material material, GlazingInterior glazing, Modification modification, Construction construction, ManufacturerInterior manufacturer) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.urlImage = urlImage;
-        this.idImage = idImage;
         this.material = material;
         this.glazing = glazing;
         this.modification = modification;
@@ -104,20 +89,8 @@ public class InteriorDoor {
         this.price = price;
     }
 
-    public String getUrlImage() {
-        return urlImage;
-    }
-
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
-    }
-
-    public String getIdImage() {
-        return idImage;
-    }
-
-    public void setType(TypeProducts type) {
-        this.type = type;
+    public String getPathImage() {
+        return pathImage;
     }
 
     public TypeProducts getType() {
