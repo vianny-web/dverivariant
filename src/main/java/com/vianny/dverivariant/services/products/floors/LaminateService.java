@@ -3,8 +3,10 @@ package com.vianny.dverivariant.services.products.floors;
 import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
+import com.vianny.dverivariant.models.products.doors.InteriorDoor;
 import com.vianny.dverivariant.models.products.floors.Laminate;
 import com.vianny.dverivariant.repositories.products.floors.LaminateRepository;
+import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
 import com.vianny.dverivariant.services.products.ProductRetrievalService;
 import io.minio.errors.*;
@@ -15,15 +17,22 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class LaminateService implements AdminCapabilitiesService<Laminate>, ProductRetrievalService<Laminate> {
     private LaminateRepository laminateRepository;
+    private MinioService minioService;
+
     @Autowired
     public void setLaminateRepository(LaminateRepository laminateRepository) {
         this.laminateRepository = laminateRepository;
+    }
+    @Autowired
+    public void setMinioService(MinioService minioService) {
+        this.minioService = minioService;
     }
 
     @Override
@@ -56,6 +65,16 @@ public class LaminateService implements AdminCapabilitiesService<Laminate>, Prod
 
     @Override
     public List<ProductBriefDTO> getAllProductsByType(TypeProducts type) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        return List.of();
+        List<Laminate> laminateList = laminateRepository.findByType(type);
+        List<ProductBriefDTO> productDetailsDTOList = new ArrayList<>();
+
+        for (Laminate laminate : laminateList) {
+            ProductBriefDTO productBriefDTO = new ProductBriefDTO(laminate.getId(), laminate.getName(),
+                    laminate.getPrice(), minioService.createUrlImage(laminate.getPathImage()), type);
+
+            productDetailsDTOList.add(productBriefDTO);
+        }
+
+        return productDetailsDTOList;
     }
 }

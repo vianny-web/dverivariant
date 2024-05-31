@@ -4,7 +4,10 @@ import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.EntranceDoor;
+import com.vianny.dverivariant.models.products.doors.InteriorDoor;
 import com.vianny.dverivariant.repositories.products.doors.EntranceDoorRepository;
+import com.vianny.dverivariant.repositories.products.doors.InteriorDoorRepository;
+import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
 import com.vianny.dverivariant.services.products.ProductRetrievalService;
 import io.minio.errors.*;
@@ -15,15 +18,22 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class EntranceDoorService implements AdminCapabilitiesService<EntranceDoor>, ProductRetrievalService<EntranceDoor> {
     private EntranceDoorRepository entranceDoorRepository;
+    private MinioService minioService;
+
     @Autowired
     public void setEntranceDoorRepository(EntranceDoorRepository entranceDoorRepository) {
         this.entranceDoorRepository = entranceDoorRepository;
+    }
+    @Autowired
+    public void setMinioService(MinioService minioService) {
+        this.minioService = minioService;
     }
 
     @Override
@@ -54,6 +64,16 @@ public class EntranceDoorService implements AdminCapabilitiesService<EntranceDoo
 
     @Override
     public List<ProductBriefDTO> getAllProductsByType(TypeProducts type) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        return List.of();
+        List<EntranceDoor> entranceDoorList = entranceDoorRepository.findByType(type);
+        List<ProductBriefDTO> productDetailsDTOList = new ArrayList<>();
+
+        for (EntranceDoor entranceDoor : entranceDoorList) {
+            ProductBriefDTO productBriefDTO = new ProductBriefDTO(entranceDoor.getId(), entranceDoor.getName(),
+                    entranceDoor.getPrice(), minioService.createUrlImage(entranceDoor.getPathImage()), type);
+
+            productDetailsDTOList.add(productBriefDTO);
+        }
+
+        return productDetailsDTOList;
     }
 }
