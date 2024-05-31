@@ -1,6 +1,7 @@
 package com.vianny.dverivariant.services.products.others;
 
 import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
+import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.floors.Laminate;
@@ -73,5 +74,10 @@ public class HardwareService implements AdminCapabilitiesService<Hardware>, Prod
         }
 
         return productDetailsDTOList;
+    }
+
+    @Override
+    public ProductDetailsDTO getProductById(String id) {
+        return null;
     }
 }

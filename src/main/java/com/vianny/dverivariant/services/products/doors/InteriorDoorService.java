@@ -1,6 +1,7 @@
 package com.vianny.dverivariant.services.products.doors;
 
 import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
+import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.InteriorDoor;
@@ -73,5 +74,20 @@ public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoo
         }
 
         return productDetailsDTOList;
+    }
+
+    @Override
+    public ProductDetailsDTO getProductById(String id) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        Optional<InteriorDoor> interiorDoor = interiorDoorRepository.findById(id);
+        HashMap<String, String> details = new HashMap<>();
+        details.put("construction", interiorDoor.get().getConstruction().getDescription());
+        details.put("glazing", interiorDoor.get().getGlazing().getDescription());
+        details.put("manufacturer", interiorDoor.get().getManufacturer().getDescription());
+        details.put("material", interiorDoor.get().getMaterial().getDescription());
+        details.put("modification", interiorDoor.get().getModification().getDescription());
+
+        return new ProductDetailsDTO(id, interiorDoor.get().getName(),
+                interiorDoor.get().getDescription(), interiorDoor.get().getPrice(), minioService.createUrlImage(interiorDoor.get().getPathImage()),
+                interiorDoor.get().getType(), details);
     }
 }
