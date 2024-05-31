@@ -1,17 +1,25 @@
 package com.vianny.dverivariant.services.products.doors;
 
+import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
+import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.EntranceDoor;
 import com.vianny.dverivariant.repositories.products.doors.EntranceDoorRepository;
-import com.vianny.dverivariant.services.products.AdminCapabilities;
+import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
+import com.vianny.dverivariant.services.products.ProductRetrievalService;
+import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EntranceDoorService implements AdminCapabilities<EntranceDoor> {
+public class EntranceDoorService implements AdminCapabilitiesService<EntranceDoor>, ProductRetrievalService<EntranceDoor> {
     private EntranceDoorRepository entranceDoorRepository;
     @Autowired
     public void setEntranceDoorRepository(EntranceDoorRepository entranceDoorRepository) {
@@ -42,5 +50,10 @@ public class EntranceDoorService implements AdminCapabilities<EntranceDoor> {
     @Override
     public Optional<EntranceDoor> findProductByID(String id) {
         return Optional.ofNullable(entranceDoorRepository.findById(id).orElseThrow(() -> new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Товар не найден")));
+    }
+
+    @Override
+    public List<ProductBriefDTO> getAllProductsByType(TypeProducts type) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        return List.of();
     }
 }

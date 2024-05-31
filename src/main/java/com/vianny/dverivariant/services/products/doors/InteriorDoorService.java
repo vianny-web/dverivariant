@@ -6,7 +6,8 @@ import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredExce
 import com.vianny.dverivariant.models.products.doors.InteriorDoor;
 import com.vianny.dverivariant.repositories.products.doors.InteriorDoorRepository;
 import com.vianny.dverivariant.services.minio.MinioService;
-import com.vianny.dverivariant.services.products.AdminCapabilities;
+import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
+import com.vianny.dverivariant.services.products.ProductRetrievalService;
 import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Service
-public class InteriorDoorService implements AdminCapabilities<InteriorDoor> {
+public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoor>, ProductRetrievalService<InteriorDoor> {
     private InteriorDoorRepository<InteriorDoor> interiorDoorRepository;
     private MinioService minioService;
 
@@ -59,7 +60,8 @@ public class InteriorDoorService implements AdminCapabilities<InteriorDoor> {
         return Optional.ofNullable(interiorDoorRepository.findById(id).orElseThrow(() -> new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Товар не найден")));
     }
 
-    public List<ProductBriefDTO> findAll(TypeProducts type) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    @Override
+    public List<ProductBriefDTO> getAllProductsByType(TypeProducts type) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         List<InteriorDoor> interiorDoorList = interiorDoorRepository.findByType(type);
         List<ProductBriefDTO> productDetailsDTOList = new ArrayList<>();
 
