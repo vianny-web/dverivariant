@@ -116,6 +116,10 @@ public class InteriorDoor {
         return idImage;
     }
 
+    public void setType(TypeProducts type) {
+        this.type = type;
+    }
+
     public TypeProducts getType() {
         return type;
     }

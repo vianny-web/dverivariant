@@ -1,5 +1,6 @@
 package com.vianny.dverivariant.controllers.user.doors;
 
+import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.dto.response.message.ProductMessage;
 import com.vianny.dverivariant.enums.TypeProducts;
@@ -24,10 +25,10 @@ public class InteriorDoorController {
     }
 
     @GetMapping("/category/interior-door/all")
-    public ResponseEntity<ProductMessage<List<ProductDetailsDTO>>> getAllProducts() {
+    public ResponseEntity<ProductMessage<List<ProductBriefDTO>>> getAllProducts() {
         try {
-            List<ProductDetailsDTO> productDetailsDTOList = interiorDoorService.findAll(TypeProducts.INTERIOR_DOOR);
-            ProductMessage<List<ProductDetailsDTO>> dataObject = new ProductMessage<>(HttpStatus.FOUND, productDetailsDTOList);
+            List<ProductBriefDTO> productBriefDTOS = interiorDoorService.findAll(TypeProducts.INTERIOR_DOOR);
+            ProductMessage<List<ProductBriefDTO>> dataObject = new ProductMessage<>(HttpStatus.FOUND, productBriefDTOS);
             return new ResponseEntity<>(dataObject,HttpStatus.OK);
         }
         catch (Exception e) {
