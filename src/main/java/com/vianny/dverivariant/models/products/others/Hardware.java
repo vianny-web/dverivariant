@@ -1,5 +1,6 @@
 package com.vianny.dverivariant.models.products.others;
 
+import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.others.HardwareType;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,30 +16,21 @@ public class Hardware {
     private String name;
     private String description;
     private Integer price;
-    private String urlImage;
-    private String idImage = UUID.randomUUID().toString();
+    @Enumerated(value = EnumType.STRING)
+    private String pathImage = TypeProducts.HARDWARE + "/" + UUID.randomUUID();
+    @Enumerated(value = EnumType.STRING)
+    private TypeProducts type = TypeProducts.HARDWARE;
     @Enumerated(value = EnumType.STRING)
     private HardwareType hardwareType;
 
     public Hardware() {
     }
 
-    public Hardware(String id, String name, String description, Integer price, String urlImage, String idImage, HardwareType hardwareType) {
+    public Hardware(String id, String name, String description, Integer price, HardwareType hardwareType) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.urlImage = urlImage;
-        this.idImage = idImage;
-        this.hardwareType = hardwareType;
-    }
-
-    public Hardware(String name, String description, Integer price, String urlImage, String idImage, HardwareType hardwareType) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.urlImage = urlImage;
-        this.idImage = idImage;
         this.hardwareType = hardwareType;
     }
 
@@ -81,20 +73,12 @@ public class Hardware {
         this.price = price;
     }
 
-    public String getUrlImage() {
-        return urlImage;
+    public String getPathImage() {
+        return pathImage;
     }
 
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
-    }
-
-    public String getIdImage() {
-        return idImage;
-    }
-
-    public void setIdImage(String idImage) {
-        this.idImage = idImage;
+    public TypeProducts getType() {
+        return type;
     }
 
     public HardwareType getHardwareType() {

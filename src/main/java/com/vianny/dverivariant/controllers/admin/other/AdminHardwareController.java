@@ -44,10 +44,9 @@ public class AdminHardwareController {
                                                               Integer price, HardwareType hardwareType) {
         try {
             Hardware hardware = new Hardware(name, description, price, hardwareType);
-            String urlImage = TypeProducts.HARDWARE + "/" + hardware.getIdImage();
 
-            hardwareService.addProduct(hardware, urlImage);
-            fileTransferService.uploadImage(imageFile, urlImage);
+            hardwareService.addProduct(hardware, "");
+            fileTransferService.uploadImage(imageFile, hardware.getPathImage());
         }
         catch (Exception e) {
             throw new ServerErrorRequiredException(e.getMessage());
@@ -63,10 +62,9 @@ public class AdminHardwareController {
                                                                   Integer price, HardwareType hardwareType) {
         try {
             Optional<Hardware> hardwareById = hardwareService.findProductByID(id);
-            Hardware hardwareNew = new Hardware(hardwareById.get().getId(), name, description, price, hardwareById.get().getUrlImage(),
-                    hardwareById.get().getIdImage(), hardwareType);
+            Hardware hardwareNew = new Hardware(hardwareById.get().getId(), name, description, price, hardwareType);
 
-            fileTransferService.uploadImage(imageFile, hardwareById.get().getUrlImage());
+            fileTransferService.uploadImage(imageFile, hardwareById.get().getPathImage());
             hardwareService.updateProduct(hardwareNew);
         }
         catch (NotFoundRequiredException e) {
@@ -86,7 +84,7 @@ public class AdminHardwareController {
         try {
             Optional<Hardware> hardwareById = hardwareService.findProductByID(id);
 
-            minioService.removeObject(hardwareById.get().getUrlImage());
+            minioService.removeObject(hardwareById.get().getPathImage());
             hardwareService.deleteProduct(hardwareById.get().getId());
         }
         catch (NotFoundRequiredException e) {

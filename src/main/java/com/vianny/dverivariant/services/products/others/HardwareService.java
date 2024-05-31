@@ -24,8 +24,6 @@ public class HardwareService implements AdminCapabilities<Hardware> {
                 hardware.getName(),
                 hardware.getDescription(),
                 hardware.getPrice(),
-                urlImage,
-                hardware.getIdImage(),
                 hardware.getHardwareType()
         ));
     }
