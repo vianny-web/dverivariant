@@ -1,7 +1,9 @@
 package com.vianny.dverivariant.controllers.user.doors;
 
+import com.vianny.dverivariant.controllers.user.ProductRetrievalController;
 import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.dto.response.message.ProductMessage;
+import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
@@ -16,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/catalog")
-public class InteriorDoorController {
+public class InteriorDoorController implements ProductRetrievalController {
     private InteriorDoorService interiorDoorService;
     @Autowired
     public void setInteriorDoorService(InteriorDoorService interiorDoorService) {
@@ -29,6 +31,16 @@ public class InteriorDoorController {
             List<ProductBriefDTO> productBriefDTOS = interiorDoorService.getAllProductsByType(TypeProducts.INTERIOR_DOOR);
             ProductMessage<List<ProductBriefDTO>> dataObject = new ProductMessage<>(HttpStatus.FOUND, productBriefDTOS);
             return new ResponseEntity<>(dataObject,HttpStatus.OK);
+        }
+        catch (Exception e) {
+            throw new ServerErrorRequiredException(e.getMessage());
+        }
+    }
+
+    @Override
+    public ResponseEntity<ProductDetailsDTO> getProduct(String id) {
+        try {
+            interiorDoorService.getProductById(id);
         }
         catch (Exception e) {
             throw new ServerErrorRequiredException(e.getMessage());
