@@ -57,7 +57,7 @@ public class InteriorDoorService implements AdminCapabilities<InteriorDoor> {
         for (InteriorDoor interiorDoor : interiorDoorList) {
             HashMap<String, String> details = new HashMap<>();
             details.put("construction", interiorDoor.getConstruction().getDescription());
-            details.put("glazing", interiorDoor.getGlazing().toString());
+            details.put("glazing", interiorDoor.getGlazing().getDescription());
             details.put("manufacturer", interiorDoor.getManufacturer().getDescription());
             details.put("material", interiorDoor.getMaterial().getDescription());
             details.put("modification", interiorDoor.getModification().getDescription());
