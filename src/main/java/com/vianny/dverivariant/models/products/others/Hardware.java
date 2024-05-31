@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.UUID;
 
-@Document("others")
+@Document("products")
 public class Hardware {
     @Id
     private String id;

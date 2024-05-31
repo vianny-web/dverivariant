@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.UUID;
 
-@Document("floors")
+@Document("products")
 public class Quartzvinyl {
     @Id
     private String id;

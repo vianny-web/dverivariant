@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.UUID;
 
-@Document("doors")
+@Document("products")
 public class InteriorDoor {
     @Id
     private String id;
