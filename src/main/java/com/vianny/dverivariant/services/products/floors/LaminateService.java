@@ -19,7 +19,7 @@ public class LaminateService implements AdminCapabilities<Laminate> {
     }
 
     @Override
-    public void addProduct(Laminate laminate, String urlImage) {
+    public void addProduct(Laminate laminate) {
         laminateRepository.save(new Laminate(
                 laminate.getName(),
                 laminate.getDescription(),

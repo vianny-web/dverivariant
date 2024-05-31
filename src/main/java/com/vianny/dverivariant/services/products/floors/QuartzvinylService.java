@@ -19,7 +19,7 @@ public class QuartzvinylService implements AdminCapabilities<Quartzvinyl> {
     }
 
     @Override
-    public void addProduct(Quartzvinyl quartzvinyl, String urlImage) {
+    public void addProduct(Quartzvinyl quartzvinyl) {
         quartzvinylRepository.save(new Quartzvinyl(
                 quartzvinyl.getName(),
                 quartzvinyl.getDescription(),

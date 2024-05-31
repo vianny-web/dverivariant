@@ -48,7 +48,7 @@ public class AdminEntranceDoorController {
         try {
             EntranceDoor entranceDoor = new EntranceDoor(name, description, price, installationPlace, glazing, additionalProperties);
 
-            entranceDoorService.addProduct(entranceDoor, "");
+            entranceDoorService.addProduct(entranceDoor);
             fileTransferService.uploadImage(imageFile, entranceDoor.getPathImage());
         }
         catch (Exception e) {

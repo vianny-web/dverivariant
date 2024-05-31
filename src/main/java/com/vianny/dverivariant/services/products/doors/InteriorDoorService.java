@@ -32,7 +32,7 @@ public class InteriorDoorService implements AdminCapabilities<InteriorDoor> {
     }
 
     @Override
-    public void addProduct(InteriorDoor interiorDoor, String urlImage) {
+    public void addProduct(InteriorDoor interiorDoor) {
         interiorDoorRepository.save(new InteriorDoor(
                 interiorDoor.getName(),
                 interiorDoor.getDescription(),

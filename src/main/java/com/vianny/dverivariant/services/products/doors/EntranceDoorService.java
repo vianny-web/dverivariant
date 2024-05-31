@@ -19,7 +19,7 @@ public class EntranceDoorService implements AdminCapabilities<EntranceDoor> {
     }
 
     @Override
-    public void addProduct(EntranceDoor entranceDoor, String urlImage) {
+    public void addProduct(EntranceDoor entranceDoor) {
         entranceDoorRepository.save(new EntranceDoor(
                 entranceDoor.getName(),
                 entranceDoor.getDescription(),

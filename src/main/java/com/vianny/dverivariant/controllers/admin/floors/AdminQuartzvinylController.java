@@ -49,7 +49,7 @@ public class AdminQuartzvinylController {
         try {
             Quartzvinyl quartzvinyl = new Quartzvinyl(name, description, price, base, installationType, bevelQuartzvinyl, manufacturerQuartzvinyl);
 
-            quartzvinylService.addProduct(quartzvinyl, "");
+            quartzvinylService.addProduct(quartzvinyl);
             fileTransferService.uploadImage(imageFile, quartzvinyl.getPathImage());
         }
         catch (Exception e) {

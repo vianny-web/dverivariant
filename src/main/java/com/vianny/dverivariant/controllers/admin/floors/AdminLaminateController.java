@@ -46,7 +46,7 @@ public class AdminLaminateController {
         try {
             Laminate laminate = new Laminate(name, description, price, classType, thickness, waterResistance, bevelLaminate, countryOfOrigin);
 
-            laminateService.addProduct(laminate, "");
+            laminateService.addProduct(laminate);
             fileTransferService.uploadImage(imageFile, laminate.getPathImage());
         }
         catch (Exception e) {

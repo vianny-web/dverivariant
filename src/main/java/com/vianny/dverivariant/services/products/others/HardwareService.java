@@ -19,7 +19,7 @@ public class HardwareService implements AdminCapabilities<Hardware> {
     }
 
     @Override
-    public void addProduct(Hardware hardware, String urlImage) {
+    public void addProduct(Hardware hardware) {
         hardwareRepository.save(new Hardware(
                 hardware.getName(),
                 hardware.getDescription(),

@@ -45,7 +45,7 @@ public class AdminHardwareController {
         try {
             Hardware hardware = new Hardware(name, description, price, hardwareType);
 
-            hardwareService.addProduct(hardware, "");
+            hardwareService.addProduct(hardware);
             fileTransferService.uploadImage(imageFile, hardware.getPathImage());
         }
         catch (Exception e) {

@@ -46,7 +46,7 @@ public class AdminInteriorDoorController {
         try {
             InteriorDoor interiorDoor = new InteriorDoor(name, description, price, material, glazing, modification, construction, manufacturer);
 
-            interiorDoorService.addProduct(interiorDoor, "");
+            interiorDoorService.addProduct(interiorDoor);
             fileTransferService.uploadImage(imageFile, interiorDoor.getPathImage());
         }
         catch (Exception e) {
