@@ -45,10 +45,9 @@ public class AdminLaminateController {
                                                               CountryOfOrigin countryOfOrigin) {
         try {
             Laminate laminate = new Laminate(name, description, price, classType, thickness, waterResistance, bevelLaminate, countryOfOrigin);
-            String urlImage = TypeProducts.LAMINATE + "/" + laminate.getIdImage();
 
-            laminateService.addProduct(laminate, urlImage);
-            fileTransferService.uploadImage(imageFile, urlImage);
+            laminateService.addProduct(laminate, "");
+            fileTransferService.uploadImage(imageFile, laminate.getPathImage());
         }
         catch (Exception e) {
             throw new ServerErrorRequiredException(e.getMessage());
@@ -65,10 +64,10 @@ public class AdminLaminateController {
                                                               CountryOfOrigin countryOfOrigin) {
         try {
             Optional<Laminate> laminateById = laminateService.findProductByID(id);
-            Laminate laminateNew = new Laminate(laminateById.get().getId(), name, description, price, laminateById.get().getUrlImage(),
-                    laminateById.get().getIdImage(), classType, thickness, waterResistance, bevelLaminate, countryOfOrigin);
+            Laminate laminateNew = new Laminate(laminateById.get().getId(), name, description, price,
+                    classType, thickness, waterResistance, bevelLaminate, countryOfOrigin);
 
-            fileTransferService.uploadImage(imageFile, laminateById.get().getUrlImage());
+            fileTransferService.uploadImage(imageFile, laminateById.get().getPathImage());
             laminateService.updateProduct(laminateNew);
         }
         catch (NotFoundRequiredException e) {
@@ -88,7 +87,7 @@ public class AdminLaminateController {
         try {
             Optional<Laminate> laminateById = laminateService.findProductByID(id);
 
-            minioService.removeObject(laminateById.get().getUrlImage());
+            minioService.removeObject(laminateById.get().getPathImage());
             laminateService.deleteProduct(laminateById.get().getId());
         }
         catch (NotFoundRequiredException e) {

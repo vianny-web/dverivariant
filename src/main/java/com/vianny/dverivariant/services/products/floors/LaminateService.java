@@ -24,8 +24,6 @@ public class LaminateService implements AdminCapabilities<Laminate> {
                 laminate.getName(),
                 laminate.getDescription(),
                 laminate.getPrice(),
-                urlImage,
-                laminate.getIdImage(),
                 laminate.getClassType(),
                 laminate.getThickness(),
                 laminate.getWaterResistance(),

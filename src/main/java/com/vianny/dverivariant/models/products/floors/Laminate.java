@@ -1,5 +1,6 @@
 package com.vianny.dverivariant.models.products.floors;
 
+import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.floors.laminate.BevelLaminate;
 import com.vianny.dverivariant.enums.floors.laminate.ClassType;
 import com.vianny.dverivariant.enums.floors.laminate.CountryOfOrigin;
@@ -19,8 +20,10 @@ public class Laminate {
     private String name;
     private String description;
     private Integer price;
-    private String urlImage;
-    private String idImage = UUID.randomUUID().toString();
+    @Enumerated(value = EnumType.STRING)
+    private String pathImage = TypeProducts.INTERIOR_DOOR + "/" + UUID.randomUUID();
+    @Enumerated(value = EnumType.STRING)
+    private TypeProducts type = TypeProducts.INTERIOR_DOOR;
     @Enumerated(value = EnumType.STRING)
     private ClassType classType;
     @Enumerated(value = EnumType.STRING)
@@ -35,26 +38,11 @@ public class Laminate {
     public Laminate() {
     }
 
-    public Laminate(String id, String name, String description, Integer price, String urlImage, String idImage, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate, CountryOfOrigin countryOfOrigin) {
+    public Laminate(String id, String name, String description, Integer price, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate, CountryOfOrigin countryOfOrigin) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.urlImage = urlImage;
-        this.idImage = idImage;
-        this.classType = classType;
-        this.thickness = thickness;
-        this.waterResistance = waterResistance;
-        this.bevelLaminate = bevelLaminate;
-        this.countryOfOrigin = countryOfOrigin;
-    }
-
-    public Laminate(String name, String description, Integer price, String urlImage, String idImage, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate, CountryOfOrigin countryOfOrigin) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.urlImage = urlImage;
-        this.idImage = idImage;
         this.classType = classType;
         this.thickness = thickness;
         this.waterResistance = waterResistance;
@@ -105,20 +93,12 @@ public class Laminate {
         this.price = price;
     }
 
-    public String getUrlImage() {
-        return urlImage;
+    public String getPathImage() {
+        return pathImage;
     }
 
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
-    }
-
-    public String getIdImage() {
-        return idImage;
-    }
-
-    public void setIdImage(String idImage) {
-        this.idImage = idImage;
+    public TypeProducts getType() {
+        return type;
     }
 
     public ClassType getClassType() {
