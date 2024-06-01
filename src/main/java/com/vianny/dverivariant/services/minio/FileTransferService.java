@@ -1,9 +1,13 @@
 package com.vianny.dverivariant.services.minio;
 
 import com.vianny.dverivariant.config.MinioConfig;
+import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
+import io.minio.GetObjectArgs;
 import io.minio.PutObjectArgs;
 import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,5 +40,20 @@ public class FileTransferService {
                         .build());
             }
         }
+    }
+    public InputStreamResource downloadFile(String pathUrl) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        InputStream fileStream;
+        try {
+            fileStream = minioConfig.minioClient().getObject(
+                    GetObjectArgs.builder()
+                            .bucket("dveri-images")
+                            .object(pathUrl)
+                            .build()
+            );
+        } catch (ErrorResponseException e) {
+            throw new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Файл не найден");
+        }
+
+        return new InputStreamResource(fileStream);
     }
 }
