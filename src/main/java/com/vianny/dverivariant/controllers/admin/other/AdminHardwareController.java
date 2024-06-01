@@ -1,12 +1,11 @@
 package com.vianny.dverivariant.controllers.admin.other;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
-import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.others.HardwareType;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.models.products.others.Hardware;
-import com.vianny.dverivariant.services.minio.FileTransferService;
+import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.others.HardwareService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import java.util.Optional;
 @RequestMapping("/adm")
 public class AdminHardwareController {
     private HardwareService hardwareService;
-    private FileTransferService fileTransferService;
+    private ImageTransferService imageTransferService;
     private MinioService minioService;
 
     @Autowired
@@ -30,8 +29,8 @@ public class AdminHardwareController {
         this.hardwareService = hardwareService;
     }
     @Autowired
-    public void setFileTransferService(FileTransferService fileTransferService) {
-        this.fileTransferService = fileTransferService;
+    public void setFileTransferService(ImageTransferService imageTransferService) {
+        this.imageTransferService = imageTransferService;
     }
     @Autowired
     public void setMinioService(MinioService minioService) {
@@ -46,7 +45,7 @@ public class AdminHardwareController {
             Hardware hardware = new Hardware(name, description, price, hardwareType);
 
             hardwareService.addProduct(hardware);
-            fileTransferService.uploadImage(imageFile, hardware.getPathImage());
+            imageTransferService.uploadImage(imageFile, hardware.getPathImage());
         }
         catch (Exception e) {
             throw new ServerErrorRequiredException(e.getMessage());
@@ -64,7 +63,7 @@ public class AdminHardwareController {
             Optional<Hardware> hardwareById = hardwareService.findProductByID(id);
             Hardware hardwareNew = new Hardware(hardwareById.get().getId(), name, description, price, hardwareType);
 
-            fileTransferService.uploadImage(imageFile, hardwareById.get().getPathImage());
+            imageTransferService.uploadImage(imageFile, hardwareById.get().getPathImage());
             hardwareService.updateProduct(hardwareNew);
         }
         catch (NotFoundRequiredException e) {

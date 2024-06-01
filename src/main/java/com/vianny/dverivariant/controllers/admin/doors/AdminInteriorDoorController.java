@@ -1,13 +1,12 @@
 package com.vianny.dverivariant.controllers.admin.doors;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
-import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.doors.interior.*;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.models.products.doors.InteriorDoor;
 import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
-import com.vianny.dverivariant.services.minio.FileTransferService;
+import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,7 @@ import java.util.Optional;
 @RequestMapping("/adm")
 public class AdminInteriorDoorController {
     private InteriorDoorService interiorDoorService;
-    private FileTransferService fileTransferService;
+    private ImageTransferService imageTransferService;
     private MinioService minioService;
 
     @Autowired
@@ -30,8 +29,8 @@ public class AdminInteriorDoorController {
         this.interiorDoorService = interiorDoorService;
     }
     @Autowired
-    public void setFileTransferService(FileTransferService fileTransferService) {
-        this.fileTransferService = fileTransferService;
+    public void setFileTransferService(ImageTransferService imageTransferService) {
+        this.imageTransferService = imageTransferService;
     }
     @Autowired
     public void setMinioService(MinioService minioService) {
@@ -47,7 +46,7 @@ public class AdminInteriorDoorController {
             InteriorDoor interiorDoor = new InteriorDoor(name, description, price, material, glazing, modification, construction, manufacturer);
 
             interiorDoorService.addProduct(interiorDoor);
-            fileTransferService.uploadImage(imageFile, interiorDoor.getPathImage());
+            imageTransferService.uploadImage(imageFile, interiorDoor.getPathImage());
         }
         catch (Exception e) {
             throw new ServerErrorRequiredException(e.getMessage());
@@ -66,7 +65,7 @@ public class AdminInteriorDoorController {
             Optional<InteriorDoor> interiorDoorById = interiorDoorService.findProductByID(id);
             InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), name, description, price, material, glazing, modification, construction, manufacturer);
 
-            fileTransferService.uploadImage(imageFile, interiorDoorById.get().getPathImage());
+            imageTransferService.uploadImage(imageFile, interiorDoorById.get().getPathImage());
             interiorDoorService.updateProduct(interiorDoorNew);
         }
         catch (NotFoundRequiredException e) {

@@ -17,7 +17,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 @Service
-public class FileTransferService {
+public class ImageTransferService {
     private MinioConfig minioConfig;
     @Autowired
     public void setMinioConfig(MinioConfig minioConfig) {
@@ -41,13 +41,13 @@ public class FileTransferService {
             }
         }
     }
-    public InputStreamResource downloadFile(String pathUrl) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public InputStreamResource downloadFile(String path) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         InputStream fileStream;
         try {
             fileStream = minioConfig.minioClient().getObject(
                     GetObjectArgs.builder()
                             .bucket("dveri-images")
-                            .object(pathUrl)
+                            .object(path)
                             .build()
             );
         } catch (ErrorResponseException e) {

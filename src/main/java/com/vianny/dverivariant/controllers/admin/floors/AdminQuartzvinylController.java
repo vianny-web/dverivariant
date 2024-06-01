@@ -1,7 +1,6 @@
 package com.vianny.dverivariant.controllers.admin.floors;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
-import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.floors.quartzvinyl.Base;
 import com.vianny.dverivariant.enums.floors.quartzvinyl.BevelQuartzvinyl;
 import com.vianny.dverivariant.enums.floors.quartzvinyl.InstallationType;
@@ -9,7 +8,7 @@ import com.vianny.dverivariant.enums.floors.quartzvinyl.ManufacturerQuartzvinyl;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.models.products.floors.Quartzvinyl;
-import com.vianny.dverivariant.services.minio.FileTransferService;
+import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.floors.QuartzvinylService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ import java.util.Optional;
 @RequestMapping("/adm")
 public class AdminQuartzvinylController {
     private QuartzvinylService quartzvinylService;
-    private FileTransferService fileTransferService;
+    private ImageTransferService imageTransferService;
     private MinioService minioService;
 
     @Autowired
@@ -33,8 +32,8 @@ public class AdminQuartzvinylController {
         this.quartzvinylService = quartzvinylService;
     }
     @Autowired
-    public void setFileTransferService(FileTransferService fileTransferService) {
-        this.fileTransferService = fileTransferService;
+    public void setFileTransferService(ImageTransferService imageTransferService) {
+        this.imageTransferService = imageTransferService;
     }
     @Autowired
     public void setMinioService(MinioService minioService) {
@@ -50,7 +49,7 @@ public class AdminQuartzvinylController {
             Quartzvinyl quartzvinyl = new Quartzvinyl(name, description, price, base, installationType, bevel, manufacturer);
 
             quartzvinylService.addProduct(quartzvinyl);
-            fileTransferService.uploadImage(imageFile, quartzvinyl.getPathImage());
+            imageTransferService.uploadImage(imageFile, quartzvinyl.getPathImage());
         }
         catch (Exception e) {
             throw new ServerErrorRequiredException(e.getMessage());
@@ -70,7 +69,7 @@ public class AdminQuartzvinylController {
             Quartzvinyl quartzvinylNew = new Quartzvinyl(quartzvinylById.get().getId(), name, description, price,
                     base, installationType, bevel, manufacturer);
 
-            fileTransferService.uploadImage(imageFile, quartzvinylById.get().getPathImage());
+            imageTransferService.uploadImage(imageFile, quartzvinylById.get().getPathImage());
             quartzvinylService.updateProduct(quartzvinylNew);
         }
         catch (NotFoundRequiredException e) {

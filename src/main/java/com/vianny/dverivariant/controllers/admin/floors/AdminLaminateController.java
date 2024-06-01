@@ -1,12 +1,11 @@
 package com.vianny.dverivariant.controllers.admin.floors;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
-import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.floors.laminate.*;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.models.products.floors.Laminate;
-import com.vianny.dverivariant.services.minio.FileTransferService;
+import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.floors.LaminateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import java.util.Optional;
 @RequestMapping("/adm")
 public class AdminLaminateController {
     private LaminateService laminateService;
-    private FileTransferService fileTransferService;
+    private ImageTransferService imageTransferService;
     private MinioService minioService;
 
     @Autowired
@@ -30,8 +29,8 @@ public class AdminLaminateController {
         this.laminateService = laminateService;
     }
     @Autowired
-    public void setFileTransferService(FileTransferService fileTransferService) {
-        this.fileTransferService = fileTransferService;
+    public void setFileTransferService(ImageTransferService imageTransferService) {
+        this.imageTransferService = imageTransferService;
     }
     @Autowired
     public void setMinioService(MinioService minioService) {
@@ -47,7 +46,7 @@ public class AdminLaminateController {
             Laminate laminate = new Laminate(name, description, price, classType, thickness, waterResistance, bevelLaminate, countryOfOrigin);
 
             laminateService.addProduct(laminate);
-            fileTransferService.uploadImage(imageFile, laminate.getPathImage());
+            imageTransferService.uploadImage(imageFile, laminate.getPathImage());
         }
         catch (Exception e) {
             throw new ServerErrorRequiredException(e.getMessage());
@@ -67,7 +66,7 @@ public class AdminLaminateController {
             Laminate laminateNew = new Laminate(laminateById.get().getId(), name, description, price,
                     classType, thickness, waterResistance, bevelLaminate, countryOfOrigin);
 
-            fileTransferService.uploadImage(imageFile, laminateById.get().getPathImage());
+            imageTransferService.uploadImage(imageFile, laminateById.get().getPathImage());
             laminateService.updateProduct(laminateNew);
         }
         catch (NotFoundRequiredException e) {

@@ -1,14 +1,13 @@
 package com.vianny.dverivariant.controllers.admin.doors;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
-import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.doors.entrance.AdditionalProperties;
 import com.vianny.dverivariant.enums.doors.entrance.GlazingEntrance;
 import com.vianny.dverivariant.enums.doors.entrance.InstallationPlace;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.models.products.doors.EntranceDoor;
-import com.vianny.dverivariant.services.minio.FileTransferService;
+import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.doors.EntranceDoorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import java.util.Optional;
 @RequestMapping("/adm")
 public class AdminEntranceDoorController {
     private EntranceDoorService entranceDoorService;
-    private FileTransferService fileTransferService;
+    private ImageTransferService imageTransferService;
     private MinioService minioService;
 
     @Autowired
@@ -32,8 +31,8 @@ public class AdminEntranceDoorController {
         this.entranceDoorService = entranceDoorService;
     }
     @Autowired
-    public void setFileTransferService(FileTransferService fileTransferService) {
-        this.fileTransferService = fileTransferService;
+    public void setFileTransferService(ImageTransferService imageTransferService) {
+        this.imageTransferService = imageTransferService;
     }
     @Autowired
     public void setMinioService(MinioService minioService) {
@@ -49,7 +48,7 @@ public class AdminEntranceDoorController {
             EntranceDoor entranceDoor = new EntranceDoor(name, description, price, installationPlace, glazing, additionalProperties);
 
             entranceDoorService.addProduct(entranceDoor);
-            fileTransferService.uploadImage(imageFile, entranceDoor.getPathImage());
+            imageTransferService.uploadImage(imageFile, entranceDoor.getPathImage());
         }
         catch (Exception e) {
             throw new ServerErrorRequiredException(e.getMessage());
@@ -69,7 +68,7 @@ public class AdminEntranceDoorController {
             EntranceDoor entranceDoorNew = new EntranceDoor(entranceDoorById.get().getId(), name, description, price,
                     installationPlace, glazing, additionalProperties);
 
-            fileTransferService.uploadImage(imageFile, entranceDoorById.get().getPathImage());
+            imageTransferService.uploadImage(imageFile, entranceDoorById.get().getPathImage());
             entranceDoorService.updateProduct(entranceDoorNew);
         }
         catch (NotFoundRequiredException e) {
