@@ -19,8 +19,14 @@ public class JwtCore {
 
     public String generateToken(Authentication authentication) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        return Jwts.builder().setSubject((userDetails.getUsername())).setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + lifetime))
+//        return Jwts.builder().setSubject((userDetails.getUsername())).setIssuedAt(new Date())
+//                .setExpiration(new Date((new Date()).getTime() + lifetime))
+//                .signWith(SignatureAlgorithm.HS256, secret)
+//                .compact();
+        // DEV CONFIG !
+        return Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
