@@ -21,18 +21,20 @@ public class FileTransferService {
     }
 
     public void uploadImage(MultipartFile imageFile, String pathImage) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        String contentType = imageFile.getContentType();
-        if (contentType == null || !contentType.startsWith("image/")) {
-            throw new IllegalArgumentException("Файл не является изображением. Загрузка не удалась.");
-        }
+        if (!imageFile.isEmpty()) {
+            String contentType = imageFile.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                throw new IllegalArgumentException("Файл не является изображением. Загрузка не удалась.");
+            }
 
-        try (InputStream inputStream = imageFile.getInputStream()) {
-            minioConfig.minioClient().putObject(PutObjectArgs.builder()
-                    .bucket("dveri-images")
-                    .object(pathImage)
-                    .stream(inputStream, imageFile.getSize(), -1)
-                    .contentType(contentType)
-                    .build());
+            try (InputStream inputStream = imageFile.getInputStream()) {
+                minioConfig.minioClient().putObject(PutObjectArgs.builder()
+                        .bucket("dveri-images")
+                        .object(pathImage)
+                        .stream(inputStream, imageFile.getSize(), -1)
+                        .contentType(contentType)
+                        .build());
+            }
         }
     }
 }
