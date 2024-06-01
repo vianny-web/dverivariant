@@ -60,11 +60,11 @@ public class AdminInteriorDoorController {
     @PutMapping("/interior-door")
     @Transactional
     public ResponseEntity<ResponseMainMessage> updateInteriorDoor(@RequestParam MultipartFile imageFile, String id, String name, String description,
-                                                                  Integer price, Material material, GlazingInterior glazingInterior, Modification modification,
-                                                                  Construction construction, ManufacturerInterior manufacturerInterior) {
+                                                                  Integer price, Material material, GlazingInterior glazing, Modification modification,
+                                                                  Construction construction, ManufacturerInterior manufacturer) {
         try {
             Optional<InteriorDoor> interiorDoorById = interiorDoorService.findProductByID(id);
-            InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), name, description, price, material, glazingInterior, modification, construction, manufacturerInterior);
+            InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), name, description, price, material, glazing, modification, construction, manufacturer);
 
             fileTransferService.uploadImage(imageFile, interiorDoorById.get().getPathImage());
             interiorDoorService.updateProduct(interiorDoorNew);

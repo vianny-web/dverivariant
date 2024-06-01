@@ -62,12 +62,12 @@ public class AdminEntranceDoorController {
     @PutMapping("/entrance-door")
     @Transactional
     public ResponseEntity<ResponseMainMessage> updateEntranceDoor(@RequestParam MultipartFile imageFile, String id, String name, String description,
-                                                                  Integer price, InstallationPlace installationPlace, GlazingEntrance glazingEntrance,
+                                                                  Integer price, InstallationPlace installationPlace, GlazingEntrance glazing,
                                                                   AdditionalProperties additionalProperties) {
         try {
             Optional<EntranceDoor> entranceDoorById = entranceDoorService.findProductByID(id);
             EntranceDoor entranceDoorNew = new EntranceDoor(entranceDoorById.get().getId(), name, description, price,
-                    installationPlace, glazingEntrance, additionalProperties);
+                    installationPlace, glazing, additionalProperties);
 
             fileTransferService.uploadImage(imageFile, entranceDoorById.get().getPathImage());
             entranceDoorService.updateProduct(entranceDoorNew);

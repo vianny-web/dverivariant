@@ -44,10 +44,10 @@ public class AdminQuartzvinylController {
     @PostMapping("/quartzvinyl")
     @Transactional
     public ResponseEntity<ResponseMainMessage> createQuartzvinyl(@RequestParam MultipartFile imageFile, String name, String description,
-                                                                 Integer price, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl,
-                                                                 ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
+                                                                 Integer price, Base base, InstallationType installationType, BevelQuartzvinyl bevel,
+                                                                 ManufacturerQuartzvinyl manufacturer) {
         try {
-            Quartzvinyl quartzvinyl = new Quartzvinyl(name, description, price, base, installationType, bevelQuartzvinyl, manufacturerQuartzvinyl);
+            Quartzvinyl quartzvinyl = new Quartzvinyl(name, description, price, base, installationType, bevel, manufacturer);
 
             quartzvinylService.addProduct(quartzvinyl);
             fileTransferService.uploadImage(imageFile, quartzvinyl.getPathImage());
@@ -63,12 +63,12 @@ public class AdminQuartzvinylController {
     @PutMapping("/quartzvinyl")
     @Transactional
     public ResponseEntity<ResponseMainMessage> updateQuartzvinyl(@RequestParam MultipartFile imageFile, String id, String name, String description,
-                                                                  Integer price, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl,
-                                                                 ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
+                                                                  Integer price, Base base, InstallationType installationType, BevelQuartzvinyl bevel,
+                                                                 ManufacturerQuartzvinyl manufacturer) {
         try {
             Optional<Quartzvinyl> quartzvinylById = quartzvinylService.findProductByID(id);
             Quartzvinyl quartzvinylNew = new Quartzvinyl(quartzvinylById.get().getId(), name, description, price,
-                    base, installationType, bevelQuartzvinyl, manufacturerQuartzvinyl);
+                    base, installationType, bevel, manufacturer);
 
             fileTransferService.uploadImage(imageFile, quartzvinylById.get().getPathImage());
             quartzvinylService.updateProduct(quartzvinylNew);
