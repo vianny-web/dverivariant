@@ -35,15 +35,7 @@ public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoo
 
     @Override
     public void addProduct(InteriorDoor interiorDoor) {
-        interiorDoorRepository.save(new InteriorDoor(
-                interiorDoor.getName(),
-                interiorDoor.getDescription(),
-                interiorDoor.getPrice(),
-                interiorDoor.getMaterial(),
-                interiorDoor.getGlazing(),
-                interiorDoor.getModification(),
-                interiorDoor.getConstruction(),
-                interiorDoor.getManufacturer()));
+        interiorDoorRepository.save(interiorDoor);
     }
 
     @Override

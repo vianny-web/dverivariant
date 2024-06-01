@@ -38,15 +38,7 @@ public class LaminateService implements AdminCapabilitiesService<Laminate>, Prod
 
     @Override
     public void addProduct(Laminate laminate) {
-        laminateRepository.save(new Laminate(
-                laminate.getName(),
-                laminate.getDescription(),
-                laminate.getPrice(),
-                laminate.getClassType(),
-                laminate.getThickness(),
-                laminate.getWaterResistance(),
-                laminate.getBevel(),
-                laminate.getCountryOfOrigin()));
+        laminateRepository.save(laminate);
     }
 
     @Override

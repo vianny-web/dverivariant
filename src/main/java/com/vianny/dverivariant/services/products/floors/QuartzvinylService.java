@@ -38,14 +38,7 @@ public class QuartzvinylService implements AdminCapabilitiesService<Quartzvinyl>
 
     @Override
     public void addProduct(Quartzvinyl quartzvinyl) {
-        quartzvinylRepository.save(new Quartzvinyl(
-                quartzvinyl.getName(),
-                quartzvinyl.getDescription(),
-                quartzvinyl.getPrice(),
-                quartzvinyl.getBase(),
-                quartzvinyl.getInstallationType(),
-                quartzvinyl.getBevel(),
-                quartzvinyl.getManufacturer()));
+        quartzvinylRepository.save(quartzvinyl);
     }
 
     @Override

@@ -39,13 +39,7 @@ public class EntranceDoorService implements AdminCapabilitiesService<EntranceDoo
 
     @Override
     public void addProduct(EntranceDoor entranceDoor) {
-        entranceDoorRepository.save(new EntranceDoor(
-                entranceDoor.getName(),
-                entranceDoor.getDescription(),
-                entranceDoor.getPrice(),
-                entranceDoor.getInstallationPlace(),
-                entranceDoor.getGlazing(),
-                entranceDoor.getAdditionalProperties()));
+        entranceDoorRepository.save(entranceDoor);
     }
 
     @Override

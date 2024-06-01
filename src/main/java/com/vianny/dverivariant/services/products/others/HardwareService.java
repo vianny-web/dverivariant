@@ -38,12 +38,7 @@ public class HardwareService implements AdminCapabilitiesService<Hardware>, Prod
 
     @Override
     public void addProduct(Hardware hardware) {
-        hardwareRepository.save(new Hardware(
-                hardware.getName(),
-                hardware.getDescription(),
-                hardware.getPrice(),
-                hardware.getHardwareType()
-        ));
+        hardwareRepository.save(hardware);
     }
 
     @Override
