@@ -8,6 +8,7 @@ import com.vianny.dverivariant.repositories.products.others.HardwareRepository;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
 import com.vianny.dverivariant.services.products.ProductRetrievalService;
+import com.vianny.dverivariant.utils.product.ProductDetailsHelper;
 import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,21 +18,22 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class HardwareService implements AdminCapabilitiesService<Hardware>, ProductRetrievalService<Hardware> {
     private HardwareRepository hardwareRepository;
-    private MinioService minioService;
+    private ProductDetailsHelper productDetailsHelper;
 
     @Autowired
     public void setHardwareRepository(HardwareRepository hardwareRepository) {
         this.hardwareRepository = hardwareRepository;
     }
     @Autowired
-    public void setMinioService(MinioService minioService) {
-        this.minioService = minioService;
+    public void setProductDetailsHelper(ProductDetailsHelper productDetailsHelper) {
+        this.productDetailsHelper = productDetailsHelper;
     }
 
     @Override
@@ -55,15 +57,18 @@ public class HardwareService implements AdminCapabilitiesService<Hardware>, Prod
     }
 
     @Override
-    public List<ProductBriefDTO> getAllProductsByType(TypeProducts type) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public List<ProductDetailsDTO> getAllProductsByType(TypeProducts type) {
         List<Hardware> hardwareList = hardwareRepository.findByType(type);
-        List<ProductBriefDTO> productDetailsDTOList = new ArrayList<>();
+        List<ProductDetailsDTO> productDetailsDTOList = new ArrayList<>();
 
         for (Hardware hardware : hardwareList) {
-            ProductBriefDTO productBriefDTO = new ProductBriefDTO(hardware.getId(), hardware.getName(),
-                    hardware.getPrice(), minioService.createUrlImage(hardware.getPathImage()), type);
+            HashMap<String, String> details = productDetailsHelper.getDetailsHardware(Optional.ofNullable(hardware));
 
-            productDetailsDTOList.add(productBriefDTO);
+            assert hardware != null;
+            ProductDetailsDTO productDetailsDTO = new ProductDetailsDTO(hardware.getId(), hardware.getName(), hardware.getDescription(),
+                    hardware.getPrice(), hardware.getPathImage(), details);
+
+            productDetailsDTOList.add(productDetailsDTO);
         }
 
         return productDetailsDTOList;

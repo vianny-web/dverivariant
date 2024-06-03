@@ -4,6 +4,7 @@ import com.vianny.dverivariant.models.products.doors.EntranceDoor;
 import com.vianny.dverivariant.models.products.doors.InteriorDoor;
 import com.vianny.dverivariant.models.products.floors.Laminate;
 import com.vianny.dverivariant.models.products.floors.Quartzvinyl;
+import com.vianny.dverivariant.models.products.others.Hardware;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -49,6 +50,13 @@ public class ProductDetailsHelper {
         details.put("bevel", quartzvinyl.get().getBevel().getDescription());
         details.put("manufacturer", quartzvinyl.get().getManufacturer().getDescription());
         details.put("installationType", quartzvinyl.get().getInstallationType().getDescription());
+
+        return details;
+    }
+
+    public HashMap<String, String> getDetailsHardware(Optional<Hardware> hardware) {
+        HashMap<String, String> details = new HashMap<>();
+        details.put("hardwareType", hardware.get().getHardwareType().getDescription());
 
         return details;
     }

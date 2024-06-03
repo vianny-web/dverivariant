@@ -8,6 +8,7 @@ import com.vianny.dverivariant.repositories.products.floors.QuartzvinylRepositor
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
 import com.vianny.dverivariant.services.products.ProductRetrievalService;
+import com.vianny.dverivariant.utils.product.ProductDetailsHelper;
 import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,21 +18,22 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class QuartzvinylService implements AdminCapabilitiesService<Quartzvinyl>, ProductRetrievalService<Quartzvinyl> {
     private QuartzvinylRepository quartzvinylRepository;
-    private MinioService minioService;
+    private ProductDetailsHelper productDetailsHelper;
 
     @Autowired
     public void setQuartzvinylRepository(QuartzvinylRepository quartzvinylRepository) {
         this.quartzvinylRepository = quartzvinylRepository;
     }
     @Autowired
-    public void setMinioService(MinioService minioService) {
-        this.minioService = minioService;
+    public void setProductDetailsHelper(ProductDetailsHelper productDetailsHelper) {
+        this.productDetailsHelper = productDetailsHelper;
     }
 
     @Override
@@ -55,15 +57,18 @@ public class QuartzvinylService implements AdminCapabilitiesService<Quartzvinyl>
     }
 
     @Override
-    public List<ProductBriefDTO> getAllProductsByType(TypeProducts type) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public List<ProductDetailsDTO> getAllProductsByType(TypeProducts type) {
         List<Quartzvinyl> quartzvinylList = quartzvinylRepository.findByType(type);
-        List<ProductBriefDTO> productDetailsDTOList = new ArrayList<>();
+            List<ProductDetailsDTO> productDetailsDTOList = new ArrayList<>();
 
         for (Quartzvinyl quartzvinyl : quartzvinylList) {
-            ProductBriefDTO productBriefDTO = new ProductBriefDTO(quartzvinyl.getId(), quartzvinyl.getName(),
-                    quartzvinyl.getPrice(), minioService.createUrlImage(quartzvinyl.getPathImage()), type);
+            HashMap<String, String> details = productDetailsHelper.getDetailsQuartzvinyl(Optional.ofNullable(quartzvinyl));
 
-            productDetailsDTOList.add(productBriefDTO);
+            assert quartzvinyl != null;
+            ProductDetailsDTO productDetailsDTO = new ProductDetailsDTO(quartzvinyl.getId(), quartzvinyl.getName(), quartzvinyl.getDescription(),
+                    quartzvinyl.getPrice(), quartzvinyl.getPathImage(), details);
+
+            productDetailsDTOList.add(productDetailsDTO);
         }
 
         return productDetailsDTOList;
