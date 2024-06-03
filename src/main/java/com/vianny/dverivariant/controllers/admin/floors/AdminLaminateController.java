@@ -40,10 +40,10 @@ public class AdminLaminateController {
     @PostMapping("/laminate")
     @Transactional
     public ResponseEntity<ResponseMainMessage> createLaminate(@RequestParam MultipartFile imageFile, String name, String description,
-                                                                  Integer price, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate,
+                                                                  Integer price, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevel,
                                                               CountryOfOrigin countryOfOrigin) {
         try {
-            Laminate laminate = new Laminate(name, description, price, classType, thickness, waterResistance, bevelLaminate, countryOfOrigin);
+            Laminate laminate = new Laminate(name, description, price, classType, thickness, waterResistance, bevel, countryOfOrigin);
 
             laminateService.addProduct(laminate);
             imageTransferService.uploadImage(imageFile, laminate.getPathImage());
@@ -59,12 +59,12 @@ public class AdminLaminateController {
     @PutMapping("/laminate")
     @Transactional
     public ResponseEntity<ResponseMainMessage> updateLaminate(@RequestParam MultipartFile imageFile, String id, String name, String description,
-                                                              Integer price, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate,
+                                                              Integer price, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevel,
                                                               CountryOfOrigin countryOfOrigin) {
         try {
             Optional<Laminate> laminateById = laminateService.findProductByID(id);
             Laminate laminateNew = new Laminate(laminateById.get().getId(), name, description, price,
-                    classType, thickness, waterResistance, bevelLaminate, countryOfOrigin);
+                    classType, thickness, waterResistance, bevel, countryOfOrigin);
 
             imageTransferService.uploadImage(imageFile, laminateById.get().getPathImage());
             laminateService.updateProduct(laminateNew);

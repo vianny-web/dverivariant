@@ -1,6 +1,6 @@
 package com.vianny.dverivariant.config;
 
-import com.vianny.dverivariant.utils.TokenFilter;
+import com.vianny.dverivariant.utils.jwt.TokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

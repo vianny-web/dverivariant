@@ -1,10 +1,8 @@
 package com.vianny.dverivariant.services.products.others;
 
-import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
-import com.vianny.dverivariant.models.products.floors.Laminate;
 import com.vianny.dverivariant.models.products.others.Hardware;
 import com.vianny.dverivariant.repositories.products.others.HardwareRepository;
 import com.vianny.dverivariant.services.minio.MinioService;

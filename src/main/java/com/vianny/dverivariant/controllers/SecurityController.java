@@ -9,7 +9,7 @@ import com.vianny.dverivariant.exceptions.requiredException.UnauthorizedRequired
 import com.vianny.dverivariant.exceptions.requiredException.UnregisteredRequiredException;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.account.AccountService;
-import com.vianny.dverivariant.utils.JwtCore;
+import com.vianny.dverivariant.utils.jwt.JwtCore;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

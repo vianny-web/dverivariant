@@ -1,10 +1,9 @@
 package com.vianny.dverivariant.controllers.user.others;
 
 import com.vianny.dverivariant.dto.response.message.ProductMessage;
-import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
+import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
-import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
 import com.vianny.dverivariant.services.products.others.HardwareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,10 +24,10 @@ public class HardwareController {
     }
 
     @GetMapping("/category/hardware/all")
-    public ResponseEntity<ProductMessage<List<ProductBriefDTO>>> getAllProducts() {
+    public ResponseEntity<ProductMessage<List<ProductDetailsDTO>>> getAllProducts() {
         try {
-            List<ProductBriefDTO> productBriefDTOS = hardwareService.getAllProductsByType(TypeProducts.HARDWARE);
-            ProductMessage<List<ProductBriefDTO>> dataObject = new ProductMessage<>(HttpStatus.FOUND, productBriefDTOS);
+            List<ProductDetailsDTO> productDetailsDTOS = hardwareService.getAllProductsByType(TypeProducts.HARDWARE);
+            ProductMessage<List<ProductDetailsDTO>> dataObject = new ProductMessage<>(HttpStatus.FOUND, productDetailsDTOS);
             return new ResponseEntity<>(dataObject,HttpStatus.OK);
         }
         catch (Exception e) {

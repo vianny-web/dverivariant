@@ -1,17 +1,17 @@
 package com.vianny.dverivariant.enums.floors.laminate;
 
 public enum ClassType {
-    CLASS_32(32),
-    CLASS_33(33),
-    CLASS_34(34);
+    CLASS_32("32"),
+    CLASS_33("33"),
+    CLASS_34("34");
 
-    private final int value;
+    private final String value;
 
-    ClassType(int value) {
+    ClassType(String value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 }

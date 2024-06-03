@@ -1,4 +1,4 @@
-package com.vianny.dverivariant.utils;
+package com.vianny.dverivariant.utils.jwt;
 
 import com.vianny.dverivariant.security.UserDetailsImpl;
 import io.jsonwebtoken.Jwts;
