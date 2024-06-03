@@ -5,18 +5,13 @@ import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.floors.Laminate;
 import com.vianny.dverivariant.repositories.products.floors.LaminateRepository;
-import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
 import com.vianny.dverivariant.services.products.ProductRetrievalService;
 import com.vianny.dverivariant.utils.product.ProductDetailsHelper;
-import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
