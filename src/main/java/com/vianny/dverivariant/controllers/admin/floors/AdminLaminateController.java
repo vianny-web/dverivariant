@@ -8,6 +8,8 @@ import com.vianny.dverivariant.models.products.floors.Laminate;
 import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.floors.LaminateService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/adm")
 public class AdminLaminateController {
+    private static final Logger log = LogManager.getLogger(AdminLaminateController.class);
+
     private LaminateService laminateService;
     private ImageTransferService imageTransferService;
     private MinioService minioService;
@@ -49,6 +53,7 @@ public class AdminLaminateController {
             imageTransferService.uploadImage(imageFile, laminate.getPathImage());
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
 
@@ -73,6 +78,7 @@ public class AdminLaminateController {
             throw e;
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
 
@@ -93,6 +99,7 @@ public class AdminLaminateController {
             throw e;
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
 

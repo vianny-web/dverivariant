@@ -9,6 +9,8 @@ import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
 import com.vianny.dverivariant.services.products.floors.LaminateService;
 import com.vianny.dverivariant.services.products.floors.QuartzvinylService;
 import com.vianny.dverivariant.services.products.others.HardwareService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/catalog")
 public class ProductController {
+    private static final Logger log = LogManager.getLogger(ProductController.class);
+
     private final InteriorDoorService interiorDoorService;
     private final EntranceDoorService entranceDoorService;
     private final LaminateService laminateService;
@@ -52,6 +56,7 @@ public class ProductController {
             return new ResponseEntity<>(dataObject,HttpStatus.OK);
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
     }

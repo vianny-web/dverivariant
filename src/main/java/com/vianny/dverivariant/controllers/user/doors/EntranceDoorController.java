@@ -5,6 +5,8 @@ import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.services.products.doors.EntranceDoorService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/catalog")
 public class EntranceDoorController {
+    private static final Logger log = LogManager.getLogger(EntranceDoorController.class);
     private EntranceDoorService entranceDoorService;
     @Autowired
     public void setEntranceDoorService(EntranceDoorService entranceDoorService) {
@@ -31,6 +34,7 @@ public class EntranceDoorController {
             return new ResponseEntity<>(dataObject,HttpStatus.OK);
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
     }

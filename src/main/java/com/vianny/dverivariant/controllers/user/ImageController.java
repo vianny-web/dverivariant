@@ -3,6 +3,8 @@ package com.vianny.dverivariant.controllers.user;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.services.minio.ImageTransferService;
 import io.minio.errors.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -22,6 +24,7 @@ import java.security.NoSuchAlgorithmException;
 @RestController
 @RequestMapping("/catalog")
 public class ImageController {
+    private static final Logger log = LogManager.getLogger(ImageController.class);
     private ImageTransferService imageTransferService;
     @Autowired
     public void setFileTransferService(ImageTransferService imageTransferService) {
@@ -43,6 +46,7 @@ public class ImageController {
         } catch (IOException | ErrorResponseException | InsufficientDataException | InternalException |
                  InvalidKeyException | InvalidResponseException | NoSuchAlgorithmException | ServerException |
                  XmlParserException e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
     }

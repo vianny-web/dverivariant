@@ -8,6 +8,8 @@ import com.vianny.dverivariant.models.products.doors.InteriorDoor;
 import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
 import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/adm")
 public class AdminInteriorDoorController {
+    private static final Logger log = LogManager.getLogger(AdminInteriorDoorController.class);
+
     private InteriorDoorService interiorDoorService;
     private ImageTransferService imageTransferService;
     private MinioService minioService;
@@ -49,6 +53,7 @@ public class AdminInteriorDoorController {
             imageTransferService.uploadImage(imageFile, interiorDoor.getPathImage());
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
 
@@ -72,6 +77,7 @@ public class AdminInteriorDoorController {
             throw e;
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
 
@@ -92,6 +98,7 @@ public class AdminInteriorDoorController {
             throw e;
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
 

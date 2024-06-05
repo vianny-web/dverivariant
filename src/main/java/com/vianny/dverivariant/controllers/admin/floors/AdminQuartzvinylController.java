@@ -11,6 +11,8 @@ import com.vianny.dverivariant.models.products.floors.Quartzvinyl;
 import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.floors.QuartzvinylService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/adm")
 public class AdminQuartzvinylController {
+    private static final Logger log = LogManager.getLogger(AdminQuartzvinylController.class);
+
     private QuartzvinylService quartzvinylService;
     private ImageTransferService imageTransferService;
     private MinioService minioService;
@@ -52,6 +56,7 @@ public class AdminQuartzvinylController {
             imageTransferService.uploadImage(imageFile, quartzvinyl.getPathImage());
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
 
@@ -76,6 +81,7 @@ public class AdminQuartzvinylController {
             throw e;
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
 
@@ -96,6 +102,7 @@ public class AdminQuartzvinylController {
             throw e;
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
 

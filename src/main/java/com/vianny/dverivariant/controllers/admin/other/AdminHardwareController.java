@@ -8,6 +8,8 @@ import com.vianny.dverivariant.models.products.others.Hardware;
 import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.others.HardwareService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/adm")
 public class AdminHardwareController {
+    private static final Logger log = LogManager.getLogger(AdminHardwareController.class);
+
     private HardwareService hardwareService;
     private ImageTransferService imageTransferService;
     private MinioService minioService;
@@ -48,6 +52,7 @@ public class AdminHardwareController {
             imageTransferService.uploadImage(imageFile, hardware.getPathImage());
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
 
@@ -70,6 +75,7 @@ public class AdminHardwareController {
             throw e;
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
 
@@ -90,6 +96,7 @@ public class AdminHardwareController {
             throw e;
         }
         catch (Exception e) {
+            log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
         }
 
