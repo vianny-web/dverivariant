@@ -1,8 +1,10 @@
 package com.vianny.dverivariant.services.products.floors;
 
 import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
+import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
+import com.vianny.dverivariant.models.products.doors.EntranceDoor;
 import com.vianny.dverivariant.models.products.floors.Quartzvinyl;
 import com.vianny.dverivariant.repositories.products.floors.QuartzvinylRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
@@ -70,7 +72,16 @@ public class QuartzvinylService implements AdminCapabilitiesService<Quartzvinyl>
     }
 
     @Override
-    public ProductBriefDTO getProductById(String id) {
-        return null;
+    public ProductDetailsDTO getProductById(String id) {
+        Optional<Quartzvinyl> quartzvinyl = quartzvinylRepository.findById(id);
+        HashMap<String, String> details = productDetailsHelper.getDetailsQuartzvinyl(quartzvinyl);
+
+        if (quartzvinyl.isEmpty()) {
+            throw new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Продукт не найден");
+        }
+
+        return new ProductDetailsDTO(id, quartzvinyl.get().getName(),
+                quartzvinyl.get().getDescription(), quartzvinyl.get().getPrice(),
+                quartzvinyl.get().getPathImage(), quartzvinyl.get().getType(), details);
     }
 }

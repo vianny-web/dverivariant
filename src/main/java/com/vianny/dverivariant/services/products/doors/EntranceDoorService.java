@@ -1,9 +1,11 @@
 package com.vianny.dverivariant.services.products.doors;
 
 import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
+import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.EntranceDoor;
+import com.vianny.dverivariant.models.products.doors.InteriorDoor;
 import com.vianny.dverivariant.repositories.products.doors.EntranceDoorRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
 import com.vianny.dverivariant.services.products.ProductRetrievalService;
@@ -70,7 +72,16 @@ public class EntranceDoorService implements AdminCapabilitiesService<EntranceDoo
     }
 
     @Override
-    public ProductBriefDTO getProductById(String id) {
-        return null;
+    public ProductDetailsDTO getProductById(String id) {
+        Optional<EntranceDoor> entranceDoor = entranceDoorRepository.findById(id);
+        HashMap<String, String> details = productDetailsHelper.getDetailsEntranceDoor(entranceDoor);
+
+        if (entranceDoor.isEmpty()) {
+            throw new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Продукт не найден");
+        }
+
+        return new ProductDetailsDTO(id, entranceDoor.get().getName(),
+                entranceDoor.get().getDescription(), entranceDoor.get().getPrice(),
+                entranceDoor.get().getPathImage(), entranceDoor.get().getType(), details);
     }
 }

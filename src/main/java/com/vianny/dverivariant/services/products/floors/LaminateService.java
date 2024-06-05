@@ -1,8 +1,10 @@
 package com.vianny.dverivariant.services.products.floors;
 
 import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
+import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
+import com.vianny.dverivariant.models.products.doors.EntranceDoor;
 import com.vianny.dverivariant.models.products.floors.Laminate;
 import com.vianny.dverivariant.repositories.products.floors.LaminateRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
@@ -70,7 +72,16 @@ public class LaminateService implements AdminCapabilitiesService<Laminate>, Prod
     }
 
     @Override
-    public ProductBriefDTO getProductById(String id) {
-        return null;
+    public ProductDetailsDTO getProductById(String id) {
+        Optional<Laminate> laminate = laminateRepository.findById(id);
+        HashMap<String, String> details = productDetailsHelper.getDetailsLaminate(laminate);
+
+        if (laminate.isEmpty()) {
+            throw new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Продукт не найден");
+        }
+
+        return new ProductDetailsDTO(id, laminate.get().getName(),
+                laminate.get().getDescription(), laminate.get().getPrice(),
+                laminate.get().getPathImage(), laminate.get().getType(), details);
     }
 }

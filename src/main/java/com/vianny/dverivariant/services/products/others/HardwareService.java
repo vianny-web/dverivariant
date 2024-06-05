@@ -1,8 +1,10 @@
 package com.vianny.dverivariant.services.products.others;
 
 import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
+import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
+import com.vianny.dverivariant.models.products.doors.EntranceDoor;
 import com.vianny.dverivariant.models.products.others.Hardware;
 import com.vianny.dverivariant.repositories.products.others.HardwareRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
@@ -70,7 +72,16 @@ public class HardwareService implements AdminCapabilitiesService<Hardware>, Prod
     }
 
     @Override
-    public ProductBriefDTO getProductById(String id) {
-        return null;
+    public ProductDetailsDTO getProductById(String id) {
+        Optional<Hardware> hardware = hardwareRepository.findById(id);
+        HashMap<String, String> details = productDetailsHelper.getDetailsHardware(hardware);
+
+        if (hardware.isEmpty()) {
+            throw new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Продукт не найден");
+        }
+
+        return new ProductDetailsDTO(id, hardware.get().getName(),
+                hardware.get().getDescription(), hardware.get().getPrice(),
+                hardware.get().getPathImage(), hardware.get().getType(), details);
     }
 }

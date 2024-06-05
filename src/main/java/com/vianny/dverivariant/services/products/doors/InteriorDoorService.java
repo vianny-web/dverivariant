@@ -1,6 +1,7 @@
 package com.vianny.dverivariant.services.products.doors;
 
 import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
+import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.InteriorDoor;
@@ -67,7 +68,7 @@ public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoo
     }
 
     @Override
-    public ProductBriefDTO getProductById(String id) {
+    public ProductDetailsDTO getProductById(String id) {
         Optional<InteriorDoor> interiorDoor = interiorDoorRepository.findById(id);
         HashMap<String, String> details = productDetailsHelper.getDetailsInteriorDoor(interiorDoor);
 
@@ -75,7 +76,8 @@ public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoo
             throw new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Продукт не найден");
         }
 
-        return new ProductBriefDTO(id, interiorDoor.get().getName(),
-                interiorDoor.get().getDescription(), interiorDoor.get().getPrice(), interiorDoor.get().getPathImage(), details);
+        return new ProductDetailsDTO(id, interiorDoor.get().getName(),
+                interiorDoor.get().getDescription(), interiorDoor.get().getPrice(),
+                interiorDoor.get().getPathImage(), interiorDoor.get().getType(), details);
     }
 }
