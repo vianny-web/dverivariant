@@ -1,6 +1,6 @@
 package com.vianny.dverivariant.services.products.others;
 
-import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
+import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.others.Hardware;
@@ -52,25 +52,25 @@ public class HardwareService implements AdminCapabilitiesService<Hardware>, Prod
     }
 
     @Override
-    public List<ProductDetailsDTO> getAllProductsByType(TypeProducts type) {
+    public List<ProductBriefDTO> getAllProductsByType(TypeProducts type) {
         List<Hardware> hardwareList = hardwareRepository.findByType(type);
-        List<ProductDetailsDTO> productDetailsDTOList = new ArrayList<>();
+        List<ProductBriefDTO> productBriefDTOList = new ArrayList<>();
 
         for (Hardware hardware : hardwareList) {
             HashMap<String, String> details = productDetailsHelper.getDetailsHardware(Optional.ofNullable(hardware));
 
             assert hardware != null;
-            ProductDetailsDTO productDetailsDTO = new ProductDetailsDTO(hardware.getId(), hardware.getName(), hardware.getDescription(),
+            ProductBriefDTO productBriefDTO = new ProductBriefDTO(hardware.getId(), hardware.getName(), hardware.getDescription(),
                     hardware.getPrice(), hardware.getPathImage(), details);
 
-            productDetailsDTOList.add(productDetailsDTO);
+            productBriefDTOList.add(productBriefDTO);
         }
 
-        return productDetailsDTOList;
+        return productBriefDTOList;
     }
 
     @Override
-    public ProductDetailsDTO getProductById(String id) {
+    public ProductBriefDTO getProductById(String id) {
         return null;
     }
 }

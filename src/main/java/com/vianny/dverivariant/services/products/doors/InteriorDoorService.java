@@ -1,6 +1,6 @@
 package com.vianny.dverivariant.services.products.doors;
 
-import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
+import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.InteriorDoor;
@@ -49,25 +49,25 @@ public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoo
     }
 
     @Override
-    public List<ProductDetailsDTO> getAllProductsByType(TypeProducts type) {
+    public List<ProductBriefDTO> getAllProductsByType(TypeProducts type) {
         List<InteriorDoor> interiorDoorList = interiorDoorRepository.findByType(type);
-        List<ProductDetailsDTO> productDetailsDTOList = new ArrayList<>();
+        List<ProductBriefDTO> productBriefDTOList = new ArrayList<>();
 
         for (InteriorDoor interiorDoor : interiorDoorList) {
             HashMap<String, String> details = productDetailsHelper.getDetailsInteriorDoor(Optional.ofNullable(interiorDoor));
 
             assert interiorDoor != null;
-            ProductDetailsDTO productDetailsDTO = new ProductDetailsDTO(interiorDoor.getId(), interiorDoor.getName(),
+            ProductBriefDTO productBriefDTO = new ProductBriefDTO(interiorDoor.getId(), interiorDoor.getName(),
                     interiorDoor.getDescription(), interiorDoor.getPrice(), interiorDoor.getPathImage(), details);
 
-            productDetailsDTOList.add(productDetailsDTO);
+            productBriefDTOList.add(productBriefDTO);
         }
 
-        return productDetailsDTOList;
+        return productBriefDTOList;
     }
 
     @Override
-    public ProductDetailsDTO getProductById(String id) {
+    public ProductBriefDTO getProductById(String id) {
         Optional<InteriorDoor> interiorDoor = interiorDoorRepository.findById(id);
         HashMap<String, String> details = productDetailsHelper.getDetailsInteriorDoor(interiorDoor);
 
@@ -75,7 +75,7 @@ public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoo
             throw new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Продукт не найден");
         }
 
-        return new ProductDetailsDTO(id, interiorDoor.get().getName(),
+        return new ProductBriefDTO(id, interiorDoor.get().getName(),
                 interiorDoor.get().getDescription(), interiorDoor.get().getPrice(), interiorDoor.get().getPathImage(), details);
     }
 }

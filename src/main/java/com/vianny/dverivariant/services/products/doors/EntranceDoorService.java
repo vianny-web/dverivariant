@@ -1,6 +1,6 @@
 package com.vianny.dverivariant.services.products.doors;
 
-import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
+import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.EntranceDoor;
@@ -52,25 +52,25 @@ public class EntranceDoorService implements AdminCapabilitiesService<EntranceDoo
     }
 
     @Override
-    public List<ProductDetailsDTO> getAllProductsByType(TypeProducts type) {
+    public List<ProductBriefDTO> getAllProductsByType(TypeProducts type) {
         List<EntranceDoor> entranceDoorList = entranceDoorRepository.findByType(type);
-        List<ProductDetailsDTO> productDetailsDTOList = new ArrayList<>();
+        List<ProductBriefDTO> productBriefDTOList = new ArrayList<>();
 
         for (EntranceDoor entranceDoor : entranceDoorList) {
             HashMap<String, String> details = productDetailsHelper.getDetailsEntranceDoor(Optional.ofNullable(entranceDoor));
 
             assert entranceDoor != null;
-            ProductDetailsDTO productDetailsDTO = new ProductDetailsDTO(entranceDoor.getId(), entranceDoor.getName(), entranceDoor.getDescription(),
+            ProductBriefDTO productBriefDTO = new ProductBriefDTO(entranceDoor.getId(), entranceDoor.getName(), entranceDoor.getDescription(),
                     entranceDoor.getPrice(), entranceDoor.getPathImage(), details);
 
-            productDetailsDTOList.add(productDetailsDTO);
+            productBriefDTOList.add(productBriefDTO);
         }
 
-        return productDetailsDTOList;
+        return productBriefDTOList;
     }
 
     @Override
-    public ProductDetailsDTO getProductById(String id) {
+    public ProductBriefDTO getProductById(String id) {
         return null;
     }
 }

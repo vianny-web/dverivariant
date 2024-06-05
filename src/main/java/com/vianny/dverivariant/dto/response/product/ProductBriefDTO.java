@@ -2,7 +2,7 @@ package com.vianny.dverivariant.dto.response.product;
 
 import java.util.HashMap;
 
-public class ProductDetailsDTO {
+public class ProductBriefDTO {
     private String id;
     private String name;
     private String description;
@@ -10,10 +10,10 @@ public class ProductDetailsDTO {
     private String pathImage;
     private HashMap<String, String> details;
 
-    public ProductDetailsDTO() {
+    public ProductBriefDTO() {
     }
 
-    public ProductDetailsDTO(String id, String name, String description, Integer price, String pathImage, HashMap<String, String> details) {
+    public ProductBriefDTO(String id, String name, String description, Integer price, String pathImage, HashMap<String, String> details) {
         this.id = id;
         this.name = name;
         this.description = description;

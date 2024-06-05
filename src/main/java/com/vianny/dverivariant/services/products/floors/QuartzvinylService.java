@@ -1,6 +1,6 @@
 package com.vianny.dverivariant.services.products.floors;
 
-import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
+import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.floors.Quartzvinyl;
@@ -52,25 +52,25 @@ public class QuartzvinylService implements AdminCapabilitiesService<Quartzvinyl>
     }
 
     @Override
-    public List<ProductDetailsDTO> getAllProductsByType(TypeProducts type) {
+    public List<ProductBriefDTO> getAllProductsByType(TypeProducts type) {
         List<Quartzvinyl> quartzvinylList = quartzvinylRepository.findByType(type);
-            List<ProductDetailsDTO> productDetailsDTOList = new ArrayList<>();
+            List<ProductBriefDTO> productBriefDTOList = new ArrayList<>();
 
         for (Quartzvinyl quartzvinyl : quartzvinylList) {
             HashMap<String, String> details = productDetailsHelper.getDetailsQuartzvinyl(Optional.ofNullable(quartzvinyl));
 
             assert quartzvinyl != null;
-            ProductDetailsDTO productDetailsDTO = new ProductDetailsDTO(quartzvinyl.getId(), quartzvinyl.getName(), quartzvinyl.getDescription(),
+            ProductBriefDTO productBriefDTO = new ProductBriefDTO(quartzvinyl.getId(), quartzvinyl.getName(), quartzvinyl.getDescription(),
                     quartzvinyl.getPrice(), quartzvinyl.getPathImage(), details);
 
-            productDetailsDTOList.add(productDetailsDTO);
+            productBriefDTOList.add(productBriefDTO);
         }
 
-        return productDetailsDTOList;
+        return productBriefDTOList;
     }
 
     @Override
-    public ProductDetailsDTO getProductById(String id) {
+    public ProductBriefDTO getProductById(String id) {
         return null;
     }
 }

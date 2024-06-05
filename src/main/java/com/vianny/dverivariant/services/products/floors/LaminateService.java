@@ -1,6 +1,6 @@
 package com.vianny.dverivariant.services.products.floors;
 
-import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
+import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.floors.Laminate;
@@ -52,25 +52,25 @@ public class LaminateService implements AdminCapabilitiesService<Laminate>, Prod
     }
 
     @Override
-    public List<ProductDetailsDTO> getAllProductsByType(TypeProducts type) {
+    public List<ProductBriefDTO> getAllProductsByType(TypeProducts type) {
         List<Laminate> laminateList = laminateRepository.findByType(type);
-        List<ProductDetailsDTO> productDetailsDTOList = new ArrayList<>();
+        List<ProductBriefDTO> productBriefDTOList = new ArrayList<>();
 
         for (Laminate laminate : laminateList) {
             HashMap<String, String> details = productDetailsHelper.getDetailsLaminate(Optional.ofNullable(laminate));
 
             assert laminate != null;
-            ProductDetailsDTO productDetailsDTO = new ProductDetailsDTO(laminate.getId(), laminate.getName(), laminate.getDescription(),
+            ProductBriefDTO productBriefDTO = new ProductBriefDTO(laminate.getId(), laminate.getName(), laminate.getDescription(),
                     laminate.getPrice(), laminate.getPathImage(), details);
 
-            productDetailsDTOList.add(productDetailsDTO);
+            productBriefDTOList.add(productBriefDTO);
         }
 
-        return productDetailsDTOList;
+        return productBriefDTOList;
     }
 
     @Override
-    public ProductDetailsDTO getProductById(String id) {
+    public ProductBriefDTO getProductById(String id) {
         return null;
     }
 }

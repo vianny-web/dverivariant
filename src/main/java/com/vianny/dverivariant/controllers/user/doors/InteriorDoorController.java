@@ -1,7 +1,7 @@
 package com.vianny.dverivariant.controllers.user.doors;
 
 import com.vianny.dverivariant.dto.response.message.ProductMessage;
-import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
+import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
@@ -25,10 +25,10 @@ public class InteriorDoorController {
     }
 
     @GetMapping("/category/interior-door/all")
-    public ResponseEntity<ProductMessage<List<ProductDetailsDTO>>> getAllProducts() {
+    public ResponseEntity<ProductMessage<List<ProductBriefDTO>>> getAllProducts() {
         try {
-            List<ProductDetailsDTO> productDetailsDTOS = interiorDoorService.getAllProductsByType(TypeProducts.INTERIOR_DOOR);
-            ProductMessage<List<ProductDetailsDTO>> dataObject = new ProductMessage<>(HttpStatus.FOUND, productDetailsDTOS);
+            List<ProductBriefDTO> productBriefDTOS = interiorDoorService.getAllProductsByType(TypeProducts.INTERIOR_DOOR);
+            ProductMessage<List<ProductBriefDTO>> dataObject = new ProductMessage<>(HttpStatus.FOUND, productBriefDTOS);
             return new ResponseEntity<>(dataObject,HttpStatus.OK);
         }
         catch (Exception e) {
@@ -37,10 +37,10 @@ public class InteriorDoorController {
     }
 
     @GetMapping("/product")
-    public ResponseEntity<ProductMessage<ProductDetailsDTO>> getProduct(@RequestParam String id) {
+    public ResponseEntity<ProductMessage<ProductBriefDTO>> getProduct(@RequestParam String id) {
         try {
-            ProductDetailsDTO productById = interiorDoorService.getProductById(id);
-            ProductMessage<ProductDetailsDTO> dataObject = new ProductMessage<>(HttpStatus.FOUND, productById);
+            ProductBriefDTO productById = interiorDoorService.getProductById(id);
+            ProductMessage<ProductBriefDTO> dataObject = new ProductMessage<>(HttpStatus.FOUND, productById);
             return new ResponseEntity<>(dataObject,HttpStatus.OK);
         }
         catch (Exception e) {

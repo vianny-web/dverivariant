@@ -1,7 +1,7 @@
 package com.vianny.dverivariant.controllers.user.doors;
 
 import com.vianny.dverivariant.dto.response.message.ProductMessage;
-import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
+import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.services.products.doors.EntranceDoorService;
@@ -24,10 +24,10 @@ public class EntranceDoorController {
     }
 
     @GetMapping("/category/entrance-door/all")
-    public ResponseEntity<ProductMessage<List<ProductDetailsDTO>>> getAllProducts() {
+    public ResponseEntity<ProductMessage<List<ProductBriefDTO>>> getAllProducts() {
         try {
-            List<ProductDetailsDTO> productDetailsDTOS = entranceDoorService.getAllProductsByType(TypeProducts.ENTRANCE_DOOR);
-            ProductMessage<List<ProductDetailsDTO>> dataObject = new ProductMessage<>(HttpStatus.FOUND, productDetailsDTOS);
+            List<ProductBriefDTO> productBriefDTOS = entranceDoorService.getAllProductsByType(TypeProducts.ENTRANCE_DOOR);
+            ProductMessage<List<ProductBriefDTO>> dataObject = new ProductMessage<>(HttpStatus.FOUND, productBriefDTOS);
             return new ResponseEntity<>(dataObject,HttpStatus.OK);
         }
         catch (Exception e) {
