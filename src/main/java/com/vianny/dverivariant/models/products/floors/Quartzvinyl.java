@@ -35,11 +35,12 @@ public class Quartzvinyl {
     public Quartzvinyl() {
     }
 
-    public Quartzvinyl(String id, String name, String description, Integer price, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl, ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
+    public Quartzvinyl(String id, String name, String description, Integer price, String pathImage, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl, ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.pathImage = pathImage;
         this.base = base;
         this.installationType = installationType;
         this.bevelQuartzvinyl = bevelQuartzvinyl;

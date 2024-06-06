@@ -68,9 +68,10 @@ public class AdminInteriorDoorController {
                                                                   Construction construction, ManufacturerInterior manufacturer) {
         try {
             Optional<InteriorDoor> interiorDoorById = interiorDoorService.findProductByID(id);
-            InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), name, description, price, material, glazing, modification, construction, manufacturer);
+            InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), name, description, price, interiorDoorById.get().getPathImage(),
+                    material, glazing, modification, construction, manufacturer);
 
-            imageTransferService.uploadImage(imageFile, interiorDoorById.get().getPathImage());
+            imageTransferService.uploadImage(imageFile, interiorDoorNew.getPathImage());
             interiorDoorService.updateProduct(interiorDoorNew);
         }
         catch (NotFoundRequiredException e) {

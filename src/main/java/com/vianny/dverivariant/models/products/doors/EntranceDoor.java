@@ -32,11 +32,12 @@ public class EntranceDoor {
     public EntranceDoor() {
     }
 
-    public EntranceDoor(String id, String name, String description, Integer price, InstallationPlace installationPlace, GlazingEntrance glazingEntrance, AdditionalProperties additionalProperties) {
+    public EntranceDoor(String id, String name, String description, Integer price, String pathImage, InstallationPlace installationPlace, GlazingEntrance glazingEntrance, AdditionalProperties additionalProperties) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.pathImage = pathImage;
         this.installationPlace = installationPlace;
         this.glazingEntrance = glazingEntrance;
         this.additionalProperties = additionalProperties;

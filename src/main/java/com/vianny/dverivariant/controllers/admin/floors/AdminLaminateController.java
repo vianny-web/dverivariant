@@ -68,10 +68,10 @@ public class AdminLaminateController {
                                                               CountryOfOrigin countryOfOrigin) {
         try {
             Optional<Laminate> laminateById = laminateService.findProductByID(id);
-            Laminate laminateNew = new Laminate(laminateById.get().getId(), name, description, price,
+            Laminate laminateNew = new Laminate(laminateById.get().getId(), name, description, price, laminateById.get().getPathImage(),
                     classType, thickness, waterResistance, bevel, countryOfOrigin);
 
-            imageTransferService.uploadImage(imageFile, laminateById.get().getPathImage());
+            imageTransferService.uploadImage(imageFile, laminateNew.getPathImage());
             laminateService.updateProduct(laminateNew);
         }
         catch (NotFoundRequiredException e) {

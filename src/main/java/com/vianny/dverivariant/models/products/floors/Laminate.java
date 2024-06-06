@@ -38,11 +38,12 @@ public class Laminate {
     public Laminate() {
     }
 
-    public Laminate(String id, String name, String description, Integer price, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate, CountryOfOrigin countryOfOrigin) {
+    public Laminate(String id, String name, String description, Integer price, String pathImage, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate, CountryOfOrigin countryOfOrigin) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.pathImage = pathImage;
         this.classType = classType;
         this.thickness = thickness;
         this.waterResistance = waterResistance;

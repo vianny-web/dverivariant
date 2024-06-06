@@ -26,12 +26,13 @@ public class Hardware {
     public Hardware() {
     }
 
-    public Hardware(String id, String name, String description, Integer price, HardwareType hardwareType) {
+    public Hardware(String id, String name, String description, Integer price, HardwareType hardwareType, String pathImage) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.hardwareType = hardwareType;
+        this.pathImage = pathImage;
     }
 
     public Hardware(String name, String description, Integer price, HardwareType hardwareType) {

@@ -70,10 +70,10 @@ public class AdminEntranceDoorController {
                                                                   AdditionalProperties additionalProperties) {
         try {
             Optional<EntranceDoor> entranceDoorById = entranceDoorService.findProductByID(id);
-            EntranceDoor entranceDoorNew = new EntranceDoor(entranceDoorById.get().getId(), name, description, price,
+            EntranceDoor entranceDoorNew = new EntranceDoor(entranceDoorById.get().getId(), name, description, price, entranceDoorById.get().getPathImage(),
                     installationPlace, glazing, additionalProperties);
 
-            imageTransferService.uploadImage(imageFile, entranceDoorById.get().getPathImage());
+            imageTransferService.uploadImage(imageFile, entranceDoorNew.getPathImage());
             entranceDoorService.updateProduct(entranceDoorNew);
         }
         catch (NotFoundRequiredException e) {

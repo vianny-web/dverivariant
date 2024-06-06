@@ -34,11 +34,12 @@ public class InteriorDoor {
     public InteriorDoor() {
     }
 
-    public InteriorDoor(String id, String name, String description, Integer price, Material material, GlazingInterior glazing, Modification modification, Construction construction, ManufacturerInterior manufacturer) {
+    public InteriorDoor(String id, String name, String description, Integer price, String pathImage, Material material, GlazingInterior glazing, Modification modification, Construction construction, ManufacturerInterior manufacturer) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.pathImage = pathImage;
         this.material = material;
         this.glazing = glazing;
         this.modification = modification;

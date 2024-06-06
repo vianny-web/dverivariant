@@ -71,10 +71,10 @@ public class AdminQuartzvinylController {
                                                                  ManufacturerQuartzvinyl manufacturer) {
         try {
             Optional<Quartzvinyl> quartzvinylById = quartzvinylService.findProductByID(id);
-            Quartzvinyl quartzvinylNew = new Quartzvinyl(quartzvinylById.get().getId(), name, description, price,
+            Quartzvinyl quartzvinylNew = new Quartzvinyl(quartzvinylById.get().getId(), name, description, price, quartzvinylById.get().getPathImage(),
                     base, installationType, bevel, manufacturer);
 
-            imageTransferService.uploadImage(imageFile, quartzvinylById.get().getPathImage());
+            imageTransferService.uploadImage(imageFile, quartzvinylNew.getPathImage());
             quartzvinylService.updateProduct(quartzvinylNew);
         }
         catch (NotFoundRequiredException e) {

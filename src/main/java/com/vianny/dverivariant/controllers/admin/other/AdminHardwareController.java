@@ -66,9 +66,9 @@ public class AdminHardwareController {
                                                                   Integer price, HardwareType hardwareType) {
         try {
             Optional<Hardware> hardwareById = hardwareService.findProductByID(id);
-            Hardware hardwareNew = new Hardware(hardwareById.get().getId(), name, description, price, hardwareType);
+            Hardware hardwareNew = new Hardware(hardwareById.get().getId(), name, description, price, hardwareType, hardwareById.get().getPathImage());
 
-            imageTransferService.uploadImage(imageFile, hardwareById.get().getPathImage());
+            imageTransferService.uploadImage(imageFile, hardwareNew.getPathImage());
             hardwareService.updateProduct(hardwareNew);
         }
         catch (NotFoundRequiredException e) {
