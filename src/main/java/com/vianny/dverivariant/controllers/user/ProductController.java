@@ -3,6 +3,7 @@ package com.vianny.dverivariant.controllers.user;
 import com.vianny.dverivariant.dto.response.message.ProductMessage;
 import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
+import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.services.products.doors.EntranceDoorService;
 import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
@@ -54,6 +55,10 @@ public class ProductController {
             
             ProductMessage<ProductDetailsDTO> dataObject = new ProductMessage<>(HttpStatus.FOUND, productById);
             return new ResponseEntity<>(dataObject,HttpStatus.OK);
+        }
+        catch (NotFoundRequiredException e) {
+            log.warn(e);
+            throw e;
         }
         catch (Exception e) {
             log.error(e);
