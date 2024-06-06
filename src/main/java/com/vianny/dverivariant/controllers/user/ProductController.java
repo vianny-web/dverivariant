@@ -10,15 +10,20 @@ import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
 import com.vianny.dverivariant.services.products.floors.LaminateService;
 import com.vianny.dverivariant.services.products.floors.QuartzvinylService;
 import com.vianny.dverivariant.services.products.others.HardwareService;
+import com.vianny.dverivariant.services.redis.RedisService;
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/catalog")
@@ -31,6 +36,8 @@ public class ProductController {
     private final QuartzvinylService quartzvinylService;
     private final HardwareService hardwareService;
 
+    private RedisService redisService;
+
     @Autowired
     public ProductController(InteriorDoorService interiorDoorService, EntranceDoorService entranceDoorService, LaminateService laminateService, QuartzvinylService quartzvinylService, HardwareService hardwareService) {
         this.interiorDoorService = interiorDoorService;
@@ -39,20 +46,30 @@ public class ProductController {
         this.quartzvinylService = quartzvinylService;
         this.hardwareService = hardwareService;
     }
+    @Autowired
+    public void setRedisService(RedisService redisService) {
+        this.redisService = redisService;
+    }
 
     @GetMapping("/product")
     public ResponseEntity<ProductMessage<ProductDetailsDTO>> getProduct(@RequestParam String id, @RequestParam TypeProducts type) {
         try {
             ProductDetailsDTO productById = null;
 
-            switch (type) {
-                case INTERIOR_DOOR -> productById = interiorDoorService.getProductById(id);
-                case ENTRANCE_DOOR -> productById = entranceDoorService.getProductById(id);
-                case LAMINATE -> productById = laminateService.getProductById(id);
-                case QUARTZVINYL -> productById = quartzvinylService.getProductById(id);
-                case HARDWARE -> productById = hardwareService.getProductById(id);
+            if (redisService.getData(id) != null) {
+                productById = (ProductDetailsDTO) redisService.getData(id);
             }
-            
+            else {
+                switch (type) {
+                    case INTERIOR_DOOR -> productById = interiorDoorService.getProductById(id);
+                    case ENTRANCE_DOOR -> productById = entranceDoorService.getProductById(id);
+                    case LAMINATE -> productById = laminateService.getProductById(id);
+                    case QUARTZVINYL -> productById = quartzvinylService.getProductById(id);
+                    case HARDWARE -> productById = hardwareService.getProductById(id);
+                }
+                redisService.saveData(id, productById, 1, TimeUnit.MINUTES);
+            }
+
             ProductMessage<ProductDetailsDTO> dataObject = new ProductMessage<>(HttpStatus.FOUND, productById);
             return new ResponseEntity<>(dataObject,HttpStatus.OK);
         }
