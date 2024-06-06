@@ -20,8 +20,18 @@ public class RedisService {
         redisTemplate.opsForValue().set(key, value, timeout, unit);
     }
 
+    public void updateData(String key, Object value, long timeout, TimeUnit unit) {
+        if (getData(key) != null) {
+            redisTemplate.delete(key);
+            redisTemplate.opsForValue().set(key, value, timeout, unit);
+        }
+        else
+            redisTemplate.opsForValue().set(key, value, timeout, unit);
+    }
+
     public void deleteData(String key) {
-        redisTemplate.delete(key);
+        if (getData(key) != null)
+            redisTemplate.delete(key);
     }
 
     public Object getData(String key) {

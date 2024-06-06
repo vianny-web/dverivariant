@@ -20,11 +20,21 @@ public class RedisImageService {
         redisTemplate.opsForValue().set(key, value, ttl, timeUnit);
     }
 
-    public byte[] getData(String key) {
-        return redisTemplate.opsForValue().get(key);
+    public void updateData(String key, byte[] value, long ttl, TimeUnit timeUnit) {
+        if (getData(key) != null) {
+            redisTemplate.delete(key);
+            redisTemplate.opsForValue().set(key, value, ttl, timeUnit);
+        }
+        else
+            redisTemplate.opsForValue().set(key, value, ttl, timeUnit);
     }
 
     public void deleteData(String key) {
-        redisTemplate.delete(key);
+        if (getData(key) != null)
+            redisTemplate.delete(key);
+    }
+
+    public byte[] getData(String key) {
+        return redisTemplate.opsForValue().get(key);
     }
 }

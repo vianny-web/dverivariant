@@ -29,6 +29,8 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/catalog")
 public class ImageController {
     private static final Logger log = LogManager.getLogger(ImageController.class);
+    private final short TTL = 1;
+
     private ImageTransferService imageTransferService;
     private RedisImageService redisImageService;
 
@@ -53,7 +55,7 @@ public class ImageController {
                 imageData = IOUtils.toByteArray(imageStream.getInputStream());
 
                 redisImageService.deleteData(pathImage);
-                redisImageService.saveData(pathImage, imageData, 5, TimeUnit.MINUTES);
+                redisImageService.saveData(pathImage, imageData, TTL, TimeUnit.MINUTES);
             }
 
 

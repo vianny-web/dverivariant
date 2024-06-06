@@ -8,6 +8,8 @@ import com.vianny.dverivariant.models.products.doors.InteriorDoor;
 import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
 import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
+import com.vianny.dverivariant.services.redis.RedisImageService;
+import com.vianny.dverivariant.services.redis.RedisService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +20,19 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/adm")
 public class AdminInteriorDoorController {
     private static final Logger log = LogManager.getLogger(AdminInteriorDoorController.class);
+    private final short TTL = 1;
 
     private InteriorDoorService interiorDoorService;
     private ImageTransferService imageTransferService;
     private MinioService minioService;
+    private RedisService redisService;
+    private RedisImageService redisImageService;
 
     @Autowired
     public void setInteriorDoorService(InteriorDoorService interiorDoorService) {
@@ -40,6 +46,14 @@ public class AdminInteriorDoorController {
     public void setMinioService(MinioService minioService) {
         this.minioService = minioService;
     }
+    @Autowired
+    public void setRedisService(RedisService redisService) {
+        this.redisService = redisService;
+    }
+    @Autowired
+    public void setRedisImageService(RedisImageService redisImageService) {
+        this.redisImageService = redisImageService;
+    }
 
     @PostMapping("/interior-door")
     @Transactional
@@ -51,6 +65,9 @@ public class AdminInteriorDoorController {
 
             interiorDoorService.addProduct(interiorDoor);
             imageTransferService.uploadImage(imageFile, interiorDoor.getPathImage());
+
+            redisService.saveData(interiorDoor.getId(), interiorDoor, TTL, TimeUnit.MINUTES);
+            redisImageService.saveData(interiorDoor.getPathImage(), imageFile.getBytes(), TTL, TimeUnit.MINUTES);
         }
         catch (Exception e) {
             log.error(e);
@@ -71,8 +88,11 @@ public class AdminInteriorDoorController {
             InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), name, description, price, interiorDoorById.get().getPathImage(),
                     material, glazing, modification, construction, manufacturer);
 
-            imageTransferService.uploadImage(imageFile, interiorDoorNew.getPathImage());
             interiorDoorService.updateProduct(interiorDoorNew);
+            imageTransferService.uploadImage(imageFile, interiorDoorNew.getPathImage());
+
+            redisService.updateData(interiorDoorNew.getId(), interiorDoorNew, TTL, TimeUnit.MINUTES);
+            redisImageService.updateData(interiorDoorNew.getPathImage(), imageFile.getBytes(), TTL, TimeUnit.MINUTES);
         }
         catch (NotFoundRequiredException e) {
             throw e;
@@ -92,8 +112,11 @@ public class AdminInteriorDoorController {
         try {
             Optional<InteriorDoor> interiorDoorById = interiorDoorService.findProductByID(id);
 
-            minioService.removeObject(interiorDoorById.get().getPathImage());
             interiorDoorService.deleteProduct(interiorDoorById.get().getId());
+            minioService.removeObject(interiorDoorById.get().getPathImage());
+
+            redisService.deleteData(interiorDoorById.get().getId());
+            redisImageService.deleteData(interiorDoorById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {
             throw e;
