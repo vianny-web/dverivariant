@@ -11,6 +11,8 @@ import com.vianny.dverivariant.models.products.floors.Quartzvinyl;
 import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.floors.QuartzvinylService;
+import com.vianny.dverivariant.services.redis.RedisImageService;
+import com.vianny.dverivariant.services.redis.RedisService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class AdminQuartzvinylController {
     private QuartzvinylService quartzvinylService;
     private ImageTransferService imageTransferService;
     private MinioService minioService;
+    private RedisService redisService;
+    private RedisImageService redisImageService;
 
     @Autowired
     public void setQuartzvinylService(QuartzvinylService quartzvinylService) {
@@ -43,6 +47,14 @@ public class AdminQuartzvinylController {
     public void setMinioService(MinioService minioService) {
         this.minioService = minioService;
     }
+    @Autowired
+    public void setRedisService(RedisService redisService) {
+        this.redisService = redisService;
+    }
+    @Autowired
+    public void setRedisImageService(RedisImageService redisImageService) {
+        this.redisImageService = redisImageService;
+    }
 
     @PostMapping("/quartzvinyl")
     @Transactional
@@ -54,6 +66,9 @@ public class AdminQuartzvinylController {
 
             quartzvinylService.addProduct(quartzvinyl);
             imageTransferService.uploadImage(imageFile, quartzvinyl.getPathImage());
+
+            redisService.saveData(quartzvinyl.getId(), quartzvinyl);
+            redisImageService.saveData(quartzvinyl.getPathImage(), imageFile.getBytes());
         }
         catch (Exception e) {
             log.error(e);
@@ -76,6 +91,9 @@ public class AdminQuartzvinylController {
 
             imageTransferService.uploadImage(imageFile, quartzvinylNew.getPathImage());
             quartzvinylService.updateProduct(quartzvinylNew);
+
+            redisService.updateData(quartzvinylNew.getId(), quartzvinylNew);
+            redisImageService.updateData(quartzvinylNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {
             throw e;
@@ -97,6 +115,9 @@ public class AdminQuartzvinylController {
 
             minioService.removeObject(quartzvinylById.get().getPathImage());
             quartzvinylService.deleteProduct(quartzvinylById.get().getId());
+
+            redisService.deleteData(quartzvinylById.get().getId());
+            redisImageService.deleteData(quartzvinylById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {
             throw e;

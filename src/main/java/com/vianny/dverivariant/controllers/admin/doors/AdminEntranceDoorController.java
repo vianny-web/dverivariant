@@ -10,6 +10,8 @@ import com.vianny.dverivariant.models.products.doors.EntranceDoor;
 import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.doors.EntranceDoorService;
+import com.vianny.dverivariant.services.redis.RedisImageService;
+import com.vianny.dverivariant.services.redis.RedisService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ public class AdminEntranceDoorController {
     private EntranceDoorService entranceDoorService;
     private ImageTransferService imageTransferService;
     private MinioService minioService;
+    private RedisService redisService;
+    private RedisImageService redisImageService;
 
     @Autowired
     public void setEntranceDoorService(EntranceDoorService entranceDoorService) {
@@ -42,6 +46,14 @@ public class AdminEntranceDoorController {
     public void setMinioService(MinioService minioService) {
         this.minioService = minioService;
     }
+    @Autowired
+    public void setRedisService(RedisService redisService) {
+        this.redisService = redisService;
+    }
+    @Autowired
+    public void setRedisImageService(RedisImageService redisImageService) {
+        this.redisImageService = redisImageService;
+    }
 
     @PostMapping("/entrance-door")
     @Transactional
@@ -53,6 +65,9 @@ public class AdminEntranceDoorController {
 
             entranceDoorService.addProduct(entranceDoor);
             imageTransferService.uploadImage(imageFile, entranceDoor.getPathImage());
+
+            redisService.saveData(entranceDoor.getId(), entranceDoor);
+            redisImageService.saveData(entranceDoor.getPathImage(), imageFile.getBytes());
         }
         catch (Exception e) {
             log.error(e);
@@ -75,6 +90,9 @@ public class AdminEntranceDoorController {
 
             imageTransferService.uploadImage(imageFile, entranceDoorNew.getPathImage());
             entranceDoorService.updateProduct(entranceDoorNew);
+
+            redisService.updateData(entranceDoorNew.getId(), entranceDoorNew);
+            redisImageService.updateData(entranceDoorNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {
             throw e;
@@ -96,6 +114,9 @@ public class AdminEntranceDoorController {
 
             minioService.removeObject(entranceDoorById.get().getPathImage());
             entranceDoorService.deleteProduct(entranceDoorById.get().getId());
+
+            redisService.deleteData(entranceDoorById.get().getId());
+            redisImageService.deleteData(entranceDoorById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {
             throw e;

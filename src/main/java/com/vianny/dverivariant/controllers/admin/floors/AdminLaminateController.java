@@ -8,6 +8,8 @@ import com.vianny.dverivariant.models.products.floors.Laminate;
 import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.floors.LaminateService;
+import com.vianny.dverivariant.services.redis.RedisImageService;
+import com.vianny.dverivariant.services.redis.RedisService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class AdminLaminateController {
     private LaminateService laminateService;
     private ImageTransferService imageTransferService;
     private MinioService minioService;
+    private RedisService redisService;
+    private RedisImageService redisImageService;
 
     @Autowired
     public void setLaminateService(LaminateService laminateService) {
@@ -40,6 +44,14 @@ public class AdminLaminateController {
     public void setMinioService(MinioService minioService) {
         this.minioService = minioService;
     }
+    @Autowired
+    public void setRedisService(RedisService redisService) {
+        this.redisService = redisService;
+    }
+    @Autowired
+    public void setRedisImageService(RedisImageService redisImageService) {
+        this.redisImageService = redisImageService;
+    }
 
     @PostMapping("/laminate")
     @Transactional
@@ -51,6 +63,9 @@ public class AdminLaminateController {
 
             laminateService.addProduct(laminate);
             imageTransferService.uploadImage(imageFile, laminate.getPathImage());
+
+            redisService.saveData(laminate.getId(), laminate);
+            redisImageService.saveData(laminate.getPathImage(), imageFile.getBytes());
         }
         catch (Exception e) {
             log.error(e);
@@ -73,6 +88,9 @@ public class AdminLaminateController {
 
             imageTransferService.uploadImage(imageFile, laminateNew.getPathImage());
             laminateService.updateProduct(laminateNew);
+
+            redisService.updateData(laminateNew.getId(), laminateNew);
+            redisImageService.updateData(laminateNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {
             throw e;
@@ -94,6 +112,9 @@ public class AdminLaminateController {
 
             minioService.removeObject(laminateById.get().getPathImage());
             laminateService.deleteProduct(laminateById.get().getId());
+
+            redisService.deleteData(laminateById.get().getId());
+            redisImageService.deleteData(laminateById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {
             throw e;

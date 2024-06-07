@@ -8,6 +8,8 @@ import com.vianny.dverivariant.models.products.others.Hardware;
 import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.others.HardwareService;
+import com.vianny.dverivariant.services.redis.RedisImageService;
+import com.vianny.dverivariant.services.redis.RedisService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class AdminHardwareController {
     private HardwareService hardwareService;
     private ImageTransferService imageTransferService;
     private MinioService minioService;
+    private RedisService redisService;
+    private RedisImageService redisImageService;
 
     @Autowired
     public void setHardwareService(HardwareService hardwareService) {
@@ -40,6 +44,14 @@ public class AdminHardwareController {
     public void setMinioService(MinioService minioService) {
         this.minioService = minioService;
     }
+    @Autowired
+    public void setRedisService(RedisService redisService) {
+        this.redisService = redisService;
+    }
+    @Autowired
+    public void setRedisImageService(RedisImageService redisImageService) {
+        this.redisImageService = redisImageService;
+    }
 
     @PostMapping("/hardware")
     @Transactional
@@ -50,6 +62,9 @@ public class AdminHardwareController {
 
             hardwareService.addProduct(hardware);
             imageTransferService.uploadImage(imageFile, hardware.getPathImage());
+
+            redisService.saveData(hardware.getId(), hardware);
+            redisImageService.saveData(hardware.getPathImage(), imageFile.getBytes());
         }
         catch (Exception e) {
             log.error(e);
@@ -70,6 +85,9 @@ public class AdminHardwareController {
 
             imageTransferService.uploadImage(imageFile, hardwareNew.getPathImage());
             hardwareService.updateProduct(hardwareNew);
+
+            redisService.updateData(hardwareNew.getId(), hardwareNew);
+            redisImageService.updateData(hardwareNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {
             throw e;
@@ -91,6 +109,9 @@ public class AdminHardwareController {
 
             minioService.removeObject(hardwareById.get().getPathImage());
             hardwareService.deleteProduct(hardwareById.get().getId());
+
+            redisService.deleteData(hardwareById.get().getId());
+            redisImageService.deleteData(hardwareById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {
             throw e;
