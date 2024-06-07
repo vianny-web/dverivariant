@@ -1,6 +1,7 @@
 package com.vianny.dverivariant.services.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class RedisService {
-
+    @Value("${redis.timeout}")
+    private long TTL;
+    private final TimeUnit timeUnit = TimeUnit.MINUTES;
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
@@ -16,13 +19,13 @@ public class RedisService {
         this.redisTemplate = redisTemplate;
     }
 
-    public void saveData(String key, Object value, long timeout, TimeUnit unit) {
-        redisTemplate.opsForValue().set(key, value, timeout, unit);
+    public void saveData(String key, Object value) {
+        redisTemplate.opsForValue().set(key, value, TTL, timeUnit);
     }
 
-    public void updateData(String key, Object value, long timeout, TimeUnit unit) {
+    public void updateData(String key, Object value) {
         redisTemplate.delete(key);
-        redisTemplate.opsForValue().set(key, value, timeout, unit);
+        redisTemplate.opsForValue().set(key, value, TTL, timeUnit);
     }
 
     public void deleteData(String key) {

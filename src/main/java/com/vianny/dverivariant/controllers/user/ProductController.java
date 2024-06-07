@@ -11,19 +11,15 @@ import com.vianny.dverivariant.services.products.floors.LaminateService;
 import com.vianny.dverivariant.services.products.floors.QuartzvinylService;
 import com.vianny.dverivariant.services.products.others.HardwareService;
 import com.vianny.dverivariant.services.redis.RedisService;
-import org.apache.commons.compress.utils.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/catalog")
@@ -67,7 +63,7 @@ public class ProductController {
                     case QUARTZVINYL -> productById = quartzvinylService.getProductById(id);
                     case HARDWARE -> productById = hardwareService.getProductById(id);
                 }
-                redisService.saveData(id, productById, 1, TimeUnit.MINUTES);
+                redisService.saveData(id, productById);
             }
 
             ProductMessage<ProductDetailsDTO> dataObject = new ProductMessage<>(HttpStatus.FOUND, productById);

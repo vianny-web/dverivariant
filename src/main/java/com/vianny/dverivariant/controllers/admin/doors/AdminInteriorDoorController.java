@@ -26,7 +26,6 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/adm")
 public class AdminInteriorDoorController {
     private static final Logger log = LogManager.getLogger(AdminInteriorDoorController.class);
-    private final short TTL = 1;
 
     private InteriorDoorService interiorDoorService;
     private ImageTransferService imageTransferService;
@@ -66,8 +65,8 @@ public class AdminInteriorDoorController {
             interiorDoorService.addProduct(interiorDoor);
             imageTransferService.uploadImage(imageFile, interiorDoor.getPathImage());
 
-            redisService.saveData(interiorDoor.getId(), interiorDoor, TTL, TimeUnit.MINUTES);
-            redisImageService.saveData(interiorDoor.getPathImage(), imageFile.getBytes(), TTL, TimeUnit.MINUTES);
+            redisService.saveData(interiorDoor.getId(), interiorDoor);
+            redisImageService.saveData(interiorDoor.getPathImage(), imageFile.getBytes());
         }
         catch (Exception e) {
             log.error(e);
@@ -91,8 +90,8 @@ public class AdminInteriorDoorController {
             interiorDoorService.updateProduct(interiorDoorNew);
             imageTransferService.uploadImage(imageFile, interiorDoorNew.getPathImage());
 
-            redisService.updateData(interiorDoorNew.getId(), interiorDoorNew, TTL, TimeUnit.MINUTES);
-            redisImageService.updateData(interiorDoorNew.getPathImage(), imageFile.getBytes(), TTL, TimeUnit.MINUTES);
+            redisService.updateData(interiorDoorNew.getId(), interiorDoorNew);
+            redisImageService.updateData(interiorDoorNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {
             throw e;

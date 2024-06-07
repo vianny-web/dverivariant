@@ -54,7 +54,7 @@ public class ImageController {
                 InputStreamResource imageStream = imageTransferService.downloadFile(pathImage);
                 imageData = IOUtils.toByteArray(imageStream.getInputStream());
 
-                redisImageService.saveData(pathImage, imageData, TTL, TimeUnit.MINUTES);
+                redisImageService.saveData(pathImage, imageData);
             }
 
 
