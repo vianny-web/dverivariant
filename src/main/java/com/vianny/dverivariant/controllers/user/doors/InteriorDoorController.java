@@ -38,7 +38,6 @@ public class InteriorDoorController {
     public ResponseEntity<ProductMessage<List<ProductBriefDTO>>> getAllProducts() {
         try {
             List<ProductBriefDTO> productBriefDTOS;
-
             List<ProductBriefDTO> cachedData = redisListService.getData(TypeProducts.INTERIOR_DOOR.toString());
 
             if (cachedData != null) {
