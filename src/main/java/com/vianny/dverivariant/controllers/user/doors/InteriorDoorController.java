@@ -5,7 +5,7 @@ import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
-import org.apache.logging.log4j.Level;
+import com.vianny.dverivariant.services.redis.RedisListService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +23,32 @@ public class InteriorDoorController {
     private static final Logger log = LogManager.getLogger(InteriorDoorController.class);
 
     private InteriorDoorService interiorDoorService;
+    private RedisListService redisListService;
+
     @Autowired
     public void setInteriorDoorService(InteriorDoorService interiorDoorService) {
         this.interiorDoorService = interiorDoorService;
+    }
+    @Autowired
+    public void setRedisListService(RedisListService redisListService) {
+        this.redisListService = redisListService;
     }
 
     @GetMapping("/category/interior-door/all")
     public ResponseEntity<ProductMessage<List<ProductBriefDTO>>> getAllProducts() {
         try {
-            List<ProductBriefDTO> productBriefDTOS = interiorDoorService.getAllProductsByType(TypeProducts.INTERIOR_DOOR);
+            List<ProductBriefDTO> productBriefDTOS;
+
+            List<ProductBriefDTO> cachedData = redisListService.getData(TypeProducts.INTERIOR_DOOR.toString());
+
+            if (cachedData != null) {
+                productBriefDTOS = cachedData;
+            }
+            else {
+                productBriefDTOS = interiorDoorService.getAllProductsByType(TypeProducts.INTERIOR_DOOR);
+                redisListService.saveData(TypeProducts.INTERIOR_DOOR.toString(), productBriefDTOS);
+            }
+
             ProductMessage<List<ProductBriefDTO>> dataObject = new ProductMessage<>(HttpStatus.FOUND, productBriefDTOS);
             return new ResponseEntity<>(dataObject,HttpStatus.OK);
         }
