@@ -8,6 +8,7 @@ import com.vianny.dverivariant.models.products.doors.InteriorDoor;
 import com.vianny.dverivariant.repositories.products.doors.InteriorDoorRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
 import com.vianny.dverivariant.services.products.ProductRetrievalService;
+import com.vianny.dverivariant.services.redis.RedisService;
 import com.vianny.dverivariant.utils.product.ProductDetailsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.*;
 public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoor>, ProductRetrievalService<InteriorDoor> {
     private InteriorDoorRepository<InteriorDoor> interiorDoorRepository;
     private ProductDetailsHelper productDetailsHelper;
+    private RedisService redisService;
 
     @Autowired
     public void setInteriorDoorRepository(InteriorDoorRepository<InteriorDoor> interiorDoorRepository) {
@@ -27,6 +29,10 @@ public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoo
     @Autowired
     public void setProductDetailsHelper(ProductDetailsHelper productDetailsHelper) {
         this.productDetailsHelper = productDetailsHelper;
+    }
+    @Autowired
+    public void setRedisService(RedisService redisService) {
+        this.redisService = redisService;
     }
 
     @Override
@@ -69,7 +75,15 @@ public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoo
 
     @Override
     public ProductDetailsDTO getProductById(String id) {
-        Optional<InteriorDoor> interiorDoor = interiorDoorRepository.findById(id);
+        Optional<InteriorDoor> interiorDoor;
+
+        if (redisService.getData(id) != null) {
+            interiorDoor = Optional.ofNullable((InteriorDoor) redisService.getData(id));
+        }
+        else {
+            interiorDoor = interiorDoorRepository.findById(id);
+            redisService.saveData(id, interiorDoor);
+        }
         HashMap<String, String> details = productDetailsHelper.getDetailsInteriorDoor(interiorDoor);
 
         if (interiorDoor.isEmpty()) {

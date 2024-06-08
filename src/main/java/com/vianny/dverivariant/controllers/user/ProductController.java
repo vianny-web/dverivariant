@@ -32,8 +32,6 @@ public class ProductController {
     private final QuartzvinylService quartzvinylService;
     private final HardwareService hardwareService;
 
-    private RedisService redisService;
-
     @Autowired
     public ProductController(InteriorDoorService interiorDoorService, EntranceDoorService entranceDoorService, LaminateService laminateService, QuartzvinylService quartzvinylService, HardwareService hardwareService) {
         this.interiorDoorService = interiorDoorService;
@@ -42,28 +40,18 @@ public class ProductController {
         this.quartzvinylService = quartzvinylService;
         this.hardwareService = hardwareService;
     }
-    @Autowired
-    public void setRedisService(RedisService redisService) {
-        this.redisService = redisService;
-    }
 
     @GetMapping("/product")
     public ResponseEntity<ProductMessage<ProductDetailsDTO>> getProduct(@RequestParam String id, @RequestParam TypeProducts type) {
         try {
             ProductDetailsDTO productById = null;
 
-            if (redisService.getData(id) != null) {
-                productById = (ProductDetailsDTO) redisService.getData(id);
-            }
-            else {
-                switch (type) {
-                    case INTERIOR_DOOR -> productById = interiorDoorService.getProductById(id);
-                    case ENTRANCE_DOOR -> productById = entranceDoorService.getProductById(id);
-                    case LAMINATE -> productById = laminateService.getProductById(id);
-                    case QUARTZVINYL -> productById = quartzvinylService.getProductById(id);
-                    case HARDWARE -> productById = hardwareService.getProductById(id);
-                }
-                redisService.saveData(id, productById);
+            switch (type) {
+                case INTERIOR_DOOR -> productById = interiorDoorService.getProductById(id);
+                case ENTRANCE_DOOR -> productById = entranceDoorService.getProductById(id);
+                case LAMINATE -> productById = laminateService.getProductById(id);
+                case QUARTZVINYL -> productById = quartzvinylService.getProductById(id);
+                case HARDWARE -> productById = hardwareService.getProductById(id);
             }
 
             ProductMessage<ProductDetailsDTO> dataObject = new ProductMessage<>(HttpStatus.FOUND, productById);
