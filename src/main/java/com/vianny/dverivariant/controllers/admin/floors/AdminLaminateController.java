@@ -89,7 +89,7 @@ public class AdminLaminateController {
             imageTransferService.uploadImage(imageFile, laminateNew.getPathImage());
             laminateService.updateProduct(laminateNew);
 
-            redisService.updateData(laminateNew.getId(), laminateNew);
+            redisService.saveData(laminateNew.getId(), laminateNew);
             redisImageService.updateData(laminateNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {

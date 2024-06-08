@@ -90,7 +90,7 @@ public class AdminInteriorDoorController {
             interiorDoorService.updateProduct(interiorDoorNew);
             imageTransferService.uploadImage(imageFile, interiorDoorNew.getPathImage());
 
-            redisService.updateData(interiorDoorNew.getId(), interiorDoorNew);
+            redisService.saveData(interiorDoorNew.getId(), interiorDoorNew);
             redisImageService.updateData(interiorDoorNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {

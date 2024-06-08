@@ -91,7 +91,7 @@ public class AdminEntranceDoorController {
             imageTransferService.uploadImage(imageFile, entranceDoorNew.getPathImage());
             entranceDoorService.updateProduct(entranceDoorNew);
 
-            redisService.updateData(entranceDoorNew.getId(), entranceDoorNew);
+            redisService.saveData(entranceDoorNew.getId(), entranceDoorNew);
             redisImageService.updateData(entranceDoorNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {

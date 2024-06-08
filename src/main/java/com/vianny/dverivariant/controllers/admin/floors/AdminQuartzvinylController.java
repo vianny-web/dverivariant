@@ -92,7 +92,7 @@ public class AdminQuartzvinylController {
             imageTransferService.uploadImage(imageFile, quartzvinylNew.getPathImage());
             quartzvinylService.updateProduct(quartzvinylNew);
 
-            redisService.updateData(quartzvinylNew.getId(), quartzvinylNew);
+            redisService.saveData(quartzvinylNew.getId(), quartzvinylNew);
             redisImageService.updateData(quartzvinylNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {
