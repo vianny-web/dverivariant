@@ -77,21 +77,27 @@ public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoo
     public ProductDetailsDTO getProductById(String id) {
         Optional<InteriorDoor> interiorDoor;
 
-        if (redisService.getData(id) != null) {
-            interiorDoor = Optional.ofNullable((InteriorDoor) redisService.getData(id));
-        }
-        else {
+        Object cachedData = redisService.getData(id);
+        if (cachedData != null) {
+            interiorDoor = Optional.of((InteriorDoor) cachedData);
+        } else {
             interiorDoor = interiorDoorRepository.findById(id);
-            redisService.saveData(id, interiorDoor);
+            interiorDoor.ifPresent(door -> redisService.saveData(id, door));
         }
-        HashMap<String, String> details = productDetailsHelper.getDetailsInteriorDoor(interiorDoor);
 
         if (interiorDoor.isEmpty()) {
             throw new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Продукт не найден");
         }
+        HashMap<String, String> details = productDetailsHelper.getDetailsInteriorDoor(interiorDoor);
 
-        return new ProductDetailsDTO(id, interiorDoor.get().getName(),
-                interiorDoor.get().getDescription(), interiorDoor.get().getPrice(),
-                interiorDoor.get().getPathImage(), interiorDoor.get().getType(), details);
+        return new ProductDetailsDTO(
+                id,
+                interiorDoor.get().getName(),
+                interiorDoor.get().getDescription(),
+                interiorDoor.get().getPrice(),
+                interiorDoor.get().getPathImage(),
+                interiorDoor.get().getType(),
+                details
+        );
     }
 }

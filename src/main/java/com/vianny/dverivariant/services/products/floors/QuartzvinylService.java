@@ -5,10 +5,12 @@ import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.EntranceDoor;
+import com.vianny.dverivariant.models.products.floors.Laminate;
 import com.vianny.dverivariant.models.products.floors.Quartzvinyl;
 import com.vianny.dverivariant.repositories.products.floors.QuartzvinylRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
 import com.vianny.dverivariant.services.products.ProductRetrievalService;
+import com.vianny.dverivariant.services.redis.RedisService;
 import com.vianny.dverivariant.utils.product.ProductDetailsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ import java.util.Optional;
 public class QuartzvinylService implements AdminCapabilitiesService<Quartzvinyl>, ProductRetrievalService<Quartzvinyl> {
     private QuartzvinylRepository quartzvinylRepository;
     private ProductDetailsHelper productDetailsHelper;
+    private RedisService redisService;
 
     @Autowired
     public void setQuartzvinylRepository(QuartzvinylRepository quartzvinylRepository) {
@@ -31,6 +34,10 @@ public class QuartzvinylService implements AdminCapabilitiesService<Quartzvinyl>
     @Autowired
     public void setProductDetailsHelper(ProductDetailsHelper productDetailsHelper) {
         this.productDetailsHelper = productDetailsHelper;
+    }
+    @Autowired
+    public void setRedisService(RedisService redisService) {
+        this.redisService = redisService;
     }
 
     @Override
@@ -73,12 +80,20 @@ public class QuartzvinylService implements AdminCapabilitiesService<Quartzvinyl>
 
     @Override
     public ProductDetailsDTO getProductById(String id) {
-        Optional<Quartzvinyl> quartzvinyl = quartzvinylRepository.findById(id);
-        HashMap<String, String> details = productDetailsHelper.getDetailsQuartzvinyl(quartzvinyl);
+        Optional<Quartzvinyl> quartzvinyl;
+
+        Object cachedData = redisService.getData(id);
+        if (cachedData != null) {
+            quartzvinyl = Optional.of((Quartzvinyl) cachedData);
+        } else {
+            quartzvinyl = quartzvinylRepository.findById(id);
+            quartzvinyl.ifPresent(quartzvinylType -> redisService.saveData(id, quartzvinylType));
+        }
 
         if (quartzvinyl.isEmpty()) {
             throw new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Продукт не найден");
         }
+        HashMap<String, String> details = productDetailsHelper.getDetailsQuartzvinyl(quartzvinyl);
 
         return new ProductDetailsDTO(id, quartzvinyl.get().getName(),
                 quartzvinyl.get().getDescription(), quartzvinyl.get().getPrice(),

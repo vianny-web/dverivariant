@@ -5,10 +5,12 @@ import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.EntranceDoor;
+import com.vianny.dverivariant.models.products.floors.Quartzvinyl;
 import com.vianny.dverivariant.models.products.others.Hardware;
 import com.vianny.dverivariant.repositories.products.others.HardwareRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
 import com.vianny.dverivariant.services.products.ProductRetrievalService;
+import com.vianny.dverivariant.services.redis.RedisService;
 import com.vianny.dverivariant.utils.product.ProductDetailsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ import java.util.Optional;
 public class HardwareService implements AdminCapabilitiesService<Hardware>, ProductRetrievalService<Hardware> {
     private HardwareRepository hardwareRepository;
     private ProductDetailsHelper productDetailsHelper;
+    private RedisService redisService;
 
     @Autowired
     public void setHardwareRepository(HardwareRepository hardwareRepository) {
@@ -31,6 +34,10 @@ public class HardwareService implements AdminCapabilitiesService<Hardware>, Prod
     @Autowired
     public void setProductDetailsHelper(ProductDetailsHelper productDetailsHelper) {
         this.productDetailsHelper = productDetailsHelper;
+    }
+    @Autowired
+    public void setRedisService(RedisService redisService) {
+        this.redisService = redisService;
     }
 
     @Override
@@ -73,12 +80,20 @@ public class HardwareService implements AdminCapabilitiesService<Hardware>, Prod
 
     @Override
     public ProductDetailsDTO getProductById(String id) {
-        Optional<Hardware> hardware = hardwareRepository.findById(id);
-        HashMap<String, String> details = productDetailsHelper.getDetailsHardware(hardware);
+        Optional<Hardware> hardware;
+
+        Object cachedData = redisService.getData(id);
+        if (cachedData != null) {
+            hardware = Optional.of((Hardware) cachedData);
+        } else {
+            hardware = hardwareRepository.findById(id);
+            hardware.ifPresent(hardwareType -> redisService.saveData(id, hardwareType));
+        }
 
         if (hardware.isEmpty()) {
             throw new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Продукт не найден");
         }
+        HashMap<String, String> details = productDetailsHelper.getDetailsHardware(hardware);
 
         return new ProductDetailsDTO(id, hardware.get().getName(),
                 hardware.get().getDescription(), hardware.get().getPrice(),

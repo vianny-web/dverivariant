@@ -9,6 +9,7 @@ import com.vianny.dverivariant.models.products.doors.InteriorDoor;
 import com.vianny.dverivariant.repositories.products.doors.EntranceDoorRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
 import com.vianny.dverivariant.services.products.ProductRetrievalService;
+import com.vianny.dverivariant.services.redis.RedisService;
 import com.vianny.dverivariant.utils.product.ProductDetailsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import java.util.Optional;
 public class EntranceDoorService implements AdminCapabilitiesService<EntranceDoor>, ProductRetrievalService<EntranceDoor> {
     private EntranceDoorRepository entranceDoorRepository;
     private ProductDetailsHelper productDetailsHelper;
+    private RedisService redisService;
 
     @Autowired
     public void setEntranceDoorRepository(EntranceDoorRepository entranceDoorRepository) {
@@ -31,6 +33,10 @@ public class EntranceDoorService implements AdminCapabilitiesService<EntranceDoo
     @Autowired
     public void setProductDetailsHelper(ProductDetailsHelper productDetailsHelper) {
         this.productDetailsHelper = productDetailsHelper;
+    }
+    @Autowired
+    public void setRedisService(RedisService redisService) {
+        this.redisService = redisService;
     }
 
     @Override
@@ -73,12 +79,20 @@ public class EntranceDoorService implements AdminCapabilitiesService<EntranceDoo
 
     @Override
     public ProductDetailsDTO getProductById(String id) {
-        Optional<EntranceDoor> entranceDoor = entranceDoorRepository.findById(id);
-        HashMap<String, String> details = productDetailsHelper.getDetailsEntranceDoor(entranceDoor);
+        Optional<EntranceDoor> entranceDoor;
+
+        Object cachedData = redisService.getData(id);
+        if (cachedData != null) {
+            entranceDoor = Optional.of((EntranceDoor) cachedData);
+        } else {
+            entranceDoor = entranceDoorRepository.findById(id);
+            entranceDoor.ifPresent(door -> redisService.saveData(id, door));
+        }
 
         if (entranceDoor.isEmpty()) {
             throw new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Продукт не найден");
         }
+        HashMap<String, String> details = productDetailsHelper.getDetailsEntranceDoor(entranceDoor);
 
         return new ProductDetailsDTO(id, entranceDoor.get().getName(),
                 entranceDoor.get().getDescription(), entranceDoor.get().getPrice(),

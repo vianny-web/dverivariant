@@ -5,10 +5,12 @@ import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.EntranceDoor;
+import com.vianny.dverivariant.models.products.doors.InteriorDoor;
 import com.vianny.dverivariant.models.products.floors.Laminate;
 import com.vianny.dverivariant.repositories.products.floors.LaminateRepository;
 import com.vianny.dverivariant.services.products.AdminCapabilitiesService;
 import com.vianny.dverivariant.services.products.ProductRetrievalService;
+import com.vianny.dverivariant.services.redis.RedisService;
 import com.vianny.dverivariant.utils.product.ProductDetailsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ import java.util.Optional;
 public class LaminateService implements AdminCapabilitiesService<Laminate>, ProductRetrievalService<Laminate> {
     private LaminateRepository laminateRepository;
     private ProductDetailsHelper productDetailsHelper;
+    private RedisService redisService;
 
     @Autowired
     public void setLaminateRepository(LaminateRepository laminateRepository) {
@@ -31,6 +34,10 @@ public class LaminateService implements AdminCapabilitiesService<Laminate>, Prod
     @Autowired
     public void setProductDetailsHelper(ProductDetailsHelper productDetailsHelper) {
         this.productDetailsHelper = productDetailsHelper;
+    }
+    @Autowired
+    public void setRedisService(RedisService redisService) {
+        this.redisService = redisService;
     }
 
     @Override
@@ -73,12 +80,20 @@ public class LaminateService implements AdminCapabilitiesService<Laminate>, Prod
 
     @Override
     public ProductDetailsDTO getProductById(String id) {
-        Optional<Laminate> laminate = laminateRepository.findById(id);
-        HashMap<String, String> details = productDetailsHelper.getDetailsLaminate(laminate);
+        Optional<Laminate> laminate;
+
+        Object cachedData = redisService.getData(id);
+        if (cachedData != null) {
+            laminate = Optional.of((Laminate) cachedData);
+        } else {
+            laminate = laminateRepository.findById(id);
+            laminate.ifPresent(laminateType -> redisService.saveData(id, laminateType));
+        }
 
         if (laminate.isEmpty()) {
             throw new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Продукт не найден");
         }
+        HashMap<String, String> details = productDetailsHelper.getDetailsLaminate(laminate);
 
         return new ProductDetailsDTO(id, laminate.get().getName(),
                 laminate.get().getDescription(), laminate.get().getPrice(),
