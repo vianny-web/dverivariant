@@ -87,7 +87,7 @@ public class AdminHardwareController {
             hardwareService.updateProduct(hardwareNew);
 
             redisService.saveData(hardwareNew.getId(), hardwareNew);
-            redisImageService.updateData(hardwareNew.getPathImage(), imageFile.getBytes());
+            redisImageService.saveData(hardwareNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {
             throw e;

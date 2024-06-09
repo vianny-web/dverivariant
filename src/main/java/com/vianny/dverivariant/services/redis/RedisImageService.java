@@ -23,11 +23,6 @@ public class RedisImageService {
         redisTemplate.opsForValue().set(key, value, TTL, timeUnit);
     }
 
-    public void updateData(String key, byte[] value) {
-        redisTemplate.delete(key);
-        redisTemplate.opsForValue().set(key, value, TTL, timeUnit);
-    }
-
     public void deleteData(String key) {
         redisTemplate.delete(key);
     }
