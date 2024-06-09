@@ -1,6 +1,7 @@
 package com.vianny.dverivariant.controllers.admin.doors;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
+import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.doors.interior.*;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
@@ -9,6 +10,7 @@ import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
 import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.redis.RedisImageService;
+import com.vianny.dverivariant.services.redis.RedisListService;
 import com.vianny.dverivariant.services.redis.RedisService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/adm")
@@ -32,6 +33,7 @@ public class AdminInteriorDoorController {
     private MinioService minioService;
     private RedisService redisService;
     private RedisImageService redisImageService;
+    private RedisListService redisListService;
 
     @Autowired
     public void setInteriorDoorService(InteriorDoorService interiorDoorService) {
@@ -53,6 +55,10 @@ public class AdminInteriorDoorController {
     public void setRedisImageService(RedisImageService redisImageService) {
         this.redisImageService = redisImageService;
     }
+    @Autowired
+    public void setRedisListService(RedisListService redisListService) {
+        this.redisListService = redisListService;
+    }
 
     @PostMapping("/interior-door")
     @Transactional
@@ -66,6 +72,7 @@ public class AdminInteriorDoorController {
             imageTransferService.uploadImage(imageFile, interiorDoor.getPathImage());
 
             redisService.saveData(interiorDoor.getId(), interiorDoor);
+            redisListService.saveData(TypeProducts.INTERIOR_DOOR.toString(), interiorDoorService.getAllProductsByType(TypeProducts.INTERIOR_DOOR));
             redisImageService.saveData(interiorDoor.getPathImage(), imageFile.getBytes());
         }
         catch (Exception e) {
@@ -91,6 +98,7 @@ public class AdminInteriorDoorController {
             imageTransferService.uploadImage(imageFile, interiorDoorNew.getPathImage());
 
             redisService.saveData(interiorDoorNew.getId(), interiorDoorNew);
+            redisListService.saveData(TypeProducts.INTERIOR_DOOR.toString(), interiorDoorService.getAllProductsByType(TypeProducts.INTERIOR_DOOR));
             redisImageService.saveData(interiorDoorNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {
@@ -115,6 +123,7 @@ public class AdminInteriorDoorController {
             minioService.removeObject(interiorDoorById.get().getPathImage());
 
             redisService.deleteData(interiorDoorById.get().getId());
+            redisListService.deleteData(TypeProducts.INTERIOR_DOOR.toString());
             redisImageService.deleteData(interiorDoorById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {

@@ -1,6 +1,7 @@
 package com.vianny.dverivariant.controllers.admin.other;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
+import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.others.HardwareType;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
@@ -9,6 +10,7 @@ import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.others.HardwareService;
 import com.vianny.dverivariant.services.redis.RedisImageService;
+import com.vianny.dverivariant.services.redis.RedisListService;
 import com.vianny.dverivariant.services.redis.RedisService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,6 +33,7 @@ public class AdminHardwareController {
     private MinioService minioService;
     private RedisService redisService;
     private RedisImageService redisImageService;
+    private RedisListService redisListService;
 
     @Autowired
     public void setHardwareService(HardwareService hardwareService) {
@@ -52,6 +55,10 @@ public class AdminHardwareController {
     public void setRedisImageService(RedisImageService redisImageService) {
         this.redisImageService = redisImageService;
     }
+    @Autowired
+    public void setRedisListService(RedisListService redisListService) {
+        this.redisListService = redisListService;
+    }
 
     @PostMapping("/hardware")
     @Transactional
@@ -64,6 +71,7 @@ public class AdminHardwareController {
             imageTransferService.uploadImage(imageFile, hardware.getPathImage());
 
             redisService.saveData(hardware.getId(), hardware);
+            redisListService.saveData(TypeProducts.HARDWARE.toString(), hardwareService.getAllProductsByType(TypeProducts.HARDWARE));
             redisImageService.saveData(hardware.getPathImage(), imageFile.getBytes());
         }
         catch (Exception e) {
@@ -87,6 +95,7 @@ public class AdminHardwareController {
             hardwareService.updateProduct(hardwareNew);
 
             redisService.saveData(hardwareNew.getId(), hardwareNew);
+            redisListService.saveData(TypeProducts.HARDWARE.toString(), hardwareService.getAllProductsByType(TypeProducts.HARDWARE));
             redisImageService.saveData(hardwareNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {
@@ -111,6 +120,7 @@ public class AdminHardwareController {
             hardwareService.deleteProduct(hardwareById.get().getId());
 
             redisService.deleteData(hardwareById.get().getId());
+            redisListService.deleteData(TypeProducts.HARDWARE.toString());
             redisImageService.deleteData(hardwareById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {

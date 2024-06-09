@@ -1,6 +1,7 @@
 package com.vianny.dverivariant.controllers.admin.floors;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
+import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.floors.laminate.*;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
@@ -9,6 +10,7 @@ import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.floors.LaminateService;
 import com.vianny.dverivariant.services.redis.RedisImageService;
+import com.vianny.dverivariant.services.redis.RedisListService;
 import com.vianny.dverivariant.services.redis.RedisService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,6 +33,7 @@ public class AdminLaminateController {
     private MinioService minioService;
     private RedisService redisService;
     private RedisImageService redisImageService;
+    private RedisListService redisListService;
 
     @Autowired
     public void setLaminateService(LaminateService laminateService) {
@@ -52,6 +55,10 @@ public class AdminLaminateController {
     public void setRedisImageService(RedisImageService redisImageService) {
         this.redisImageService = redisImageService;
     }
+    @Autowired
+    public void setRedisListService(RedisListService redisListService) {
+        this.redisListService = redisListService;
+    }
 
     @PostMapping("/laminate")
     @Transactional
@@ -65,6 +72,7 @@ public class AdminLaminateController {
             imageTransferService.uploadImage(imageFile, laminate.getPathImage());
 
             redisService.saveData(laminate.getId(), laminate);
+            redisListService.saveData(TypeProducts.LAMINATE.toString(), laminateService.getAllProductsByType(TypeProducts.LAMINATE));
             redisImageService.saveData(laminate.getPathImage(), imageFile.getBytes());
         }
         catch (Exception e) {
@@ -90,6 +98,7 @@ public class AdminLaminateController {
             laminateService.updateProduct(laminateNew);
 
             redisService.saveData(laminateNew.getId(), laminateNew);
+            redisListService.saveData(TypeProducts.LAMINATE.toString(), laminateService.getAllProductsByType(TypeProducts.LAMINATE));
             redisImageService.saveData(laminateNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {
@@ -114,6 +123,7 @@ public class AdminLaminateController {
             laminateService.deleteProduct(laminateById.get().getId());
 
             redisService.deleteData(laminateById.get().getId());
+            redisListService.deleteData(TypeProducts.LAMINATE.toString());
             redisImageService.deleteData(laminateById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {

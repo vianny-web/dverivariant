@@ -25,6 +25,10 @@ public class RedisListService {
         redisListTemplate.opsForValue().set(key, list, TTL, timeUnit);
     }
 
+    public void deleteData(String key) {
+        redisListTemplate.delete(key);
+    }
+
     public List<ProductBriefDTO> getData(String key) {
         return redisListTemplate.opsForValue().get(key);
     }

@@ -1,6 +1,7 @@
 package com.vianny.dverivariant.controllers.admin.doors;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
+import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.doors.entrance.AdditionalProperties;
 import com.vianny.dverivariant.enums.doors.entrance.GlazingEntrance;
 import com.vianny.dverivariant.enums.doors.entrance.InstallationPlace;
@@ -11,6 +12,7 @@ import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.doors.EntranceDoorService;
 import com.vianny.dverivariant.services.redis.RedisImageService;
+import com.vianny.dverivariant.services.redis.RedisListService;
 import com.vianny.dverivariant.services.redis.RedisService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +35,7 @@ public class AdminEntranceDoorController {
     private MinioService minioService;
     private RedisService redisService;
     private RedisImageService redisImageService;
+    private RedisListService redisListService;
 
     @Autowired
     public void setEntranceDoorService(EntranceDoorService entranceDoorService) {
@@ -54,6 +57,10 @@ public class AdminEntranceDoorController {
     public void setRedisImageService(RedisImageService redisImageService) {
         this.redisImageService = redisImageService;
     }
+    @Autowired
+    public void setRedisListService(RedisListService redisListService) {
+        this.redisListService = redisListService;
+    }
 
     @PostMapping("/entrance-door")
     @Transactional
@@ -67,6 +74,7 @@ public class AdminEntranceDoorController {
             imageTransferService.uploadImage(imageFile, entranceDoor.getPathImage());
 
             redisService.saveData(entranceDoor.getId(), entranceDoor);
+            redisListService.saveData(TypeProducts.ENTRANCE_DOOR.toString(), entranceDoorService.getAllProductsByType(TypeProducts.ENTRANCE_DOOR));
             redisImageService.saveData(entranceDoor.getPathImage(), imageFile.getBytes());
         }
         catch (Exception e) {
@@ -92,6 +100,7 @@ public class AdminEntranceDoorController {
             entranceDoorService.updateProduct(entranceDoorNew);
 
             redisService.saveData(entranceDoorNew.getId(), entranceDoorNew);
+            redisListService.saveData(TypeProducts.ENTRANCE_DOOR.toString(), entranceDoorService.getAllProductsByType(TypeProducts.ENTRANCE_DOOR));
             redisImageService.saveData(entranceDoorNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {
@@ -116,6 +125,7 @@ public class AdminEntranceDoorController {
             entranceDoorService.deleteProduct(entranceDoorById.get().getId());
 
             redisService.deleteData(entranceDoorById.get().getId());
+            redisListService.deleteData(TypeProducts.ENTRANCE_DOOR.toString());
             redisImageService.deleteData(entranceDoorById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {

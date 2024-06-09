@@ -1,6 +1,7 @@
 package com.vianny.dverivariant.controllers.admin.floors;
 
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
+import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.floors.quartzvinyl.Base;
 import com.vianny.dverivariant.enums.floors.quartzvinyl.BevelQuartzvinyl;
 import com.vianny.dverivariant.enums.floors.quartzvinyl.InstallationType;
@@ -12,6 +13,7 @@ import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.minio.MinioService;
 import com.vianny.dverivariant.services.products.floors.QuartzvinylService;
 import com.vianny.dverivariant.services.redis.RedisImageService;
+import com.vianny.dverivariant.services.redis.RedisListService;
 import com.vianny.dverivariant.services.redis.RedisService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,6 +36,7 @@ public class AdminQuartzvinylController {
     private MinioService minioService;
     private RedisService redisService;
     private RedisImageService redisImageService;
+    private RedisListService redisListService;
 
     @Autowired
     public void setQuartzvinylService(QuartzvinylService quartzvinylService) {
@@ -55,6 +58,10 @@ public class AdminQuartzvinylController {
     public void setRedisImageService(RedisImageService redisImageService) {
         this.redisImageService = redisImageService;
     }
+    @Autowired
+    public void setRedisListService(RedisListService redisListService) {
+        this.redisListService = redisListService;
+    }
 
     @PostMapping("/quartzvinyl")
     @Transactional
@@ -68,6 +75,7 @@ public class AdminQuartzvinylController {
             imageTransferService.uploadImage(imageFile, quartzvinyl.getPathImage());
 
             redisService.saveData(quartzvinyl.getId(), quartzvinyl);
+            redisListService.saveData(TypeProducts.QUARTZVINYL.toString(), quartzvinylService.getAllProductsByType(TypeProducts.QUARTZVINYL));
             redisImageService.saveData(quartzvinyl.getPathImage(), imageFile.getBytes());
         }
         catch (Exception e) {
@@ -93,6 +101,7 @@ public class AdminQuartzvinylController {
             quartzvinylService.updateProduct(quartzvinylNew);
 
             redisService.saveData(quartzvinylNew.getId(), quartzvinylNew);
+            redisListService.saveData(TypeProducts.QUARTZVINYL.toString(), quartzvinylService.getAllProductsByType(TypeProducts.QUARTZVINYL));
             redisImageService.saveData(quartzvinylNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException e) {
@@ -117,6 +126,7 @@ public class AdminQuartzvinylController {
             quartzvinylService.deleteProduct(quartzvinylById.get().getId());
 
             redisService.deleteData(quartzvinylById.get().getId());
+            redisListService.deleteData(TypeProducts.QUARTZVINYL.toString());
             redisImageService.deleteData(quartzvinylById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {
