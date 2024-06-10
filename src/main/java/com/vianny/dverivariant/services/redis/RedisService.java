@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisService {
     @Value("${redis.timeout}")
     private long TTL;
-    private final TimeUnit timeUnit = TimeUnit.MINUTES;
+    private final TimeUnit timeUnit = TimeUnit.HOURS;
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
