@@ -2,7 +2,6 @@
 <configuration>
 
     <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/info.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
@@ -55,10 +54,8 @@
         </encoder>
     </appender>
 
-    <root level="INFO">
-        <appender-ref ref="INFO_FILE" />
+    <root level="ERROR">
         <appender-ref ref="ERROR_FILE" />
-        <appender-ref ref="WARN_FILE" />
         <appender-ref ref="CONSOLE" />
     </root>
 

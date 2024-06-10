@@ -23,9 +23,6 @@ public class RedisConfig {
     @Value("${spring.data.redis.port}")
     private int port;
 
-    @Value("${spring.data.redis.username}")
-    private String username;
-
     @Value("${spring.data.redis.password}")
     private String password;
 
@@ -34,7 +31,6 @@ public class RedisConfig {
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
         config.setHostName(host);
         config.setPort(port);
-        config.setUsername(username);
         config.setPassword(password);
         return new JedisConnectionFactory(config);
     }
