@@ -44,6 +44,12 @@ public class CustomExceptionHandler {
         return errors;
     }
 
+    @ExceptionHandler(ConflictRequiredException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseDataException handlerConflictErrorException (ConflictRequiredException exception) {
+        return new ResponseDataException(HttpStatus.CONFLICT, exception.getMessage());
+    }
+
     @ExceptionHandler(ServerErrorRequiredException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseDataException handlerServerErrorException (ServerErrorRequiredException exception) {

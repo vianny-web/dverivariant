@@ -9,4 +9,5 @@ import java.util.List;
 @NoRepositoryBean
 public interface ProductsRepository<T> extends MongoRepository<T, String> {
     List<T> findByType(TypeProducts type);
+    boolean existsByArticle(String article);
 }

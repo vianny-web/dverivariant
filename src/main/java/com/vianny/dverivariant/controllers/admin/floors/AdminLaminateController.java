@@ -3,6 +3,7 @@ package com.vianny.dverivariant.controllers.admin.floors;
 import com.vianny.dverivariant.dto.response.message.ResponseMainMessage;
 import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.floors.laminate.*;
+import com.vianny.dverivariant.exceptions.requiredException.ConflictRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.models.products.floors.Laminate;
@@ -75,6 +76,9 @@ public class AdminLaminateController {
             redisListService.saveData(TypeProducts.LAMINATE.toString(), laminateService.getAllProductsByType(TypeProducts.LAMINATE));
             redisImageService.saveData(laminate.getPathImage(), imageFile.getBytes());
         }
+        catch (ConflictRequiredException e) {
+            throw e;
+        }
         catch (Exception e) {
             log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
@@ -101,7 +105,7 @@ public class AdminLaminateController {
             redisListService.saveData(TypeProducts.LAMINATE.toString(), laminateService.getAllProductsByType(TypeProducts.LAMINATE));
             redisImageService.saveData(laminateNew.getPathImage(), imageFile.getBytes());
         }
-        catch (NotFoundRequiredException e) {
+        catch (NotFoundRequiredException | ConflictRequiredException e) {
             throw e;
         }
         catch (Exception e) {

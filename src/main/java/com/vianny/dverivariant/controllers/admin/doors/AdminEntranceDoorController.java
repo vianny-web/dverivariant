@@ -5,6 +5,7 @@ import com.vianny.dverivariant.enums.TypeProducts;
 import com.vianny.dverivariant.enums.doors.entrance.AdditionalProperties;
 import com.vianny.dverivariant.enums.doors.entrance.GlazingEntrance;
 import com.vianny.dverivariant.enums.doors.entrance.InstallationPlace;
+import com.vianny.dverivariant.exceptions.requiredException.ConflictRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.models.products.doors.EntranceDoor;
@@ -77,6 +78,9 @@ public class AdminEntranceDoorController {
             redisListService.saveData(TypeProducts.ENTRANCE_DOOR.toString(), entranceDoorService.getAllProductsByType(TypeProducts.ENTRANCE_DOOR));
             redisImageService.saveData(entranceDoor.getPathImage(), imageFile.getBytes());
         }
+        catch (ConflictRequiredException e) {
+            throw e;
+        }
         catch (Exception e) {
             log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
@@ -103,7 +107,7 @@ public class AdminEntranceDoorController {
             redisListService.saveData(TypeProducts.ENTRANCE_DOOR.toString(), entranceDoorService.getAllProductsByType(TypeProducts.ENTRANCE_DOOR));
             redisImageService.saveData(entranceDoorNew.getPathImage(), imageFile.getBytes());
         }
-        catch (NotFoundRequiredException e) {
+        catch (NotFoundRequiredException | ConflictRequiredException e) {
             throw e;
         }
         catch (Exception e) {

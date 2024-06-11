@@ -6,6 +6,7 @@ import com.vianny.dverivariant.enums.floors.quartzvinyl.Base;
 import com.vianny.dverivariant.enums.floors.quartzvinyl.BevelQuartzvinyl;
 import com.vianny.dverivariant.enums.floors.quartzvinyl.InstallationType;
 import com.vianny.dverivariant.enums.floors.quartzvinyl.ManufacturerQuartzvinyl;
+import com.vianny.dverivariant.exceptions.requiredException.ConflictRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.models.products.floors.Quartzvinyl;
@@ -78,6 +79,9 @@ public class AdminQuartzvinylController {
             redisListService.saveData(TypeProducts.QUARTZVINYL.toString(), quartzvinylService.getAllProductsByType(TypeProducts.QUARTZVINYL));
             redisImageService.saveData(quartzvinyl.getPathImage(), imageFile.getBytes());
         }
+        catch (ConflictRequiredException e) {
+            throw e;
+        }
         catch (Exception e) {
             log.error(e);
             throw new ServerErrorRequiredException(e.getMessage());
@@ -104,7 +108,7 @@ public class AdminQuartzvinylController {
             redisListService.saveData(TypeProducts.QUARTZVINYL.toString(), quartzvinylService.getAllProductsByType(TypeProducts.QUARTZVINYL));
             redisImageService.saveData(quartzvinylNew.getPathImage(), imageFile.getBytes());
         }
-        catch (NotFoundRequiredException e) {
+        catch (NotFoundRequiredException | ConflictRequiredException e) {
             throw e;
         }
         catch (Exception e) {

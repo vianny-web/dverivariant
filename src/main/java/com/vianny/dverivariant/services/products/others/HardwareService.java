@@ -3,6 +3,7 @@ package com.vianny.dverivariant.services.products.others;
 import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
+import com.vianny.dverivariant.exceptions.requiredException.ConflictRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.others.Hardware;
 import com.vianny.dverivariant.repositories.products.others.HardwareRepository;
@@ -40,12 +41,18 @@ public class HardwareService implements AdminCapabilitiesService<Hardware>, Prod
 
     @Override
     public void addProduct(Hardware hardware) {
-        hardwareRepository.save(hardware);
+        if (!hardwareRepository.existsByArticle(hardware.getArticle()))
+            hardwareRepository.save(hardware);
+        else
+            throw new ConflictRequiredException("Выберите другой артикул");
     }
 
     @Override
     public void updateProduct(Hardware hardware) {
-        hardwareRepository.save(hardware);
+        if (!hardwareRepository.existsByArticle(hardware.getArticle()))
+            hardwareRepository.save(hardware);
+        else
+            throw new ConflictRequiredException("Выберите другой артикул");
     }
 
     @Override

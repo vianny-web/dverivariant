@@ -3,6 +3,7 @@ package com.vianny.dverivariant.services.products.doors;
 import com.vianny.dverivariant.dto.response.product.ProductBriefDTO;
 import com.vianny.dverivariant.dto.response.product.ProductDetailsDTO;
 import com.vianny.dverivariant.enums.TypeProducts;
+import com.vianny.dverivariant.exceptions.requiredException.ConflictRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.models.products.doors.EntranceDoor;
 import com.vianny.dverivariant.repositories.products.doors.EntranceDoorRepository;
@@ -40,12 +41,18 @@ public class EntranceDoorService implements AdminCapabilitiesService<EntranceDoo
 
     @Override
     public void addProduct(EntranceDoor entranceDoor) {
-        entranceDoorRepository.save(entranceDoor);
+        if (!entranceDoorRepository.existsByArticle(entranceDoor.getArticle()))
+            entranceDoorRepository.save(entranceDoor);
+        else
+            throw new ConflictRequiredException("Выберите другой артикул");
     }
 
     @Override
     public void updateProduct(EntranceDoor entranceDoor) {
-        entranceDoorRepository.save(entranceDoor);
+        if (!entranceDoorRepository.existsByArticle(entranceDoor.getArticle()))
+            entranceDoorRepository.save(entranceDoor);
+        else
+            throw new ConflictRequiredException("Выберите другой артикул");
     }
 
     @Override
