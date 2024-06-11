@@ -20,7 +20,6 @@ bin/
 ### IntelliJ IDEA ###
 .idea
 logs
-DockerFiles
 *.iws
 *.iml
 *.ipr
@@ -37,3 +36,4 @@ out/
 
 ### VS Code ###
 .vscode/
+/DockerFiles/dverivariant-0.0.1-SNAPSHOT.jar
