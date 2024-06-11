@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class ProductBriefDTO {
     private String id;
+    private String article;
     private String name;
     private String description;
     private Integer price;
@@ -13,8 +14,9 @@ public class ProductBriefDTO {
     public ProductBriefDTO() {
     }
 
-    public ProductBriefDTO(String id, String name, String description, Integer price, String pathImage, HashMap<String, String> details) {
+    public ProductBriefDTO(String id, String article, String name, String description, Integer price, String pathImage, HashMap<String, String> details) {
         this.id = id;
+        this.article = article;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -24,6 +26,10 @@ public class ProductBriefDTO {
 
     public String getId() {
         return id;
+    }
+
+    public String getArticle() {
+        return article;
     }
 
     public String getName() {

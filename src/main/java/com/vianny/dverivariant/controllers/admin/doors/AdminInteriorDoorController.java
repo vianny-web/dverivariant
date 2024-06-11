@@ -62,11 +62,11 @@ public class AdminInteriorDoorController {
 
     @PostMapping("/interior-door")
     @Transactional
-    public ResponseEntity<ResponseMainMessage> createInteriorDoor(@RequestParam MultipartFile imageFile, String name, String description,
+    public ResponseEntity<ResponseMainMessage> createInteriorDoor(@RequestParam MultipartFile imageFile, String article, String name, String description,
                                                                   Integer price, Material material, GlazingInterior glazing, Modification modification,
                                                                   Construction construction, ManufacturerInterior manufacturer) {
         try {
-            InteriorDoor interiorDoor = new InteriorDoor(name, description, price, material, glazing, modification, construction, manufacturer);
+            InteriorDoor interiorDoor = new InteriorDoor(article, name, description, price, material, glazing, modification, construction, manufacturer);
 
             interiorDoorService.addProduct(interiorDoor);
             imageTransferService.uploadImage(imageFile, interiorDoor.getPathImage());
@@ -86,12 +86,12 @@ public class AdminInteriorDoorController {
 
     @PutMapping("/interior-door")
     @Transactional
-    public ResponseEntity<ResponseMainMessage> updateInteriorDoor(@RequestParam MultipartFile imageFile, String id, String name, String description,
+    public ResponseEntity<ResponseMainMessage> updateInteriorDoor(@RequestParam MultipartFile imageFile, String id, String article, String name, String description,
                                                                   Integer price, Material material, GlazingInterior glazing, Modification modification,
                                                                   Construction construction, ManufacturerInterior manufacturer) {
         try {
             Optional<InteriorDoor> interiorDoorById = interiorDoorService.findProductByID(id);
-            InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), name, description, price, interiorDoorById.get().getPathImage(),
+            InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), article, name, description, price, interiorDoorById.get().getPathImage(),
                     material, glazing, modification, construction, manufacturer);
 
             interiorDoorService.updateProduct(interiorDoorNew);

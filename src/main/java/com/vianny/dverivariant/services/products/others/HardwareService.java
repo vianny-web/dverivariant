@@ -67,7 +67,7 @@ public class HardwareService implements AdminCapabilitiesService<Hardware>, Prod
             HashMap<String, String> details = productDetailsHelper.getDetailsHardware(Optional.ofNullable(hardware));
 
             assert hardware != null;
-            ProductBriefDTO productBriefDTO = new ProductBriefDTO(hardware.getId(), hardware.getName(), hardware.getDescription(),
+            ProductBriefDTO productBriefDTO = new ProductBriefDTO(hardware.getId(), hardware.getArticle(), hardware.getName(), hardware.getDescription(),
                     hardware.getPrice(), hardware.getPathImage(), details);
 
             productBriefDTOList.add(productBriefDTO);
@@ -93,7 +93,7 @@ public class HardwareService implements AdminCapabilitiesService<Hardware>, Prod
         }
         HashMap<String, String> details = productDetailsHelper.getDetailsHardware(hardware);
 
-        return new ProductDetailsDTO(id, hardware.get().getName(),
+        return new ProductDetailsDTO(id, hardware.get().getArticle(), hardware.get().getName(),
                 hardware.get().getDescription(), hardware.get().getPrice(),
                 hardware.get().getPathImage(), hardware.get().getType(), details);
     }

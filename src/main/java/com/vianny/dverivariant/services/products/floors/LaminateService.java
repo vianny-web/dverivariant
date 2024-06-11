@@ -67,7 +67,7 @@ public class LaminateService implements AdminCapabilitiesService<Laminate>, Prod
             HashMap<String, String> details = productDetailsHelper.getDetailsLaminate(Optional.ofNullable(laminate));
 
             assert laminate != null;
-            ProductBriefDTO productBriefDTO = new ProductBriefDTO(laminate.getId(), laminate.getName(), laminate.getDescription(),
+            ProductBriefDTO productBriefDTO = new ProductBriefDTO(laminate.getId(), laminate.getArticle(), laminate.getName(), laminate.getDescription(),
                     laminate.getPrice(), laminate.getPathImage(), details);
 
             productBriefDTOList.add(productBriefDTO);
@@ -93,7 +93,7 @@ public class LaminateService implements AdminCapabilitiesService<Laminate>, Prod
         }
         HashMap<String, String> details = productDetailsHelper.getDetailsLaminate(laminate);
 
-        return new ProductDetailsDTO(id, laminate.get().getName(),
+        return new ProductDetailsDTO(id, laminate.get().getArticle(), laminate.get().getName(),
                 laminate.get().getDescription(), laminate.get().getPrice(),
                 laminate.get().getPathImage(), laminate.get().getType(), details);
     }

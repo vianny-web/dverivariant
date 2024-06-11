@@ -13,6 +13,7 @@ import java.util.UUID;
 public class InteriorDoor {
     @Id
     private String id;
+    private String article;
     private String name;
     private String description;
     private Integer price;
@@ -34,8 +35,9 @@ public class InteriorDoor {
     public InteriorDoor() {
     }
 
-    public InteriorDoor(String id, String name, String description, Integer price, String pathImage, Material material, GlazingInterior glazing, Modification modification, Construction construction, ManufacturerInterior manufacturer) {
+    public InteriorDoor(String id, String article, String name, String description, Integer price, String pathImage, Material material, GlazingInterior glazing, Modification modification, Construction construction, ManufacturerInterior manufacturer) {
         this.id = id;
+        this.article = article;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -47,7 +49,8 @@ public class InteriorDoor {
         this.manufacturer = manufacturer;
     }
 
-    public InteriorDoor(String name, String description, Integer price, Material material, GlazingInterior glazing, Modification modification, Construction construction, ManufacturerInterior manufacturer) {
+    public InteriorDoor(String article, String name, String description, Integer price, Material material, GlazingInterior glazing, Modification modification, Construction construction, ManufacturerInterior manufacturer) {
+        this.article = article;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -64,6 +67,14 @@ public class InteriorDoor {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getArticle() {
+        return article;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
     }
 
     public String getName() {

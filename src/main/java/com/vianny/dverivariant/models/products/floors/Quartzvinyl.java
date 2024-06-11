@@ -16,6 +16,7 @@ import java.util.UUID;
 public class Quartzvinyl {
     @Id
     private String id;
+    private String article;
     private String name;
     private String description;
     private Integer price;
@@ -35,8 +36,9 @@ public class Quartzvinyl {
     public Quartzvinyl() {
     }
 
-    public Quartzvinyl(String id, String name, String description, Integer price, String pathImage, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl, ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
+    public Quartzvinyl(String id, String article, String name, String description, Integer price, String pathImage, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl, ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
         this.id = id;
+        this.article = article;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -47,7 +49,8 @@ public class Quartzvinyl {
         this.manufacturerQuartzvinyl = manufacturerQuartzvinyl;
     }
 
-    public Quartzvinyl(String name, String description, Integer price, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl, ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
+    public Quartzvinyl(String article, String name, String description, Integer price, Base base, InstallationType installationType, BevelQuartzvinyl bevelQuartzvinyl, ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
+        this.article = article;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -63,6 +66,14 @@ public class Quartzvinyl {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getArticle() {
+        return article;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
     }
 
     public String getName() {

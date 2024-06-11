@@ -67,7 +67,7 @@ public class QuartzvinylService implements AdminCapabilitiesService<Quartzvinyl>
             HashMap<String, String> details = productDetailsHelper.getDetailsQuartzvinyl(Optional.ofNullable(quartzvinyl));
 
             assert quartzvinyl != null;
-            ProductBriefDTO productBriefDTO = new ProductBriefDTO(quartzvinyl.getId(), quartzvinyl.getName(), quartzvinyl.getDescription(),
+            ProductBriefDTO productBriefDTO = new ProductBriefDTO(quartzvinyl.getId(), quartzvinyl.getArticle(), quartzvinyl.getName(), quartzvinyl.getDescription(),
                     quartzvinyl.getPrice(), quartzvinyl.getPathImage(), details);
 
             productBriefDTOList.add(productBriefDTO);
@@ -93,7 +93,7 @@ public class QuartzvinylService implements AdminCapabilitiesService<Quartzvinyl>
         }
         HashMap<String, String> details = productDetailsHelper.getDetailsQuartzvinyl(quartzvinyl);
 
-        return new ProductDetailsDTO(id, quartzvinyl.get().getName(),
+        return new ProductDetailsDTO(id, quartzvinyl.get().getArticle(), quartzvinyl.get().getName(),
                 quartzvinyl.get().getDescription(), quartzvinyl.get().getPrice(),
                 quartzvinyl.get().getPathImage(), quartzvinyl.get().getType(), details);
     }

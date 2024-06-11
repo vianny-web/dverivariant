@@ -13,6 +13,7 @@ import java.util.UUID;
 public class Hardware {
     @Id
     private String id;
+    private String article;
     private String name;
     private String description;
     private Integer price;
@@ -26,8 +27,9 @@ public class Hardware {
     public Hardware() {
     }
 
-    public Hardware(String id, String name, String description, Integer price, HardwareType hardwareType, String pathImage) {
+    public Hardware(String id, String article, String name, String description, Integer price, HardwareType hardwareType, String pathImage) {
         this.id = id;
+        this.article = article;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -35,7 +37,8 @@ public class Hardware {
         this.pathImage = pathImage;
     }
 
-    public Hardware(String name, String description, Integer price, HardwareType hardwareType) {
+    public Hardware(String article, String name, String description, Integer price, HardwareType hardwareType) {
+        this.article = article;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -48,6 +51,14 @@ public class Hardware {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getArticle() {
+        return article;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
     }
 
     public String getName() {

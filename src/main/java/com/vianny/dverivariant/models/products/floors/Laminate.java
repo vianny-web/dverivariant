@@ -17,6 +17,7 @@ import java.util.UUID;
 public class Laminate {
     @Id
     private String id;
+    private String article;
     private String name;
     private String description;
     private Integer price;
@@ -38,8 +39,9 @@ public class Laminate {
     public Laminate() {
     }
 
-    public Laminate(String id, String name, String description, Integer price, String pathImage, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate, CountryOfOrigin countryOfOrigin) {
+    public Laminate(String id, String article, String name, String description, Integer price, String pathImage, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate, CountryOfOrigin countryOfOrigin) {
         this.id = id;
+        this.article = article;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -51,7 +53,8 @@ public class Laminate {
         this.countryOfOrigin = countryOfOrigin;
     }
 
-    public Laminate(String name, String description, Integer price, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate, CountryOfOrigin countryOfOrigin) {
+    public Laminate(String article, String name, String description, Integer price, ClassType classType, Thickness thickness, WaterResistance waterResistance, BevelLaminate bevelLaminate, CountryOfOrigin countryOfOrigin) {
+        this.article = article;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -68,6 +71,14 @@ public class Laminate {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getArticle() {
+        return article;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
     }
 
     public String getName() {

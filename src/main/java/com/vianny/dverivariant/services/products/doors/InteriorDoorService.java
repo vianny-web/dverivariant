@@ -64,7 +64,7 @@ public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoo
             HashMap<String, String> details = productDetailsHelper.getDetailsInteriorDoor(Optional.ofNullable(interiorDoor));
 
             assert interiorDoor != null;
-            ProductBriefDTO productBriefDTO = new ProductBriefDTO(interiorDoor.getId(), interiorDoor.getName(),
+            ProductBriefDTO productBriefDTO = new ProductBriefDTO(interiorDoor.getId(), interiorDoor.getArticle(), interiorDoor.getName(),
                     interiorDoor.getDescription(), interiorDoor.getPrice(), interiorDoor.getPathImage(), details);
 
             productBriefDTOList.add(productBriefDTO);
@@ -92,6 +92,7 @@ public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoo
 
         return new ProductDetailsDTO(
                 id,
+                interiorDoor.get().getArticle(),
                 interiorDoor.get().getName(),
                 interiorDoor.get().getDescription(),
                 interiorDoor.get().getPrice(),

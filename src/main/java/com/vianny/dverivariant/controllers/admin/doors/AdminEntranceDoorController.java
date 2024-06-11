@@ -64,11 +64,11 @@ public class AdminEntranceDoorController {
 
     @PostMapping("/entrance-door")
     @Transactional
-    public ResponseEntity<ResponseMainMessage> createEntranceDoor(@RequestParam MultipartFile imageFile, String name, String description,
+    public ResponseEntity<ResponseMainMessage> createEntranceDoor(@RequestParam MultipartFile imageFile, String article, String name, String description,
                                                                   Integer price, InstallationPlace installationPlace, GlazingEntrance glazing,
                                                                   AdditionalProperties additionalProperties) {
         try {
-            EntranceDoor entranceDoor = new EntranceDoor(name, description, price, installationPlace, glazing, additionalProperties);
+            EntranceDoor entranceDoor = new EntranceDoor(article, name, description, price, installationPlace, glazing, additionalProperties);
 
             entranceDoorService.addProduct(entranceDoor);
             imageTransferService.uploadImage(imageFile, entranceDoor.getPathImage());
@@ -88,12 +88,12 @@ public class AdminEntranceDoorController {
 
     @PutMapping("/entrance-door")
     @Transactional
-    public ResponseEntity<ResponseMainMessage> updateEntranceDoor(@RequestParam MultipartFile imageFile, String id, String name, String description,
+    public ResponseEntity<ResponseMainMessage> updateEntranceDoor(@RequestParam MultipartFile imageFile, String article, String id, String name, String description,
                                                                   Integer price, InstallationPlace installationPlace, GlazingEntrance glazing,
                                                                   AdditionalProperties additionalProperties) {
         try {
             Optional<EntranceDoor> entranceDoorById = entranceDoorService.findProductByID(id);
-            EntranceDoor entranceDoorNew = new EntranceDoor(entranceDoorById.get().getId(), name, description, price, entranceDoorById.get().getPathImage(),
+            EntranceDoor entranceDoorNew = new EntranceDoor(entranceDoorById.get().getId(), article, name, description, price, entranceDoorById.get().getPathImage(),
                     installationPlace, glazing, additionalProperties);
 
             imageTransferService.uploadImage(imageFile, entranceDoorNew.getPathImage());

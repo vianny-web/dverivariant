@@ -62,10 +62,10 @@ public class AdminHardwareController {
 
     @PostMapping("/hardware")
     @Transactional
-    public ResponseEntity<ResponseMainMessage> createHardware(@RequestParam MultipartFile imageFile, String name, String description,
+    public ResponseEntity<ResponseMainMessage> createHardware(@RequestParam MultipartFile imageFile, String article, String name, String description,
                                                               Integer price, HardwareType hardwareType) {
         try {
-            Hardware hardware = new Hardware(name, description, price, hardwareType);
+            Hardware hardware = new Hardware(article, name, description, price, hardwareType);
 
             hardwareService.addProduct(hardware);
             imageTransferService.uploadImage(imageFile, hardware.getPathImage());
@@ -85,11 +85,11 @@ public class AdminHardwareController {
 
     @PutMapping("/hardware")
     @Transactional
-    public ResponseEntity<ResponseMainMessage> updateHardware(@RequestParam MultipartFile imageFile, String id, String name, String description,
+    public ResponseEntity<ResponseMainMessage> updateHardware(@RequestParam MultipartFile imageFile, String id, String article, String name, String description,
                                                                   Integer price, HardwareType hardwareType) {
         try {
             Optional<Hardware> hardwareById = hardwareService.findProductByID(id);
-            Hardware hardwareNew = new Hardware(hardwareById.get().getId(), name, description, price, hardwareType, hardwareById.get().getPathImage());
+            Hardware hardwareNew = new Hardware(hardwareById.get().getId(), article, name, description, price, hardwareType, hardwareById.get().getPathImage());
 
             imageTransferService.uploadImage(imageFile, hardwareNew.getPathImage());
             hardwareService.updateProduct(hardwareNew);

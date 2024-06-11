@@ -15,6 +15,7 @@ import java.util.UUID;
 public class EntranceDoor {
     @Id
     private String id;
+    private String article;
     private String name;
     private String description;
     private Integer price;
@@ -32,8 +33,9 @@ public class EntranceDoor {
     public EntranceDoor() {
     }
 
-    public EntranceDoor(String id, String name, String description, Integer price, String pathImage, InstallationPlace installationPlace, GlazingEntrance glazingEntrance, AdditionalProperties additionalProperties) {
+    public EntranceDoor(String id, String article, String name, String description, Integer price, String pathImage, InstallationPlace installationPlace, GlazingEntrance glazingEntrance, AdditionalProperties additionalProperties) {
         this.id = id;
+        this.article = article;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -43,7 +45,8 @@ public class EntranceDoor {
         this.additionalProperties = additionalProperties;
     }
 
-    public EntranceDoor(String name, String description, Integer price, InstallationPlace installationPlace, GlazingEntrance glazingEntrance, AdditionalProperties additionalProperties) {
+    public EntranceDoor(String article, String name, String description, Integer price, InstallationPlace installationPlace, GlazingEntrance glazingEntrance, AdditionalProperties additionalProperties) {
+        this.article = article;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -58,6 +61,14 @@ public class EntranceDoor {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getArticle() {
+        return article;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
     }
 
     public String getName() {

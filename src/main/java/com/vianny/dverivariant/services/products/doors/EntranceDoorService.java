@@ -67,7 +67,7 @@ public class EntranceDoorService implements AdminCapabilitiesService<EntranceDoo
             HashMap<String, String> details = productDetailsHelper.getDetailsEntranceDoor(Optional.ofNullable(entranceDoor));
 
             assert entranceDoor != null;
-            ProductBriefDTO productBriefDTO = new ProductBriefDTO(entranceDoor.getId(), entranceDoor.getName(), entranceDoor.getDescription(),
+            ProductBriefDTO productBriefDTO = new ProductBriefDTO(entranceDoor.getId(), entranceDoor.getArticle(), entranceDoor.getName(), entranceDoor.getDescription(),
                     entranceDoor.getPrice(), entranceDoor.getPathImage(), details);
 
             productBriefDTOList.add(productBriefDTO);
@@ -93,7 +93,7 @@ public class EntranceDoorService implements AdminCapabilitiesService<EntranceDoo
         }
         HashMap<String, String> details = productDetailsHelper.getDetailsEntranceDoor(entranceDoor);
 
-        return new ProductDetailsDTO(id, entranceDoor.get().getName(),
+        return new ProductDetailsDTO(id, entranceDoor.get().getArticle(), entranceDoor.get().getName(),
                 entranceDoor.get().getDescription(), entranceDoor.get().getPrice(),
                 entranceDoor.get().getPathImage(), entranceDoor.get().getType(), details);
     }
