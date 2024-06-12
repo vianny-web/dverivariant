@@ -11,6 +11,7 @@ import jakarta.persistence.Enumerated;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Document("products")
@@ -151,5 +152,18 @@ public class Laminate {
 
     public void setCountryOfOrigin(CountryOfOrigin countryOfOrigin) {
         this.countryOfOrigin = countryOfOrigin;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Laminate laminate = (Laminate) o;
+        return Objects.equals(id, laminate.id) && Objects.equals(article, laminate.article) && Objects.equals(name, laminate.name) && Objects.equals(description, laminate.description) && Objects.equals(price, laminate.price) && Objects.equals(pathImage, laminate.pathImage) && type == laminate.type && classType == laminate.classType && thickness == laminate.thickness && waterResistance == laminate.waterResistance && bevelLaminate == laminate.bevelLaminate && countryOfOrigin == laminate.countryOfOrigin;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, article, name, description, price, pathImage, type, classType, thickness, waterResistance, bevelLaminate, countryOfOrigin);
     }
 }

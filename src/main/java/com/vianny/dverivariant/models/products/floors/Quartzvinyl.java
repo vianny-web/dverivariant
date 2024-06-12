@@ -10,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Document("products")
@@ -138,5 +139,18 @@ public class Quartzvinyl {
 
     public void setManufacturer(ManufacturerQuartzvinyl manufacturerQuartzvinyl) {
         this.manufacturerQuartzvinyl = manufacturerQuartzvinyl;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Quartzvinyl that = (Quartzvinyl) o;
+        return Objects.equals(id, that.id) && Objects.equals(article, that.article) && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(price, that.price) && Objects.equals(pathImage, that.pathImage) && type == that.type && base == that.base && installationType == that.installationType && bevelQuartzvinyl == that.bevelQuartzvinyl && manufacturerQuartzvinyl == that.manufacturerQuartzvinyl;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, article, name, description, price, pathImage, type, base, installationType, bevelQuartzvinyl, manufacturerQuartzvinyl);
     }
 }

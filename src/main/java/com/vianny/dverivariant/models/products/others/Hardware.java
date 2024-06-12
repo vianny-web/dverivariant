@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Document("products")
@@ -99,5 +100,18 @@ public class Hardware {
 
     public void setHardwareType(HardwareType hardwareType) {
         this.hardwareType = hardwareType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hardware hardware = (Hardware) o;
+        return Objects.equals(id, hardware.id) && Objects.equals(article, hardware.article) && Objects.equals(name, hardware.name) && Objects.equals(description, hardware.description) && Objects.equals(price, hardware.price) && Objects.equals(pathImage, hardware.pathImage) && type == hardware.type && hardwareType == hardware.hardwareType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, article, name, description, price, pathImage, type, hardwareType);
     }
 }

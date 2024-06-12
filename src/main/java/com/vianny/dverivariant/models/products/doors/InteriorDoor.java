@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Document("products")
@@ -147,5 +148,18 @@ public class InteriorDoor {
 
     public void setManufacturer(ManufacturerInterior manufacturerInterior) {
         this.manufacturer = manufacturerInterior;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InteriorDoor that = (InteriorDoor) o;
+        return Objects.equals(id, that.id) && Objects.equals(article, that.article) && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(price, that.price) && Objects.equals(pathImage, that.pathImage) && type == that.type && material == that.material && glazing == that.glazing && modification == that.modification && construction == that.construction && manufacturer == that.manufacturer;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, article, name, description, price, pathImage, type, material, glazing, modification, construction, manufacturer);
     }
 }

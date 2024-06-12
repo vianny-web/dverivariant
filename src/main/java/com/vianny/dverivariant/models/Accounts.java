@@ -2,6 +2,8 @@ package com.vianny.dverivariant.models;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table()
 public class Accounts {
@@ -44,5 +46,18 @@ public class Accounts {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Accounts accounts = (Accounts) o;
+        return Objects.equals(id, accounts.id) && Objects.equals(login, accounts.login) && Objects.equals(password, accounts.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, login, password);
     }
 }

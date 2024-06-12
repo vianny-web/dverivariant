@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Document("products")
@@ -125,5 +126,18 @@ public class EntranceDoor {
 
     public void setAdditionalProperties(AdditionalProperties additionalProperties) {
         this.additionalProperties = additionalProperties;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EntranceDoor that = (EntranceDoor) o;
+        return Objects.equals(id, that.id) && Objects.equals(article, that.article) && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(price, that.price) && Objects.equals(pathImage, that.pathImage) && type == that.type && installationPlace == that.installationPlace && glazingEntrance == that.glazingEntrance && additionalProperties == that.additionalProperties;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, article, name, description, price, pathImage, type, installationPlace, glazingEntrance, additionalProperties);
     }
 }
