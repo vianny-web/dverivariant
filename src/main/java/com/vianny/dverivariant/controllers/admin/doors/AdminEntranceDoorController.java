@@ -71,7 +71,7 @@ public class AdminEntranceDoorController {
         try {
             EntranceDoor entranceDoor = new EntranceDoor(article, name, description, price, installationPlace, glazing, additionalProperties);
 
-            entranceDoorService.addProduct(entranceDoor);
+            entranceDoorService.saveOrUpdateProduct(entranceDoor);
             imageTransferService.uploadImage(imageFile, entranceDoor.getPathImage());
 
             redisService.saveData(entranceDoor.getId(), entranceDoor);
@@ -101,7 +101,7 @@ public class AdminEntranceDoorController {
                     installationPlace, glazing, additionalProperties);
 
             imageTransferService.uploadImage(imageFile, entranceDoorNew.getPathImage());
-            entranceDoorService.updateProduct(entranceDoorNew);
+            entranceDoorService.saveOrUpdateProduct(entranceDoorNew);
 
             redisService.saveData(entranceDoorNew.getId(), entranceDoorNew);
             redisListService.saveData(TypeProducts.ENTRANCE_DOOR.toString(), entranceDoorService.getAllProductsByType(TypeProducts.ENTRANCE_DOOR));

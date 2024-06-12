@@ -40,15 +40,7 @@ public class LaminateService implements AdminCapabilitiesService<Laminate>, Prod
     }
 
     @Override
-    public void addProduct(Laminate laminate) {
-        if (!laminateRepository.existsByArticle(laminate.getArticle()))
-            laminateRepository.save(laminate);
-        else
-            throw new ConflictRequiredException("Выберите другой артикул");
-    }
-
-    @Override
-    public void updateProduct(Laminate laminate) {
+    public void saveOrUpdateProduct(Laminate laminate) {
         if (!laminateRepository.existsByArticle(laminate.getArticle()))
             laminateRepository.save(laminate);
         else

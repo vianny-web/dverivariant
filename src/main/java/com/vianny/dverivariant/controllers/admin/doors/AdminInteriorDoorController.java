@@ -69,7 +69,7 @@ public class AdminInteriorDoorController {
         try {
             InteriorDoor interiorDoor = new InteriorDoor(article, name, description, price, material, glazing, modification, construction, manufacturer);
 
-            interiorDoorService.addProduct(interiorDoor);
+            interiorDoorService.saveOrUpdateProduct(interiorDoor);
             imageTransferService.uploadImage(imageFile, interiorDoor.getPathImage());
 
             redisService.saveData(interiorDoor.getId(), interiorDoor);
@@ -98,7 +98,7 @@ public class AdminInteriorDoorController {
             InteriorDoor interiorDoorNew = new InteriorDoor(interiorDoorById.get().getId(), article, name, description, price, interiorDoorById.get().getPathImage(),
                     material, glazing, modification, construction, manufacturer);
 
-            interiorDoorService.updateProduct(interiorDoorNew);
+            interiorDoorService.saveOrUpdateProduct(interiorDoorNew);
             imageTransferService.uploadImage(imageFile, interiorDoorNew.getPathImage());
 
             redisService.saveData(interiorDoorNew.getId(), interiorDoorNew);

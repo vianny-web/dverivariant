@@ -40,15 +40,7 @@ public class QuartzvinylService implements AdminCapabilitiesService<Quartzvinyl>
     }
 
     @Override
-    public void addProduct(Quartzvinyl quartzvinyl) {
-        if (!quartzvinylRepository.existsByArticle(quartzvinyl.getArticle()))
-            quartzvinylRepository.save(quartzvinyl);
-        else
-            throw new ConflictRequiredException("Выберите другой артикул");
-    }
-
-    @Override
-    public void updateProduct(Quartzvinyl quartzvinyl) {
+    public void saveOrUpdateProduct(Quartzvinyl quartzvinyl) {
         if (!quartzvinylRepository.existsByArticle(quartzvinyl.getArticle()))
             quartzvinylRepository.save(quartzvinyl);
         else

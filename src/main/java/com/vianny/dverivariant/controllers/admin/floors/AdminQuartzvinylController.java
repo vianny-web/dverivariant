@@ -72,7 +72,7 @@ public class AdminQuartzvinylController {
         try {
             Quartzvinyl quartzvinyl = new Quartzvinyl(article, name, description, price, base, installationType, bevel, manufacturer);
 
-            quartzvinylService.addProduct(quartzvinyl);
+            quartzvinylService.saveOrUpdateProduct(quartzvinyl);
             imageTransferService.uploadImage(imageFile, quartzvinyl.getPathImage());
 
             redisService.saveData(quartzvinyl.getId(), quartzvinyl);
@@ -102,7 +102,7 @@ public class AdminQuartzvinylController {
                     base, installationType, bevel, manufacturer);
 
             imageTransferService.uploadImage(imageFile, quartzvinylNew.getPathImage());
-            quartzvinylService.updateProduct(quartzvinylNew);
+            quartzvinylService.saveOrUpdateProduct(quartzvinylNew);
 
             redisService.saveData(quartzvinylNew.getId(), quartzvinylNew);
             redisListService.saveData(TypeProducts.QUARTZVINYL.toString(), quartzvinylService.getAllProductsByType(TypeProducts.QUARTZVINYL));

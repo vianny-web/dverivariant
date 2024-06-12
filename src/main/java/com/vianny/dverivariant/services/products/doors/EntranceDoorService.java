@@ -40,15 +40,7 @@ public class EntranceDoorService implements AdminCapabilitiesService<EntranceDoo
     }
 
     @Override
-    public void addProduct(EntranceDoor entranceDoor) {
-        if (!entranceDoorRepository.existsByArticle(entranceDoor.getArticle()))
-            entranceDoorRepository.save(entranceDoor);
-        else
-            throw new ConflictRequiredException("Выберите другой артикул");
-    }
-
-    @Override
-    public void updateProduct(EntranceDoor entranceDoor) {
+    public void saveOrUpdateProduct(EntranceDoor entranceDoor) {
         if (!entranceDoorRepository.existsByArticle(entranceDoor.getArticle()))
             entranceDoorRepository.save(entranceDoor);
         else
