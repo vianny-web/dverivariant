@@ -9,7 +9,7 @@ services:
       - 'POSTGRES_PASSWORD=postgres'
       - 'POSTGRES_DB=door_db'
     volumes:
-      - /db/postgresql/data:/var/lib/postgresql/data
+      - /mnt/postgresql/data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
@@ -22,7 +22,7 @@ services:
       - 'MINIO_ACCESS_KEY=minio'
       - 'MINIO_SECRET_KEY=miniokey'
     volumes:
-      - /db/minio/data:/data
+      - /mnt/minio/data:/data
     command: server /data
 
   redis:
@@ -38,7 +38,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - /db/mongo/data:/data/db
+      - /mnt/mongo/data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo
       MONGO_INITDB_ROOT_PASSWORD: mongokey
