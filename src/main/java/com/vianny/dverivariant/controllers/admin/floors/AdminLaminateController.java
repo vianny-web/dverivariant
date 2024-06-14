@@ -77,6 +77,7 @@ public class AdminLaminateController {
             redisImageService.saveData(laminate.getPathImage(), imageFile.getBytes());
         }
         catch (ConflictRequiredException e) {
+            log.warn(e);
             throw e;
         }
         catch (Exception e) {
@@ -106,6 +107,7 @@ public class AdminLaminateController {
             redisImageService.saveData(laminateNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException | ConflictRequiredException e) {
+            log.warn(e);
             throw e;
         }
         catch (Exception e) {
@@ -131,6 +133,7 @@ public class AdminLaminateController {
             redisImageService.deleteData(laminateById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {
+            log.warn(e);
             throw e;
         }
         catch (Exception e) {

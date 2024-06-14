@@ -79,6 +79,7 @@ public class AdminEntranceDoorController {
             redisImageService.saveData(entranceDoor.getPathImage(), imageFile.getBytes());
         }
         catch (ConflictRequiredException e) {
+            log.warn(e);
             throw e;
         }
         catch (Exception e) {
@@ -108,6 +109,7 @@ public class AdminEntranceDoorController {
             redisImageService.saveData(entranceDoorNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException | ConflictRequiredException e) {
+            log.warn(e);
             throw e;
         }
         catch (Exception e) {
@@ -133,6 +135,7 @@ public class AdminEntranceDoorController {
             redisImageService.deleteData(entranceDoorById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {
+            log.warn(e);
             throw e;
         }
         catch (Exception e) {

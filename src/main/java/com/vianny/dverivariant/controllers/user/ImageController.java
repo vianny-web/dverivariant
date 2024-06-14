@@ -66,6 +66,7 @@ public class ImageController {
                     .body(new ByteArrayResource(imageData));
         }
         catch (NotFoundRequiredException e) {
+            log.warn(e);
             throw e;
         }
         catch (IOException | ErrorResponseException | InsufficientDataException | InternalException |

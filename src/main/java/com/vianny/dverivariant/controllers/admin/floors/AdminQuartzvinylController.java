@@ -80,6 +80,7 @@ public class AdminQuartzvinylController {
             redisImageService.saveData(quartzvinyl.getPathImage(), imageFile.getBytes());
         }
         catch (ConflictRequiredException e) {
+            log.warn(e);
             throw e;
         }
         catch (Exception e) {
@@ -109,6 +110,7 @@ public class AdminQuartzvinylController {
             redisImageService.saveData(quartzvinylNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException | ConflictRequiredException e) {
+            log.warn(e);
             throw e;
         }
         catch (Exception e) {
@@ -134,6 +136,7 @@ public class AdminQuartzvinylController {
             redisImageService.deleteData(quartzvinylById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {
+            log.warn(e);
             throw e;
         }
         catch (Exception e) {

@@ -76,6 +76,7 @@ public class AdminHardwareController {
             redisImageService.saveData(hardware.getPathImage(), imageFile.getBytes());
         }
         catch (ConflictRequiredException e) {
+            log.warn(e);
             throw e;
         }
         catch (Exception e) {
@@ -103,6 +104,7 @@ public class AdminHardwareController {
             redisImageService.saveData(hardwareNew.getPathImage(), imageFile.getBytes());
         }
         catch (NotFoundRequiredException | ConflictRequiredException e) {
+            log.warn(e);
             throw e;
         }
         catch (Exception e) {
@@ -128,6 +130,7 @@ public class AdminHardwareController {
             redisImageService.deleteData(hardwareById.get().getPathImage());
         }
         catch (NotFoundRequiredException e) {
+            log.warn(e);
             throw e;
         }
         catch (Exception e) {
