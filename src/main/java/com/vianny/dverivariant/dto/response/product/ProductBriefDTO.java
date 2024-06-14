@@ -1,6 +1,7 @@
 package com.vianny.dverivariant.dto.response.product;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ProductBriefDTO {
     private String id;
@@ -50,5 +51,18 @@ public class ProductBriefDTO {
 
     public HashMap<String, String> getDetails() {
         return details;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductBriefDTO that = (ProductBriefDTO) o;
+        return Objects.equals(id, that.id) && Objects.equals(article, that.article) && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(price, that.price) && Objects.equals(pathImage, that.pathImage) && Objects.equals(details, that.details);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, article, name, description, price, pathImage, details);
     }
 }

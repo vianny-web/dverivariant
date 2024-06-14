@@ -10,7 +10,6 @@ import com.vianny.dverivariant.services.products.doors.InteriorDoorService;
 import com.vianny.dverivariant.services.products.floors.LaminateService;
 import com.vianny.dverivariant.services.products.floors.QuartzvinylService;
 import com.vianny.dverivariant.services.products.others.HardwareService;
-import com.vianny.dverivariant.services.redis.RedisService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

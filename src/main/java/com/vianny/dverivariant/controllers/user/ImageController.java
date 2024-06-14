@@ -23,13 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/catalog")
 public class ImageController {
     private static final Logger log = LogManager.getLogger(ImageController.class);
-    private final short TTL = 1;
 
     private ImageTransferService imageTransferService;
     private RedisImageService redisImageService;
