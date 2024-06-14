@@ -50,7 +50,7 @@ public class ImageTransferService {
                             .object(path)
                             .build()
             );
-        } catch (ErrorResponseException e) {
+        } catch (Exception e) {
             throw new NotFoundRequiredException(HttpStatus.NOT_FOUND, "Файл не найден");
         }
 

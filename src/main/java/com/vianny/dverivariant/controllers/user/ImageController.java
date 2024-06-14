@@ -1,5 +1,6 @@
 package com.vianny.dverivariant.controllers.user;
 
+import com.vianny.dverivariant.exceptions.requiredException.NotFoundRequiredException;
 import com.vianny.dverivariant.exceptions.requiredException.ServerErrorRequiredException;
 import com.vianny.dverivariant.services.minio.ImageTransferService;
 import com.vianny.dverivariant.services.redis.RedisImageService;
@@ -63,7 +64,11 @@ public class ImageController {
             return ResponseEntity.ok()
                     .headers(downloadHeaders)
                     .body(new ByteArrayResource(imageData));
-        } catch (IOException | ErrorResponseException | InsufficientDataException | InternalException |
+        }
+        catch (NotFoundRequiredException e) {
+            throw e;
+        }
+        catch (IOException | ErrorResponseException | InsufficientDataException | InternalException |
                  InvalidKeyException | InvalidResponseException | NoSuchAlgorithmException | ServerException |
                  XmlParserException e) {
             log.error(e);
