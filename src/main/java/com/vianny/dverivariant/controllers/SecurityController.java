@@ -12,6 +12,7 @@ import com.vianny.dverivariant.services.account.AccountService;
 import com.vianny.dverivariant.utils.jwt.JwtCore;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,6 +31,9 @@ public class SecurityController {
     private JwtCore jwtCore;
     private MinioService minioService;
 
+    @Value("${security.key}")
+    private String key;
+
     @Autowired
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
@@ -47,6 +51,9 @@ public class SecurityController {
     @Transactional
     ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
         try {
+            if (!signUpRequest.getKey().equals(key))
+                throw new UnregisteredRequiredException(HttpStatus.FORBIDDEN, "Неверный ключ, в регистрации отказано");
+
             accountService.signUpAccount(signUpRequest);
             minioService.createBucket("dveri-images");
         }
