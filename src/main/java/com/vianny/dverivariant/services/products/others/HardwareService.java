@@ -40,11 +40,20 @@ public class HardwareService implements AdminCapabilitiesService<Hardware>, Prod
     }
 
     @Override
-    public void saveOrUpdateProduct(Hardware hardware) {
+    public void saveProduct(Hardware hardware) {
         if (!hardwareRepository.existsByArticle(hardware.getArticle()))
             hardwareRepository.save(hardware);
         else
             throw new ConflictRequiredException("Выберите другой артикул");
+    }
+
+    @Override
+    public void updateProduct(Hardware hardware) {
+        boolean exists = hardwareRepository.existsByArticleAndIdNot(hardware.getArticle(), hardware.getId());
+        if (exists) {
+            throw new ConflictRequiredException("Выберите другой артикул");
+        }
+        hardwareRepository.save(hardware);
     }
 
     @Override

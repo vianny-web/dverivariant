@@ -68,7 +68,7 @@ public class AdminHardwareController {
         try {
             Hardware hardware = new Hardware(article, name, description, price, hardwareType);
 
-            hardwareService.saveOrUpdateProduct(hardware);
+            hardwareService.saveProduct(hardware);
             imageTransferService.uploadImage(imageFile, hardware.getPathImage());
 
             redisService.saveData(hardware.getId(), hardware);
@@ -96,7 +96,7 @@ public class AdminHardwareController {
             Hardware hardwareNew = new Hardware(hardwareById.get().getId(), article, name, description, price, hardwareType, hardwareById.get().getPathImage());
 
             imageTransferService.uploadImage(imageFile, hardwareNew.getPathImage());
-            hardwareService.saveOrUpdateProduct(hardwareNew);
+            hardwareService.updateProduct(hardwareNew);
 
             redisService.saveData(hardwareNew.getId(), hardwareNew);
             redisListService.saveData(TypeProducts.HARDWARE.toString(), hardwareService.getAllProductsByType(TypeProducts.HARDWARE));

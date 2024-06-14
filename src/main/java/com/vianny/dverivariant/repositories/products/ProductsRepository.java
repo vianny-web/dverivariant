@@ -10,4 +10,5 @@ import java.util.List;
 public interface ProductsRepository<T> extends MongoRepository<T, String> {
     List<T> findByType(TypeProducts type);
     boolean existsByArticle(String article);
+    boolean existsByArticleAndIdNot(String article, String id);
 }

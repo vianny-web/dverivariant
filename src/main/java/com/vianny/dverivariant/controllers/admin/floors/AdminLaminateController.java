@@ -69,7 +69,7 @@ public class AdminLaminateController {
         try {
             Laminate laminate = new Laminate(article, name, description, price, classType, thickness, waterResistance, bevel, countryOfOrigin);
 
-            laminateService.saveOrUpdateProduct(laminate);
+            laminateService.saveProduct(laminate);
             imageTransferService.uploadImage(imageFile, laminate.getPathImage());
 
             redisService.saveData(laminate.getId(), laminate);
@@ -99,7 +99,7 @@ public class AdminLaminateController {
                     classType, thickness, waterResistance, bevel, countryOfOrigin);
 
             imageTransferService.uploadImage(imageFile, laminateNew.getPathImage());
-            laminateService.saveOrUpdateProduct(laminateNew);
+            laminateService.updateProduct(laminateNew);
 
             redisService.saveData(laminateNew.getId(), laminateNew);
             redisListService.saveData(TypeProducts.LAMINATE.toString(), laminateService.getAllProductsByType(TypeProducts.LAMINATE));

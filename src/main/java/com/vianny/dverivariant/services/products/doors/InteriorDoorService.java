@@ -37,11 +37,20 @@ public class InteriorDoorService implements AdminCapabilitiesService<InteriorDoo
     }
 
     @Override
-    public void saveOrUpdateProduct(InteriorDoor interiorDoor) {
+    public void saveProduct(InteriorDoor interiorDoor) {
         if (!interiorDoorRepository.existsByArticle(interiorDoor.getArticle()))
             interiorDoorRepository.save(interiorDoor);
         else
             throw new ConflictRequiredException("Выберите другой артикул");
+    }
+
+    @Override
+    public void updateProduct(InteriorDoor interiorDoor) {
+        boolean exists = interiorDoorRepository.existsByArticleAndIdNot(interiorDoor.getArticle(), interiorDoor.getId());
+        if (exists) {
+            throw new ConflictRequiredException("Выберите другой артикул");
+        }
+        interiorDoorRepository.save(interiorDoor);
     }
 
     @Override
