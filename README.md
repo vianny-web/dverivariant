@@ -34,7 +34,7 @@ REST API сервис магазина [Dveri variant](https://door-shop-wine.ve
 
 ### Используемые технологии
 
-![Architecture api](img/architecture.jpg)
+![Architecture api](github/img/architecture.jpg)
 
 - **Gradle** для управления проектами на Java, который позволяет легко управлять зависимостями, компилировать и собирать проекты
 - **Spring**
